@@ -1,0 +1,83 @@
+﻿@page
+@model FireBnBWeb.Pages.UserDashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container">
+    <h1>Username Dashboard</h1>
+    <!-- Top Row - Navigation Buttons -->
+    <div class="row mb-3">
+        <div class="col">
+            <a href="" class="btn btn-primary mr-2">Booking</a>
+        </div>
+        <div class="col">
+            <a href="" class="btn btn-primary mr-2">Calendar</a>
+        </div>
+       @*  @if (Model.propertyList.Any())
+        {
+            <div class="col">
+                <a href="" class="btn btn-primary mr-2">Property Listing</a>
+            </div>
+        }
+        else *@
+     @*    { *@
+            <div class="col">
+                <a href="" class="btn btn-primary mr-2">Add Property</a>
+            </div>
+        @* } *@
+    </div>
+
+    <div class="row">
+        <!-- Left Side - Upcoming Bookings -->
+        <div class="col-md-6">
+            <h2>Upcoming Bookings</h2>
+            <div class="row row-cols-2">
+               @*  @foreach (var booking in Model.bookingList)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>
+                                    <strong>Start Date:</strong> @booking.Checkin.ToShortDateString() <br />
+                                    <strong>End Date:</strong> @booking.Checkout.ToShortDateString() <br />
+                                    <strong>Location:</strong> @($"{booking.Property.Location.City}, {booking.Property.Location.State}, {booking.Property.Location.County}")
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                } *@
+            </div>
+        </div>
+
+        <!-- Right Side - User Properties -->
+        <div class="col-md-6">
+            <h2>Your Properties</h2>
+           @*  @if (Model.propertyList.Any())
+            {
+                foreach (var property in Model.propertyList)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@property.Name</h5>
+                            <p class="card-text">
+                                Status: @property.Status.Name <br />
+                                Location: @($"{property.Location.City}, {property.Location.State}, {property.Location.County}")
+                            </p>
+                        </div>
+                    </div>
+                }
+            } *@
+            else
+            {
+                <div class="card">
+                    <div class="card-body">
+                         <h5 class="card-title">Add Your Home!</h5>
+                         <p class="card-text">Have a home you want to rent?</p>
+                         <a href="" class="btn btn-primary">Click Here To Add Your Home!</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

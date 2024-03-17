@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireBnBWeb", "WebApplication2\FireBnBWeb.csproj", "{C55E08CB-D121-42C2-9C57-23EE73A69119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBnBWeb", "WebApplication2\FireBnBWeb.csproj", "{C55E08CB-D121-42C2-9C57-23EE73A69119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E7A95572-0897-4E47-B40D-6E367A76FCAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E7A95572-0897-4E47-B40D-6E367A76FCAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infastructure\Infrastructure.csproj", "{8A5D7D22-5B67-4682-9C99-956478F7A4D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infastructure\Infrastructure.csproj", "{8A5D7D22-5B67-4682-9C99-956478F7A4D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{FD8384D8-38D4-4FDC-B602-1B20F1206D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{FD8384D8-38D4-4FDC-B602-1B20F1206D2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
