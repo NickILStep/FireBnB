@@ -3,7 +3,7 @@ using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-
+//At the momeny nor working. Getting an error with dependency injection with UnitofWork
 namespace FireBnBWeb.Pages
 {
     public class UserDashboardModel : PageModel
