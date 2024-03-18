@@ -102,6 +102,7 @@ namespace FireBnBWeb.Areas.Identity.Pages.Account
             [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Birth Date")]
+            [MyDate(ErrorMessage = "You must be at least 16 years old to register.")]
             public DateTime Birthdate { get; set; }
         }
 
@@ -183,6 +184,15 @@ namespace FireBnBWeb.Areas.Identity.Pages.Account
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
+        }
+    }
+
+    public class MyDateAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            DateTime d = Convert.ToDateTime(value);
+            return d <= DateTime.Now.AddYears(-16);
         }
     }
 }
