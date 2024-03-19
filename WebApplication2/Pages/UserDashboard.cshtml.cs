@@ -8,22 +8,22 @@ namespace FireBnBWeb.Pages
 {
     public class UserDashboardModel : PageModel
     {
-        //private readonly UnitofWork _unitOfWork; 
-        //public IEnumerable<Booking> bookingList;
-        //public IEnumerable<Property> propertyList;
-        //public IEnumerable<Location> locationList;
+        private readonly UnitofWork _unitofWork;
+        public IEnumerable<Booking> bookingList;
+        public IEnumerable<Property> propertyList;
+        public IEnumerable<Location> locationList;
 
-        //public UserDashboardModel(UnitofWork unitOfWork)
-        //{
-        //    _unitOfWork = unitOfWork;
-        //    bookingList = new List<Booking>();
-        //    propertyList = new List<Property>();
-        //    locationList = new List<Location>();
-       
-        //}
-        //public IActionResult OnGet()
-        //{
-        //    return Page();
-        //}
+        public UserDashboardModel(UnitofWork unitofWork)
+        {
+            _unitofWork = unitofWork;
+            bookingList = new List<Booking>();
+            propertyList = new List<Property>();
+            locationList = new List<Location>();
+
+        }
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
     }
 }
