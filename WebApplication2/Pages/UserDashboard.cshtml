@@ -14,26 +14,25 @@
         <div class="col">
             <a href="" class="btn btn-primary mr-2">Calendar</a>
         </div>
-       @*  @if (Model.propertyList.Any())
+        @if (Model.propertyList.Any())
         {
             <div class="col">
                 <a href="" class="btn btn-primary mr-2">Property Listing</a>
             </div>
         }
-        else *@
-     @*    { *@
+        else
+        {
             <div class="col">
                 <a href="" class="btn btn-primary mr-2">Add Property</a>
             </div>
-        @* } *@
+        }
     </div>
-
     <div class="row">
         <!-- Left Side - Upcoming Bookings -->
         <div class="col-md-6">
             <h2>Upcoming Bookings</h2>
             <div class="row row-cols-2">
-               @*  @foreach (var booking in Model.bookingList)
+                @foreach (var booking in Model.bookingList)
                 {
                     <div class="col">
                         <div class="card">
@@ -46,28 +45,27 @@
                             </div>
                         </div>
                     </div>
-                } *@
+                }
             </div>
         </div>
-
         <!-- Right Side - User Properties -->
         <div class="col-md-6">
             <h2>Your Properties</h2>
-           @*  @if (Model.propertyList.Any())
+            @if (Model.propertyList.Any())
             {
                 foreach (var property in Model.propertyList)
                 {
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">@property.Name</h5>
+                            <h5 class="card-title">@property</h5>
                             <p class="card-text">
-                                Status: @property.Status.Name <br />
+                                Status: @property.Status <br />
                                 Location: @($"{property.Location.City}, {property.Location.State}, {property.Location.County}")
                             </p>
                         </div>
                     </div>
                 }
-            } *@
+            }
             else
             {
                 <div class="card">
