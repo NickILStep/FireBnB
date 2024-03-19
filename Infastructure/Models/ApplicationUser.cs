@@ -11,25 +11,25 @@ namespace Infrastructure.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
+        //[Key]
+        //public int Id { get; set; }
 
         [Required]
         [DisplayName("First Name")]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [DisplayName("Last Name")]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
-        [Required]
-        public string Email { get; set; }
+        //[Required]
+        //public string Email { get; set; }
 
-        [DisplayName("Phone Number")]
-        public string? PhoneNumber { get; set; }
+        //[DisplayName("Phone Number")]
+        //public string? PhoneNumber { get; set; }
 
-        [Required]
-        public string? Password { get; set; }
+        //[Required]
+        //public string? Password { get; set; }
 
         [DisplayName("Display Name")]
         public string? DisplayName { get; set; }

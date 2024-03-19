@@ -104,6 +104,14 @@ namespace FireBnBWeb.Areas.Identity.Pages.Account
             [Display(Name = "Birth Date")]
             [MyDate(ErrorMessage = "You must be at least 16 years old to register.")]
             public DateTime Birthdate { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            public String FName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public String LName { get; set; }
         }
 
 
@@ -122,6 +130,9 @@ namespace FireBnBWeb.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 user.Birthdate = Input.Birthdate;
+                user.FirstName = Input.FName;
+                user.LastName = Input.LName;
+                user.SignupDate = DateTime.Now;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
