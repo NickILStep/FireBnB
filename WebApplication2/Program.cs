@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using Infrastructure.Models;
 using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +14,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<UnitofWork>();
+builder.Services.AddScoped<DbInitializer>();
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,5 +46,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+SeedDatabase();
+void SeedDatabase()
+{
+    using var scope = app.Services.CreateScope();
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+    dbInitializer.Initialize();
+}
 
 app.Run();
