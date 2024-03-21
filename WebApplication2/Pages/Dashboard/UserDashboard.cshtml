@@ -1,29 +1,31 @@
 ﻿@page
-@model FireBnBWeb.Pages.UserDashboardModel
+@model UserDashboardModel
 @{
     ViewData["Title"] = "Dashboard";
 }
-
+<!--This page should only be access to login user-->
 <div class="container">
-    <h1>Username Dashboard</h1>
+    <h1>@User.Identity?.Name Dashboard</h1>
     <!-- Top Row - Navigation Buttons -->
     <div class="row mb-3">
         <div class="col">
-            <a href="" class="btn btn-primary mr-2">Booking</a>
+            <a asp-page="/Dashboard/UpcomingBooking" class="btn btn-primary mr-2">Booking</a>
         </div>
         <div class="col">
-            <a href="" class="btn btn-primary mr-2">Calendar</a>
+            <a href="#" class="btn btn-primary mr-2">Calendar</a>
         </div>
         @if (Model.propertyList.Any())
         {
             <div class="col">
-                <a href="" class="btn btn-primary mr-2">Property Listing</a>
+                <!-- Takes them to property index page -->
+                <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Property Listing</a>
             </div>
         }
         else
         {
             <div class="col">
-                <a href="" class="btn btn-primary mr-2">Add Property</a>
+                <!-- Takes them to registration page to be a lister -->
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Add Property</a>
             </div>
         }
     </div>
@@ -51,6 +53,7 @@
         <!-- Right Side - User Properties -->
         <div class="col-md-6">
             <h2>Your Properties</h2>
+            <!-- For listers -->
             @if (Model.propertyList.Any())
             {
                 foreach (var property in Model.propertyList)
@@ -68,13 +71,14 @@
             }
             else
             {
-                <div class="card">
-                    <div class="card-body">
-                         <h5 class="card-title">Add Your Home!</h5>
-                         <p class="card-text">Have a home you want to rent?</p>
-                         <a href="" class="btn btn-primary">Click Here To Add Your Home!</a>
-                    </div>
+                <!-- For Renter -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Have a home you want to rent?</h5>
+                    <!-- Takes them to create a new account to be a lister -->
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Click Here To Add Your Home!</a>
                 </div>
+            </div>
             }
         </div>
     </div>

@@ -30,11 +30,12 @@ namespace Infrastructure.Models
         [Required]
         public DateTime Checkout { get; set; }
 
-        [Required]
-        public int ServiceFee { get; set; }
+        //Need to make these guys in floats or just make one a fee
+        //[Required]
+        //public int ServiceFee { get; set; }
 
-        [Required]
-        public int CleaningFee { get; set; }
+        //[Required]
+        //public int CleaningFee { get; set; }
 
         [Required]
         public int Tax { get; set; }

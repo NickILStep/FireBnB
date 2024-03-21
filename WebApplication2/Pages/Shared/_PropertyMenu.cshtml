@@ -1,0 +1,22 @@
+﻿<!-- _PropertyMenu.cshtml -->
+@using Infrastructure.Models 
+@inject DataAccess.UnitofWork UnitofWork 
+
+@{
+    // Retrieve the current user from ViewData
+    var currentUser = ViewData["CurrentUser"] as ApplicationUser;
+
+    // Check if the current user has any properties
+    var hasProperty = UnitofWork.Property.GetAll(p => p.ApplicationUser == currentUser).Any();
+}
+
+@if (hasProperty)
+{
+    <!-- Render "Listing" link if the user has properties -->
+    <a class="dropdown-item" asp-area="" asp-page="/Listings/Index">Listing</a>
+}
+else
+{
+    <!-- Render "Add home" link if the user doesn't have properties -->
+    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Add home</a>
+}
