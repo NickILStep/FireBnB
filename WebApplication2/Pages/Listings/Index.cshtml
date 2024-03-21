@@ -1,0 +1,26 @@
+﻿@page
+@model FireBnBWeb.Pages.Listings.IndexModel
+@{
+    ViewData["Title"] = "My Listed Houses";
+}
+
+<div class="row">
+    @foreach (var property in Model.PropertyList)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                @if (Model.PrimaryImages.ContainsKey(property.Id))
+                {
+                    var primaryImage = Model.PrimaryImages[property.Id];
+                    <img src="@primaryImage.Url" class="card-img-top" alt="Property Image">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@property.Description</h5>
+                    <p class="card-text">Location: @property.Location.City, @property.Location.County, @property.Location.State</p>
+                    <p class="card-text">Status: @property.Status</p>
+                    <!-- Add more overview details here -->
+                </div>
+            </div>
+        </div>
+    }
+</div>
