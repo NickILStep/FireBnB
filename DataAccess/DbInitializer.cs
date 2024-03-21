@@ -2,7 +2,7 @@
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Utility;
 
 namespace DataAccess
 {
@@ -38,12 +38,17 @@ namespace DataAccess
 
             }
 
-            
+            _roleManager.CreateAsync(new IdentityRole(SD.AdminRole)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.ListerRole)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.RenterRole)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.ListerRole)).GetAwaiter().GetResult();
+
+
 
             //create roles if they are not created
-            
 
-            
+
+
 
         }
 

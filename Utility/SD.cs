@@ -12,7 +12,8 @@ namespace Utility
     {
         //Const for clarification are all caps by convention
         public const string AdminRole = "Admin";
-        public const string ShipperRole = "Shipper";
-        public const string CustomerRole = "Customer";
+        public const string ListerRole = "Lister";
+        public const string RenterRole = "Renter";
+        
     }
 }

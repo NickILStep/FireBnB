@@ -3,8 +3,63 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<br />
+<div class="row container">
+    <div>
+        <h2>Find Your Vaction Home</h2>
+    </div>
+    <form>
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Destination" aria-label="Search Destination">
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInputGroup">Check-in</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Check-in">
+                </div>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInputGroup">Check-out</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Check-out">
+                </div>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInputGroup">Guest Number</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Guest Number">
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+            </div>
+        </div>
+        <br />
+    </form>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="row container">
+
+        <div style="float:left; width: 100%;">
+            <div class="row row-cols-2 col-md-15" style="width: 100%;">
+                <!-- Main Content -->
+                @for (int i = 0; i < 10; i++)
+                {
+                    <div class="card custom-card m-2" style="width: 18rem; height: auto;">
+                        <div class="card-body" style="height: auto;">
+                            <h5 class="card-title">
+                                Test Location
+                            </h5>
+                            <p class="card-text">Bathroom</p>
+                            <p class="card-text">Bedroom</p>
+                            <p class="card-text">Description</p>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-secondary mb-2">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
