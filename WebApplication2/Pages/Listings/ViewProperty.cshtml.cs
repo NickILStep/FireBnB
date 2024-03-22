@@ -3,7 +3,7 @@ using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FireBnBWeb.Pages
+namespace FireBnBWeb.Pages.Listings
 {
     public class ViewPropertyModel : PageModel
     {

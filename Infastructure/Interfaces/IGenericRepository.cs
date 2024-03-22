@@ -50,8 +50,9 @@ namespace Infrastructure.Interfaces
 
         //Update changes to an object
         void Update(T entity);
+        IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber);
 
         // Increment and Decrement Shopping Cart
-        
+
     }
 }
