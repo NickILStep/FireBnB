@@ -1,0 +1,78 @@
+﻿@page
+@model FireBnBWeb.Pages.UserProfiles.IndexModel
+@{
+    var user = Model.Users;
+}
+
+<style>
+    .details {
+        padding-top:5px;
+        padding-bottom:5px;
+    }
+</style> 
+@* id="" class="" style="" *@
+
+@* // email & birthday cant be changed for this project *@
+@* Can add or change phone number and all other info *@
+@* scaffold and alter the scaffolded profile page to what we need & want for visuals &Aacute; functions *@
+@* ask for help if I need help and also work on it  *@
+@* refresh from github *@
+
+@* ToDo: Make my block work, and get it ready for Sunday by Saturday *@
+
+<div class="border backgroundWhite container">
+    <div id="ProfileImg" class="container col-6 float-start border backgroundRed" style="border-radius:15px;padding:10px;">
+        <h2 class="text-primary" style="text-align:left;">User Profile FullName</h2>
+    </div>
+    <br /> <br /> <br /> <br />
+    @* <p class="hidden" id="success">Success or fail message</p>
+    <p class="hidden" id="message">Message here </p> *@
+
+    <div id="" class="" style="">
+        <label id="FirstName" class="details">First Name: @Users.FirstName</label><br />
+
+        <label id="LastName" class="details">Last Name: user.LastName</label><br />
+
+        <label id="Email" class="details">Email: user.Email</label><br />
+        @* allow email to be changed? if so need to verify email. Play with how. *@
+
+        <label id="PhoneNumber" class="details">Phone Number: user.PhoneNumber</label><br />
+
+        <label id="DisplayName" class="details">Display Name: user.DisplayName</label><br />
+
+        <label id="Birthdate" class="details">Birthdate: user.Birthdate</label><br />
+        @* Want to show or not show? Allow edit? *@
+    </div>
+</div>
+
+<div class="col-4 btn-group" role="group">
+    @* update/reset password page link *@
+    <a asp-page="Upsert" asp-route-id="User.Id" class="btn btn-danger mx-2">
+        <i class="bi bi-pencil-square"></i> Reset/Update Password
+    </a>
+
+    <a asp-page="Upsert" asp-route-id="User.Id" class="btn btn-secondary mx-2">
+        <i class="bi bi-pencil-square"></i> Edit Account Details
+    </a>
+</div>
+
+@* @section Scripts {
+    <script>
+        function alertFunc() {
+            var success = $("#success").html();
+            var message = $("#message").html();
+            console.log(success);
+            console.log(message);
+            if (success == "True") {
+                toastr.success(message);
+            };
+
+        }
+        window.onload = alertFunc();
+    </script>
+} *@
+
+
+
+
+
