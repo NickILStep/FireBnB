@@ -13,12 +13,24 @@ namespace Infrastructure.Models
     {
         [Key]
         public int Id { get; set; }
-        //Navigation Properties
+
+        [Required]
+        [Display(Name = "City")]
+        public int CityId { get; set; }
+
         [ForeignKey("CityId")]
         public City? City { get; set; }
 
+        [Required]
+        [Display(Name = "County")]
+        public int CountyId { get; set; }
+
         [ForeignKey("CountyId")]
         public County? County { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public int StateId { get; set; }
 
         [ForeignKey("StateId")]
         public State? State { get; set; }

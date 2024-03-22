@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace Infrastructure.Models
 {
@@ -13,7 +14,10 @@ namespace Infrastructure.Models
         [Key]
         public int Id { get; set; }
 
-        //Navigation Properties
+        [Required]
+        [Display(Name = "Booking")]
+        public int BookingId { get; set; }
+
         [ForeignKey("BookingId")]
         public Booking? Booking { get; set; }
 
