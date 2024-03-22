@@ -10,10 +10,19 @@ namespace Infrastructure.Models
 {
     public class PropertyDiscount
     {
-		[Key]
-		public int Id { get; set; }
-		[ForeignKey("PropertyId")]
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Property")]
+        public int PropertyId { get; set; }
+
+        [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
+
+        [Required]
+        [Display(Name = "Discount")]
+        public int DiscountId { get; set; }
 
         [ForeignKey("DiscountId")]
         public Discount? Discount { get; set; }

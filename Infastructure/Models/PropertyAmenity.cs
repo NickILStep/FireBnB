@@ -13,11 +13,18 @@ namespace Infrastructure.Models
     {
         [Key]
         public int Id { get; set; }
-        [Key]
+
+        [Required]
+        [Display(Name = "Property")]
+        public int PropertyId { get; set; }
+
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
 
-        [Key]
+        [Required]
+        [Display(Name = "Amenity")]
+        public int AmenityId { get; set; }
+
         [ForeignKey("AmenityId")]
         public Amenity? Amenity { get; set; }
     }
