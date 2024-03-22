@@ -23,7 +23,7 @@ namespace FireBnBWeb.Pages.UserProfiles
 
         public IActionResult OnGet()
         {
-            Users = _unitofWork.ApplicationUser.Get(Users.Id);
+            //Users = _unitofWork.ApplicationUser.Get(Users.Id);
             return Page();
         }
     }
