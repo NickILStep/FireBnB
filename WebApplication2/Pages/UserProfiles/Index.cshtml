@@ -12,13 +12,11 @@
 </style> 
 @* id="" class="" style="" *@
 
-@* // email & birthday cant be changed for this project *@
+@* email & birthday cant be changed for this project *@
 @* Can add or change phone number and all other info *@
-@* scaffold and alter the scaffolded profile page to what we need & want for visuals &Aacute; functions *@
 @* ask for help if I need help and also work on it  *@
-@* refresh from github *@
 
-@* ToDo: Make my block work, and get it ready for Sunday by Saturday *@
+@* ToDo: Complete my page working, and get it ready for Sunday by Saturday *@
 
 <div class="border backgroundWhite container">
     <div id="ProfileImg" class="container col-6 float-start border backgroundRed" style="border-radius:15px;padding:10px;">
@@ -47,7 +45,7 @@
 
 <div class="col-4 btn-group" role="group">
     @* update/reset password page link *@
-    <a asp-page="Upsert" asp-route-id="User.Id" class="btn btn-danger mx-2">
+    <a asp-page="Upsert" asp-route-id="Users.Id" class="btn btn-danger mx-2">
         <i class="bi bi-pencil-square"></i> Reset/Update Password
     </a>
 
