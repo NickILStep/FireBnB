@@ -43,16 +43,16 @@
         <div style="float:left; width: 100%;">
             <div class="row row-cols-2 col-md-15" style="width: 100%;">
                 <!-- Main Content -->
-                @for (int i = 0; i < 10; i++)
+                @foreach (var property in Model.objProperties)
                 {
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
                             <h5 class="card-title">
-                                Test Location
+                                Test Location @property.Id
                             </h5>
-                            <p class="card-text">Bathroom</p>
-                            <p class="card-text">Bedroom</p>
-                            <p class="card-text">Description</p>
+                            <p class="card-text">Description: @property.Description</p>
+                            <p class="card-text">Bedroom: @property.BedroomNum</p>
+                            <p class="card-text">GuestMax: @property.GuestMax</p>
                             <div class="col-auto">
                                 <button type="button" class="btn btn-secondary mb-2">Details</button>
                             </div>
