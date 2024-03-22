@@ -225,6 +225,50 @@ namespace DataAccess
             return _dbContext.Set<T>().Find(id);
         }
 
+        public IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber)
+        {
+            // Start with querying all properties
+            IQueryable<Property> query = _dbContext.Properties;
+
+            // Include related entities to avoid lazy loading
+            query = query.Include(p => p.Location);
+
+            // Filter by search query (if provided)
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(p => p.Location.City.CityName.Contains(searchQuery)
+                         || p.Location.County.CountyName.Contains(searchQuery)
+                         || p.Location.State.StateName.Contains(searchQuery)
+                         || p.Location.Address.Contains(searchQuery)
+                         || p.Location.Zipcode.Contains(searchQuery));
+            }
+
+            // Filter by check-in date and check-out date (if provided)
+            if (checkIn.HasValue && checkOut.HasValue)
+            {
+                // Get the list of property IDs that have bookings overlapping with the specified dates
+                var bookedPropertyIds = _dbContext.Bookings
+                    .Where(b =>
+                        (b.Checkin < checkOut && b.Checkout > checkIn)
+                        || (b.Checkin >= checkIn && b.Checkin < checkOut)
+                        || (b.Checkout > checkIn && b.Checkout <= checkOut))
+                    .Select(b => b.PropertyId)
+                    .Distinct();
+
+                // Filter out properties that have bookings overlapping with the specified dates
+                query = query.Where(p => !bookedPropertyIds.Contains(p.Id));
+            }
+
+            // Filter by guest count (if provided)
+            if (guestNumber.HasValue)
+            {
+                query = query.Where(p => p.GuestMax >= guestNumber);
+            }
+
+            // Execute the query and return the results
+            return query.ToList();
+        }
+
         public void Update(T entity)
         {
             //for track changes I'm flagging modified to the system

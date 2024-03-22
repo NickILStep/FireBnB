@@ -8,28 +8,22 @@
     <div>
         <h2>Find Your Vaction Home</h2>
     </div>
-    <form>
+    <form method="get">
         <div class="form-row align-items-center">
             <div class="col-auto">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Destination" aria-label="Search Destination">
+                <input asp-for="SearchQuery" class="form-control mr-sm-2" type="search" placeholder="Search Destination" aria-label="Search Destination">
             </div>
             <div class="col-auto">
-                <label class="sr-only" for="inlineFormInputGroup">Check-in</label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Check-in">
-                </div>
+                <label class="sr-only" for="checkIn">Check-in</label>
+                <input asp-for="CheckIn" class="form-control" id="checkIn" type="date" placeholder="Check-in">
             </div>
             <div class="col-auto">
-                <label class="sr-only" for="inlineFormInputGroup">Check-out</label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Check-out">
-                </div>
+                <label class="sr-only" for="checkOut">Check-out</label>
+                <input asp-for="CheckOut" class="form-control" id="checkOut" type="date" placeholder="Check-out">
             </div>
             <div class="col-auto">
-                <label class="sr-only" for="inlineFormInputGroup">Guest Number</label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Guest Number">
-                </div>
+                <label class="sr-only" for="guestNumber">Guest Number</label>
+                <input asp-for="GuestNumber" class="form-control" id="guestNumber" type="number" placeholder="Guest Number">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
