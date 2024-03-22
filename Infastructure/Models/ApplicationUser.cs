@@ -39,5 +39,8 @@ namespace Infrastructure.Models
 
         [Required]
         public DateTime SignupDate { get; set; }
+
+        [Required]
+        public string? ProfilePictureUrl { get; set; }
     }
 }

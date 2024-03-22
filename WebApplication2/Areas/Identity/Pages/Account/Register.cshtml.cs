@@ -137,6 +137,7 @@ namespace FireBnBWeb.Areas.Identity.Pages.Account
                 user.FirstName = Input.FName;
                 user.LastName = Input.LName;
                 user.SignupDate = DateTime.Now;
+                user.ProfilePictureUrl = "https://upload.wikimedia.org/wikipedia/commons/a/aa/Sin_cara.png";
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
