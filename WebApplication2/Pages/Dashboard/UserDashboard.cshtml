@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+
 <!--This page should only be access to login user-->
 <div class="container">
-    <h1>@User.Identity?.Name Dashboard</h1>
+    <h1>@Model.FullName Dashboard</h1>
     <!-- Top Row - Navigation Buttons -->
     <div class="row mb-3">
         <div class="col">

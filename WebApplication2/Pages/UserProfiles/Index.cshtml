@@ -18,38 +18,34 @@
 
 @* ToDo: Complete my page working, and get it ready for Sunday by Saturday *@
 
+<!-- Main content area -->
 <div class="border backgroundWhite container">
+    <!-- Profile image section -->
     <div id="ProfileImg" class="container col-6 float-start border backgroundRed" style="border-radius:15px;padding:10px;">
-        <h2 class="text-primary" style="text-align:left;">User Profile FullName</h2>
+        <!-- Display user's full name -->
+        <h2 class="text-primary" style="text-align:left;">User Profile @Model.FullName</h2>
     </div>
     <br /> <br /> <br /> <br />
-    @* <p class="hidden" id="success">Success or fail message</p>
-    <p class="hidden" id="message">Message here </p> *@
-
+    <!-- User details section -->
     <div id="" class="" style="">
-        <label id="FirstName" class="details">First Name: Users.FirstName</label><br />
-
-        <label id="LastName" class="details">Last Name: user.LastName</label><br />
-
-        <label id="Email" class="details">Email: user.Email</label><br />
-        @* allow email to be changed? if so need to verify email. Play with how. *@
-
-        <label id="PhoneNumber" class="details">Phone Number: user.PhoneNumber</label><br />
-
-        <label id="DisplayName" class="details">Display Name: user.DisplayName</label><br />
-
-        <label id="Birthdate" class="details">Birthdate: user.Birthdate</label><br />
-        @* Want to show or not show? Allow edit? *@
+        <label id="FirstName" class="details">First Name: @Model.FirstName</label><br />
+        <label id="LastName" class="details">Last Name: @Model.LastName</label><br />
+        <label id="Email" class="details">Email: @Model.Email</label><br />
+        <label id="PhoneNumber" class="details">Phone Number: @Model.PhoneNumber</label><br />
+        <label id="DisplayName" class="details">Display Name: @Model.DisplayName</label><br />
+        <label id="Birthdate" class="details">Birthdate: @Model.Birthdate.ToShortDateString()</label><br />
+        <label id="SignupDate" class="details">Signup Date: @Model.SignupDate.ToShortDateString()</label><br />
+        <label id="ProfilePictureUrl" class="details">Profile Picture: <img src="@Model.ProfilePictureUrl" alt="Profile Picture" style="max-width: 100px; max-height: 100px;" /></label><br />
     </div>
 </div>
 
+<!-- Button group for account actions -->
 <div class="col-4 btn-group" role="group">
-    @* update/reset password page link *@
-    <a asp-page="Upsert" asp-route-id="Users.Id" class="btn btn-danger mx-2">
+    <a asp-page="Upsert" asp-route-id="@Model.UserId" class="btn btn-danger mx-2">
         <i class="bi bi-pencil-square"></i> Reset/Update Password
     </a>
 
-    <a asp-page="Upsert" asp-route-id="User.Id" class="btn btn-secondary mx-2">
+    <a asp-page="Upsert" asp-route-id="@Model.UserId" class="btn btn-secondary mx-2">
         <i class="bi bi-pencil-square"></i> Edit Account Details
     </a>
 </div>
