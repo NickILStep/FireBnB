@@ -1,5 +1,6 @@
 using DataAccess;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,20 +13,32 @@ namespace FireBnBWeb.Pages.Dashboard
     {
         //bring in the database
         private readonly UnitofWork _unitofWork;
+        private readonly UserManager<ApplicationUser> _userManager;
         public IEnumerable<Booking> bookingList;
         public IEnumerable<Property> propertyList;
 
-        public UpcomingBookingModel(UnitofWork unitofWork)
+        public UpcomingBookingModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager)
         {
             _unitofWork = unitofWork;
+            _userManager = userManager;
             bookingList = new List<Booking>();
             propertyList = new List<Property>();
 
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            bookingList = _unitofWork.Booking.GetAll(); 
-            propertyList = _unitofWork.Property.GetAll();
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            // Fetch bookings only for the current user
+            bookingList = _unitofWork.Booking.GetAll(
+                b => b.GuestId == user.Id,
+                includes: "Property,Property.Location").ToList();
+
             return Page();
         }
     }
