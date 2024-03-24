@@ -1,7 +1,6 @@
 ﻿@page
 @model FireBnBWeb.Pages.UserProfiles.IndexModel
 @{
-    //var user = Model.Users;
 }
 
 <style>
@@ -9,18 +8,17 @@
         padding-top:5px;
         padding-bottom:5px;
     }
-</style> 
-@* id="" class="" style="" *@
+</style>
 
-@* email & birthday cant be changed for this project *@
-@* Can add or change phone number and all other info *@
-@* ask for help if I need help and also work on it  *@
-
-@* ToDo: Complete my page working, and get it ready for Sunday by Saturday *@
+@* ToDo:
+1. email & birthday cant be changed for this project
+2. Can add or change phone number and all other info
+3. Enable user to change and commit account detail changes
+*@
 
 <!-- Main content area -->
 <div class="border backgroundWhite container">
-    <!-- Profile image section -->
+    <!-- Profile overview -->
     <div id="ProfileImg" class="container col-12 float-start border backgroundRed" style="border-radius:15px;padding:10px;">
         <!-- Display user's full name -->
         <h2 class="text-primary" style="text-align:left;">@Model.FullName</h2>
@@ -49,24 +47,3 @@
         <i class="bi bi-pencil-square"></i> Edit Account Details
     </a>
 </div>
-
-@* @section Scripts {
-    <script>
-        function alertFunc() {
-            var success = $("#success").html();
-            var message = $("#message").html();
-            console.log(success);
-            console.log(message);
-            if (success == "True") {
-                toastr.success(message);
-            };
-
-        }
-        window.onload = alertFunc();
-    </script>
-} *@
-
-
-
-
-

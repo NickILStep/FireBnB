@@ -35,6 +35,7 @@ namespace FireBnBWeb.Pages.UserProfiles
             // If the user is found, return the page
             return Page();
         }
+
         // Properties to access user data in the Razor Page
         public string UserId => _userManager.GetUserId(User);
         public string FullName => $"{_user.FirstName} {_user.LastName}";
