@@ -2,6 +2,7 @@
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FireBnBWeb.Pages
 {
@@ -22,6 +23,20 @@ namespace FireBnBWeb.Pages
 
         [BindProperty(SupportsGet = true)]
         public int? GuestNumber { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public decimal? CostPerNight { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public List<int> SelectedAmenities { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int? BedroomCount { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int? BathroomCount { get; set; }
+
+        public List<SelectListItem> AmenityOptions { get; set; }
+
 
 
         public IndexModel(ILogger<IndexModel> logger, UnitofWork unitofwork)
@@ -29,14 +44,19 @@ namespace FireBnBWeb.Pages
             _unitofwork = unitofwork;
             _logger = logger;
             objProperties = new List<Property>();
+            AmenityOptions = _unitofwork.Amenity.GetAll().Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.AmenityName
+            }).ToList();
         }
 
         public IActionResult OnGet()
         {
-            if (!string.IsNullOrEmpty(SearchQuery) || CheckIn.HasValue || CheckOut.HasValue || GuestNumber.HasValue)
+            if (!string.IsNullOrEmpty(SearchQuery) || CheckIn.HasValue || CheckOut.HasValue || GuestNumber.HasValue || CostPerNight.HasValue || SelectedAmenities?.Any() == true || BedroomCount.HasValue || BathroomCount.HasValue)
             {
                 // Perform search based on provided parameters
-                objProperties = _unitofwork.Property.SearchProperties(SearchQuery, CheckIn, CheckOut, GuestNumber);
+                objProperties = _unitofwork.Property.SearchProperties(SearchQuery, CheckIn, CheckOut, GuestNumber, CostPerNight, SelectedAmenities, BedroomCount, BathroomCount);
             }
             else
             {

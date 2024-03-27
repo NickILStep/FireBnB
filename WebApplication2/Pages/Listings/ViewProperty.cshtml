@@ -1,65 +1,162 @@
-﻿@page
-@model ViewPropertyModel
+﻿@page "{id}"
+@model FireBnBWeb.Pages.Listings.ViewPropertyModel
 @{
+    ViewData["Title"] = "Property Details";
 }
+
 <div class="card container p-4 m-3">
-	<div class="card-header pt-3">
-		<div>
-			<p>"INSERT LOCATION"</p>
-		</div>
-	</div>
-	<div class="p-3 card-body">
-		<div id="carouselExample" class="carousel slide w-75 mx-auto h-100">
-			<div class="carousel-indicators">
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-			</div>
-			<div class="carousel-inner">
-				<div class="carousel-item active mx-auto">
-					<img src="https://th.bing.com/th/id/OIP.y-IapTd8IOvbIH4wJJbsqgHaEj?rs=1&pid=ImgDetMain" width="400" class="mx-auto" >
-				</div>
-				<div class="carousel-item">
-					<img src="https://th.bing.com/th/id/OIP.dl_UFpJLmJ0cTpyoLJpA5QHaFR?w=245&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" width="400" class="mx-auto">
-				</div>
-				<div class="carousel-item">
-					<img src="https://th.bing.com/th/id/OIP.0rKOXvHgRbE9BWEX5W3b1wHaFj?rs=1&pid=ImgDetMain" width="400" class="mx-auto">
-				</div>
-			</div>
-			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-		</div>
-	</div>
-	<div class="row">
-		<div class="card-footer col-8">
-			<div class="p-2">
-				<div class="row">
-					<div>
-						<p>Description</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-4">
-			<div class="card">
-				<div class="row p-3">
-					<div>
-						<h3>PRICE / Hour</h3>
-					</div>
-					<div>
-						<p>INSERT CALENDAR HERE</p>
-					</div>
-					<div>
-						<a href="#" class="btn btn-primary">RESERVE</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="card-header pt-3">
+        <div>
+            Location Title Goes Here
+        </div>
+    </div>
+    <div class="p-3 card-body">
+        <div id="carouselExample" class="carousel slide w-75 mx-auto h-100">
+            <div class="carousel-inner">
+                @foreach (var image in Model.Images)
+                {
+                    <div class="carousel-item @(image.IsPrimary ? "active" : "")">
+                        <img src="@image.Url" class="d-block w-100" alt="Property Image">
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-footer col-8">
+            <div class="p-2">
+                <div class="row">
+                    <!--Not working-->
+                    @* <p>Location: @($"{Model.Property.Location.City.CityName}, {Model.Property.Location.County.CountyName}, {Model.Property.Location.State.StateName}")</p> *@
+                    <p>Lister: @Model.Lister.FirstName @Model.Lister.LastName</p>
+                    <p>Email: @Model.Lister.Email</p>
+                </div>
+                <div class="row">
+                    <div>
+                        <p>Guest Count: @Model.Property.GuestMax</p>
+                    </div>
+                    <div>
+                        <p>Guest Type: @Model.Property.GuestSharing</p>
+                    </div>
+                    <div>
+                        <p>Bedroom Count: @Model.Property.BedroomNum</p>
+                    </div>
+                    <div>
+                        <p>Bathroom Count: @Model.Property.BathroomNum</p>
+                    </div>
+                    <div>
+                        <p>Total Bed Count: @Model.TotalBedCount</p>
+                    </div>
+                    <div>
+                        <p>Bed Types:</p>
+                        <ul>
+                            @foreach (var bedConfiguration in Model.PropertyBedConfigurations)
+                            {
+                                <li>@bedConfiguration.BedConfiguration.Configuration</li>
+                            }
+                        </ul>
+                    </div>
+                    <div>
+                        <p>Amenities:</p>
+                        <ul>
+                            @foreach (var amenity in Model.Amenities)
+                            {
+                                <li>@amenity.AmenityName</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <p>Description: @Model.Property.Description</p>
+                </div>
+                <div>
+                    @if (Model.EarliestCheckinDate != null)
+                    {
+                        <p>Earliest Check-in Date: @Model.EarliestCheckinDate.Value.ToShortDateString()</p>
+                    }
+                    else
+                    {
+                        <p>No booking information available.</p>
+                    }
+                    Calendar with Available Dates
+                    <!--Make this into a calendar-->
+                   @*  <p>Available Dates:</p>
+                    @if (Model.AvailableDates.Any())
+                    {
+                        <ul>
+                            @foreach (var date in Model.AvailableDates)
+                            {
+                                <li>@date.ToShortDateString()</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No available dates.</p>
+                    } *@
+                </div>
+               <div>
+                   Place reviews of the property here. 
+               </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="row p-3">
+                    <!-- Display prices -->
+                    Prices
+                    @foreach (var nightlyPrice in Model.NightlyPrices)
+                    {
+                        <p>Price for 1 night: $@nightlyPrice.Rate</p>
+                    }
+                    <p>Price for max night (7): $@Model.PriceForSevenNights</p>
+                    @if (Model.PropertyFees.Any())
+                    {
+                        <p>Fees:</p>
+                        <ul>
+                            @foreach (var propertyFee in Model.PropertyFees)
+                            {
+                                <li>@propertyFee.Fee.Type: $@propertyFee.Fee.Price</li>
+                            }
+                        </ul>
+                    }
+                    @if (Model.TotalLocationTax > 0)
+                    {
+                        <p>Total Location Tax: $@Model.TotalLocationTax</p>
+                    }
+                    @if (Model.PropertyDiscounts.Any())
+                    {
+                        <p>Discounts:</p>
+                        <ul>
+                            @foreach (var propertyDiscount in Model.PropertyDiscounts)
+                            {
+                                <li>@propertyDiscount.Discount.Code: @propertyDiscount.Discount.Value</li>
+                            }
+                        </ul>
+                    }
+                    <h4>Total Price for 7 Nights: $@Model.TotalPriceForSevenNights</h4>
+                    <div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <!-- If the user is logged in, display the "Book It" button -->
+                            <a href="#" class="btn btn-primary">Book It!</a>
+                        }
+                        else
+                        {
+                            <!-- If the user is not logged in, display the "Log in" button -->
+                            <a href="/Account/Login" class="btn btn-primary">Log In To Book!</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
