@@ -14,9 +14,9 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } // Number of beds in the room
 
         [Required]
-        public string? Configuration { get; set; }
+        public string? Configuration { get; set; } // Style (and sometimes layout) of beds
     }
 }

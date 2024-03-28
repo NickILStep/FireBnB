@@ -15,14 +15,14 @@ namespace Infrastructure.Models
 
         [Required]
         [Display(Name = "Property")]
-        public int PropertyId { get; set; }
+        public int PropertyId { get; set; } // References the property
 
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
 
         [Required]
         [Display(Name = "Fee")]
-        public int FeeId { get; set; }
+        public int FeeId { get; set; } // References the fee
 
         [ForeignKey("FeeId")]
         public Fee? Fee { get; set; }

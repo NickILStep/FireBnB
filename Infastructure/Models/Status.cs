@@ -13,6 +13,6 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public String? StatusName { get; set; }
+        public String? StatusName { get; set; } // Possible status for a property (like available, hidden, etc.)
     }
 }

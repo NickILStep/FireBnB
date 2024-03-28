@@ -14,9 +14,9 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public string? Type { get; set; }
+        public string? Type { get; set; } // What the fee is for (like cleaning, service, parking, utilities, etc.)
 
         [Required]
-        public double? Price { get; set; }
+        public float? Percentage { get; set; } // Percentage of the total rental cost that the fee will be
     }
 }

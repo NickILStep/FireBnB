@@ -16,14 +16,14 @@ namespace Infrastructure.Models
 
         [Required]
         [Display(Name = "Property")]
-        public int PropertyId { get; set; }
+        public int PropertyId { get; set; } // References the property
 
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
 
         [Required]
         [Display(Name = "BedConfiguration")]
-        public int BedConfigurationId { get; set; }
+        public int BedConfigurationId { get; set; } // References the bed configuration
 
         [ForeignKey("BedConfigurationId")]
         public BedConfiguration? BedConfiguration { get; set; }

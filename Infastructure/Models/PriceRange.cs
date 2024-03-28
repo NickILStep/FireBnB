@@ -14,9 +14,9 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; } // The start date for when a certain price will apply to a property
 
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; } // The end date for when a certain price will apply to a property
     }
 }

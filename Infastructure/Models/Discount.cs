@@ -14,12 +14,12 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public double Value { get; set; }
+        public float Value { get; set; } // How much money the discount takes off of the final total
 
         [Required]
-        public String? Code { get; set; }
+        public String? Code { get; set; } // String of letters and numbers that must be typed in on checkout to redeem discount
 
         [Required]
-        public DateTime Expiration { get; set; }
+        public DateTime Expiration { get; set; } // Final day the discount is able to be applied
     }
 }

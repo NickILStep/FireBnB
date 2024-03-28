@@ -16,20 +16,20 @@ namespace Infrastructure.Models
 
         [Required]
         [Display(Name = "Booking")]
-        public int BookingId { get; set; }
+        public int BookingId { get; set; } // References the booking associated with the property or user being reviewed
 
         [ForeignKey("BookingId")]
         public Booking? Booking { get; set; }
 
         [Required]
-        public int Rating { get; set; }
+        public int Rating { get; set; } // The rating out of 10 (5 stars with possible half stars) given in the review
 
-        public string? Comment { get; set; }
-
-        [Required]
-        public DateTime Timestamp { get; set; }
+        public string? Comment { get; set; } // An explanation of the rating given
 
         [Required]
-        public int ReviewType { get; set; }
+        public DateTime Timestamp { get; set; } // The date and time the review was posted
+
+        [Required]
+        public bool ReviewType { get; set; } // Whether the review was left by the renter on the property or by the property owner on the renter (true = review left by renter, false = review left by owner)
     }
 }

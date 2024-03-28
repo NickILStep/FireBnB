@@ -115,7 +115,7 @@ namespace FireBnBWeb.Pages.Listings
             double totalPriceForSevenNights = PriceForSevenNights;
 
             // Add fees to the total price
-            totalPriceForSevenNights += PropertyFees.Sum(fee => fee.Fee.Price ?? 0.0);
+            totalPriceForSevenNights += PropertyFees.Sum(fee => fee.Fee.Percentage ?? 0.0);
 
             // Calculate total tax
             double totalTax = totalPriceForSevenNights * (CityTax + CountyTax + StateTax);

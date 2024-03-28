@@ -11,36 +11,24 @@ namespace Infrastructure.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        //[Key]
-        //public int Id { get; set; }
-
         [Required]
         [DisplayName("First Name")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } // User's first name
 
         [Required]
         [DisplayName("Last Name")]
-        public string LastName { get; set; }
-
-        //[Required]
-        //public string Email { get; set; }
-
-        //[DisplayName("Phone Number")]
-        //public string? PhoneNumber { get; set; }
-
-        //[Required]
-        //public string? Password { get; set; }
+        public string LastName { get; set; } // User's last name
 
         [DisplayName("Display Name")]
-        public string? DisplayName { get; set; }
+        public string? DisplayName { get; set; } // User's chosen username
 
         [Required]
-        public DateTime Birthdate { get; set; }
+        public DateTime Birthdate { get; set; } // User's date of birth
 
         [Required]
-        public DateTime SignupDate { get; set; }
+        public DateTime SignupDate { get; set; } // Date the user created their account
 
         [Required]
-        public string? ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; } // Url to the user's uploaded profile picture
     }
 }
