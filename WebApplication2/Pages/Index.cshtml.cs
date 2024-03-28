@@ -55,7 +55,7 @@ namespace FireBnBWeb.Pages
         {
             if (!string.IsNullOrEmpty(SearchQuery) || CheckIn.HasValue || CheckOut.HasValue || GuestNumber.HasValue || CostPerNight.HasValue || SelectedAmenities?.Any() == true || BedroomCount.HasValue || BathroomCount.HasValue)
             {
-                // Perform search based on provided parameters
+                // Perform search based on provided parameters SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, List<int> SelectedAmenities, int? bedroomCount, int? bathroomCount);
                 objProperties = _unitofwork.Property.SearchProperties(SearchQuery, CheckIn, CheckOut, GuestNumber, CostPerNight, SelectedAmenities, BedroomCount, BathroomCount);
             }
             else

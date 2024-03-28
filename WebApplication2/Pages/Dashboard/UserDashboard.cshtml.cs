@@ -15,9 +15,11 @@ namespace FireBnBWeb.Pages.Dashboard
         //bring in the database
         private readonly UnitofWork _unitofWork;
         private readonly UserManager<ApplicationUser> _userManager;
+        private ApplicationUser _user;
         public IEnumerable<Booking> bookingList;
         public IEnumerable<Property> propertyList;
         public IEnumerable<Location> locationList;
+        public IDictionary<int, List<Booking>> propertyBookings;
 
         public UserDashboardModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager)
         {
@@ -26,11 +28,14 @@ namespace FireBnBWeb.Pages.Dashboard
             bookingList = new List<Booking>();
             propertyList = new List<Property>();
             locationList = new List<Location>();
+            propertyBookings = new Dictionary<int, List<Booking>>();
 
         }
         public string FullName { get; private set; }
         public async Task<IActionResult> OnGetAsync()
         {
+            var userManager = HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
+
             // Get the currently logged-in user
             var user = await _userManager.GetUserAsync(User);
 
@@ -42,7 +47,31 @@ namespace FireBnBWeb.Pages.Dashboard
             // Set the full name
             FullName = $"{user.FirstName} {user.LastName}";
 
+            // Fetch primary images for each property and store their URLs
+            foreach (var property in propertyList)
+            {
+                // Fetch bookings for the property
+                var bookingsForProperty = _unitofWork.Booking.GetAll(predicate: b => b.PropertyId == property.Id);
+                propertyBookings[property.Id] = bookingsForProperty.ToList();
+            }
             return Page();
         }
+        // Function to get the guest's full name based on their ID
+        public string GetGuestName(string guestId)
+        {
+            var guest = _userManager.FindByIdAsync(guestId).Result; // Find the user by ID
+            return $"{guest.FirstName} {guest.LastName}";
+        }
+        // Add this method to your UserDashboardModel class
+        public Property GetPropertyForBooking(Booking booking)
+        {
+            // Fetch the associated property for the booking
+            return _unitofWork.Property.Get(p => p.Id == booking.PropertyId);
+        }
+        // Properties to access user data in the Razor Page
+        public string UserId => _userManager.GetUserId(User);
+        public string FirstName => _user.FirstName;
+        public string LastName => _user.LastName;
+
     }
 }

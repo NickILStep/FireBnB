@@ -4,6 +4,7 @@
     ViewData["Title"] = "Dashboard";
 }
 
+
 <!--This page should only be access to login user-->
 <div class="container">
     <h1>@Model.FullName Dashboard</h1>
@@ -13,73 +14,108 @@
             <a asp-page="/Dashboard/UpcomingBooking" class="btn btn-primary mr-2">Booking</a>
         </div>
         <div class="col">
-            <a href="#" class="btn btn-primary mr-2">Calendar</a>
+            <a href="#" class="btn btn-primary mr-2">Add A Review</a>
         </div>
         @if (Model.propertyList.Any())
         {
             <div class="col">
                 <!-- Takes them to property index page -->
-                <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Property Listing</a>
+                <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Money Tab</a>
+                <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Add Property</a>
             </div>
         }
         else
         {
-            <div class="col">
-                <!-- Takes them to registration page to be a lister -->
-                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Add Property</a>
-            </div>
+            <!--Anything just for renters here-->
         }
     </div>
     <div class="row">
-        <!-- Left Side - Upcoming Bookings -->
+        <!-- Left Side -->
         <div class="col-md-6">
-            <h2>Upcoming Bookings</h2>
-            <div class="row row-cols-2">
+            <!--Lister Side. Show property bookings-->
+            @if (Model.propertyList.Any())
+            {
+                <h2>Your Property Bookings</h2>
+                <div class="property-list">
+                    @foreach (var property in Model.propertyList)
+                    {
+                        <div class="property">
+                            <h3>@property.Title</h3>
+                            <h4>Bookings:</h4>
+                            <ul>
+                                @foreach (var booking in Model.propertyBookings[property.Id])
+                                {
+                                    <li>
+                                        Renter: <a asp-page="/Pathway" asp-route-id="@booking.Id">@Model.GetGuestName(booking.GuestId)</a><br />
+                                        Guest Count: @booking.NumGuests<br />
+                                        Start Date: @booking.Checkin<br />
+                                        End Date: @booking.Checkout
+                                        <!-- Cancel Button -->
+                                        <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                            <hr />
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <h2>Your Bookings</h2>
+                <!--Renter side. Show their upcoming booking-->
                 @foreach (var booking in Model.bookingList)
                 {
+                    var property = Model.GetPropertyForBooking(booking);
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
                                 <p>
+                                    <strong>Property Title:</strong> <a asp-page="/Pathways" asp-route-id="@property.Id">@property.Title</a><br />
                                     <strong>Start Date:</strong> @booking.Checkin.ToShortDateString() <br />
                                     <strong>End Date:</strong> @booking.Checkout.ToShortDateString() <br />
-                                    <strong>Location:</strong> @($"{booking.Property.Location.City}, {booking.Property.Location.State}, {booking.Property.Location.County}")
+                                    <!--Location is not working-->
+                                    @*  <strong>Location:</strong> @($"{booking.Property.Location.City}, {booking.Property.Location.State}, {booking.Property.Location.County}") *@
                                 </p>
+                                <!-- Cancel Button -->
+                                <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
+                                    <button type="submit" class="btn btn-danger">Cancel</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 }
-            </div>
+            }
         </div>
-        <!-- Right Side - User Properties -->
+
+        <!-- Right Side  -->
         <div class="col-md-6">
-            <h2>Your Properties</h2>
-            <!-- For listers -->
+            <!-- For listers. Show their properties -->
             @if (Model.propertyList.Any())
             {
-                foreach (var property in Model.propertyList)
-                {
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">@property</h5>
-                            <p class="card-text">
-                                Status: @property.Status <br />
-                                Location: @($"{property.Location.City}, {property.Location.State}, {property.Location.County}")
-                            </p>
+                <h2>Your Properties</h2>
+                <div class="property-list">
+                    @foreach (var property in Model.propertyList)
+                    {
+                        <div class="property">
+                            <h3><a asp-page="/Pathway" asp-route-id="@property.Id">@property.Title</a></h3>
+                            <!--Need to add images-->
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             }
             else
             {
-                <!-- For Renter -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Have a home you want to rent?</h5>
-                    <!-- Takes them to create a new account to be a lister -->
-                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Click Here To Add Your Home!</a>
+                <!-- For Renter tells them to add a house-->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Have a home you want to rent?</h5>
+                        <!-- Takes them to create a new account to be a lister -->
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Click Here To Add Your Home!</a>
+                    </div>
                 </div>
-            </div>
             }
         </div>
     </div>

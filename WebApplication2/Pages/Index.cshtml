@@ -41,9 +41,16 @@
             </div>
             <div class="col-auto">
                 Amenities
-                <!-- Add dropdown or checkboxes for selecting amenities -->
-                <select asp-for="SelectedAmenities" asp-items="Model.AmenityOptions" class="form-control" multiple>
-                </select>
+                <!-- Checkboxes for selecting amenities -->
+                @foreach (var amenity in Model.AmenityOptions)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="amenity_@amenity.Value" name="SelectedAmenities" value="@amenity.Value">
+                        <label class="form-check-label" for="amenity_@amenity.Value">
+                            @amenity.Text
+                        </label>
+                    </div>
+                }
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
@@ -62,7 +69,7 @@
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
                             <h5 class="card-title">
-                                Test Location @property.Id
+                                @property.Title
                             </h5>
                             <p class="card-text">Description: @property.Description</p>
                             <p class="card-text">Bedroom: @property.BedroomNum</p>
