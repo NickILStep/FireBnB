@@ -225,7 +225,30 @@ namespace DataAccess
             return _dbContext.Set<T>().Find(id);
         }
 
-        public IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber)
+        public ApplicationUser GetById(string id)
+        {
+            return _dbContext.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+        }
+        public IEnumerable<Amenity> GetAmenitiesByPropertyId(int propertyId)
+        {
+            return _dbContext.PropertyAmenities
+                           .Where(pa => pa.PropertyId == propertyId)
+                           .Select(pa => pa.Amenity)
+                           .ToList();
+        }
+
+        public DateTime? GetEarliestCheckinDate(int propertyId)
+        {
+            return _dbContext.Bookings
+                           .Where(b => b.PropertyId == propertyId)
+                           .OrderBy(b => b.Checkin)
+                           .Select(b => b.Checkin)
+                           .FirstOrDefault();
+        }
+
+
+
+        public IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, int? bedroomCount, int? bathroomCount)
         {
             // Start with querying all properties
             IQueryable<Property> query = _dbContext.Properties;
@@ -263,6 +286,51 @@ namespace DataAccess
             if (guestNumber.HasValue)
             {
                 query = query.Where(p => p.GuestMax >= guestNumber);
+            }
+
+            // Filter by cost per night
+            if (costPerNight.HasValue)
+            {
+                // Convert decimal to float for comparison
+                float costPerNightFloat = (float)costPerNight.Value;
+
+                // Join PropertyNightlyPrice and PriceRange to get the nightly rates within the specified date range
+                query = query.Join(_dbContext.PropertyNightlyPrices,
+                                    p => p.Id,
+                                    pnp => pnp.PropertyId,
+                                    (p, pnp) => new { Property = p, Price = pnp })
+                             .Join(_dbContext.PriceRanges,
+                                    pnp => pnp.Price.PriceRangeId,
+                                    pr => pr.Id,
+                                    (pnp, pr) => new { Property = pnp.Property, Price = pnp.Price, PriceRange = pr })
+                             .Where(x => x.Price.Rate <= costPerNightFloat && x.PriceRange.StartDate <= checkIn && x.PriceRange.EndDate >= checkOut)
+                             .Select(x => x.Property)
+                             .Distinct();
+            }
+
+            // Filter by amenities
+            if (amenityIds != null && amenityIds.Any())
+            {
+                // Join Property and PropertyAmenity to filter properties based on amenities
+                query = query.Join(_dbContext.PropertyAmenities,
+                                    p => p.Id,
+                                    pa => pa.PropertyId,
+                                    (p, pa) => new { Property = p, PropertyAmenity = pa })
+                             .Where(x => amenityIds.Contains(x.PropertyAmenity.AmenityId))
+                             .Select(x => x.Property)
+                             .Distinct();
+            }
+
+            // Filter by bedroom count
+            if (bedroomCount.HasValue)
+            {
+                query = query.Where(p => p.BedroomNum == bedroomCount);
+            }
+
+            // Filter by bathroom count
+            if (bathroomCount.HasValue)
+            {
+                query = query.Where(p => p.BathroomNum == bathroomCount);
             }
 
             // Execute the query and return the results

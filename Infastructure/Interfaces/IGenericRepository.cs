@@ -50,7 +50,11 @@ namespace Infrastructure.Interfaces
 
         //Update changes to an object
         void Update(T entity);
-        IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber);
+        public IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, int? bedroomCount, int? bathroomCount);
+        ApplicationUser GetById(string v);
+        IEnumerable<Amenity> GetAmenitiesByPropertyId(int propertyId);
+        DateTime? GetEarliestCheckinDate(int propertyId);
+
 
         // Increment and Decrement Shopping Cart
 
