@@ -14,6 +14,6 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public String? AmenityName { get; set; }
+        public String? AmenityName { get; set; } // What the amenity is
     }
 }

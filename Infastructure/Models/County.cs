@@ -15,9 +15,9 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public String? CountyName { get; set; }
+        public String? CountyName { get; set; } // Name of county
 
         [Required]
-        public float TaxRate { get; set; }
+        public float TaxRate { get; set; } // County's tax rate
     }
 }

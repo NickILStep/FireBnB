@@ -14,6 +14,6 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public string? Title { get; set; }
+        public string? Title { get; set; } // The type of the property (like house, apartment, bungalo, etc.)
     }
 }

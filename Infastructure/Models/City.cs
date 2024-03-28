@@ -15,9 +15,9 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public String? CityName { get; set; }
+        public String? CityName { get; set; } // Name of city
 
         [Required]
-        public float TaxRate { get; set; }
+        public float TaxRate { get; set; } // City's tax rate
     }
 }

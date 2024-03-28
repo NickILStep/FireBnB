@@ -13,9 +13,9 @@ namespace Infrastructure.Models
         public int Id { get; set; }
 
         [Required]
-        public String? StateName { get; set; }
+        public String? StateName { get; set; } // Name of state
 
         [Required]
-        public float TaxRate { get; set; }
+        public float TaxRate { get; set; } // State's tax rate
     }
 }

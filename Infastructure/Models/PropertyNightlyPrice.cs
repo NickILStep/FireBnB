@@ -16,19 +16,19 @@ namespace Infrastructure.Models
 
         [Required]
         [Display(Name = "Property")]
-        public int PropertyId { get; set; }
+        public int PropertyId { get; set; } // References the property
 
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
 
         [Required]
         [Display(Name = "PriceRange")]
-        public int PriceRangeId { get; set; }
+        public int PriceRangeId { get; set; } // References the price range (when this price will be in effect)
 
         [ForeignKey("PriceRangeId")]
         public PriceRange? PriceRange { get; set; }
 
         [Required]
-        public float Rate { get; set; }
+        public float Rate { get; set; } // The price to rent the property
     }
 }

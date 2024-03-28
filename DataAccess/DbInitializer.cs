@@ -186,9 +186,9 @@ namespace DataAccess
 
             var Properties = new List<Property>
             {
-                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 2, LocationId = 1, StatusId = 2, Description = "A nice home", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 16, BedroomNum = 8, BathroomNum = 3 },
-                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).Last().Id, PropertyTypeId = 1, LocationId = 2, StatusId = 3, Description = "A nice place", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = true, GuestMax = 4, BedroomNum = 2, BathroomNum = 1 },
-                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 5, LocationId = 3, StatusId = 1, Description = "A nice area", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 8, BedroomNum = 4, BathroomNum = 2 }
+                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 2, LocationId = 1, StatusId = 2, Title = "Dingus", Description = "A nice home", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 16, BedroomNum = 8, BathroomNum = 3 },
+                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).Last().Id, PropertyTypeId = 1, LocationId = 2, StatusId = 3, Title = "Chungus", Description = "A nice place", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = true, GuestMax = 4, BedroomNum = 2, BathroomNum = 1 },
+                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 5, LocationId = 3, StatusId = 1, Title = "Larry's Lair", Description = "A nice area", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 8, BedroomNum = 4, BathroomNum = 2 }
             };
 
             foreach (var p in Properties)
@@ -226,9 +226,9 @@ namespace DataAccess
 
             var Fees = new List<Fee>
             {
-                new Fee { Type = "Cleaning", Price = 150.00f },
-                new Fee { Type = "Service", Price = 50.00f },
-                new Fee { Type = "Parking", Price = 25.00f }
+                new Fee { Type = "Cleaning", Percentage = 1.5f },
+                new Fee { Type = "Service", Percentage = .05f },
+                new Fee { Type = "Parking", Percentage = .01f }
             };
 
             foreach (var f in Fees)
@@ -342,9 +342,9 @@ namespace DataAccess
 
             var Reviews = new List<Review>
             {
-                new Review { BookingId = 1, Rating = 7, Comment = "Good experience", Timestamp = DateTime.Now, ReviewType = 0 },
-                new Review { BookingId = 1, Rating = 10, Comment = "Great guests", Timestamp = DateTime.Now.AddHours(-2), ReviewType = 1},
-                new Review { BookingId = 3, Rating = 2, Comment = "Rats", Timestamp = DateTime.Now.AddMonths(-3), ReviewType = 0 }
+                new Review { BookingId = 1, Rating = 7, Comment = "Good experience", Timestamp = DateTime.Now, ReviewType = true },
+                new Review { BookingId = 1, Rating = 10, Comment = "Great guests", Timestamp = DateTime.Now.AddHours(-2), ReviewType = false },
+                new Review { BookingId = 3, Rating = 2, Comment = "Rats", Timestamp = DateTime.Now.AddMonths(-3), ReviewType = true }
             };
 
             foreach (var r in Reviews)

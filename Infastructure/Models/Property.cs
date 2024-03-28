@@ -16,48 +16,54 @@ namespace Infrastructure.Models
 
         [Required]
         [Display(Name = "Lister")]
-        public string? ListerId { get; set; }
+        public string? ListerId { get; set; } // References the ApplicationUser who added and owns the property
 
         [ForeignKey("ListerId")]
         public ApplicationUser? ApplicationUser { get; set; }
 
         [Required]
         [Display(Name = "PropertyType")]
-        public int PropertyTypeId { get; set; }
+        public int PropertyTypeId { get; set; } // References which type of property this is
 
         [ForeignKey("PropertyTypeId")]
         public PropertyType? PropertyType { get; set; }
 
         [Required]
         [Display(Name = "Location")]
-        public int LocationId { get; set; }
+        public int LocationId { get; set; } // References where the property is located (and taxes to apply to the property)
 
         [ForeignKey("LocationId")]
         public Location? Location { get; set; }
 
         [Required]
         [Display(Name = "Status")]
-        public int StatusId { get; set; }
+        public int StatusId { get; set; } // References the property's current listing status
 
         [ForeignKey("StatusId")]
         public Status? Status { get; set; }
 
         [Required]
-        public string? Description { get; set; }
+        public string? Title { get; set; } // What the property is called
 
         [Required]
-        public DateTime LastUpdated { get; set; }
+        public string? Description { get; set; } // Additional information about the property
 
         [Required]
-        public Boolean GuestSharing { get; set; }
+        public DateTime LastUpdated { get; set; } // The date and time of when the owner commited the most recent changes to the property listing
 
         [Required]
-        public int GuestMax { get; set; }
+        public Boolean GuestSharing { get; set; } // Whether the property will be shared with other unassociated renters
 
         [Required]
-        public int BedroomNum { get; set; }
+        public int GuestMax { get; set; } // The maximum allowable number of guests to be included in a booking
 
         [Required]
-        public int BathroomNum { get; set; }
+        public int BedroomNum { get; set; } // Number of bedrooms in the property
+
+        [Required]
+        public int BathroomNum { get; set; } // Number of bathrooms in the property
+
+        [Required]
+        public int CancellationDays { get; set; } // Number of days prior to a booking when cancellation will be free
     }
 }

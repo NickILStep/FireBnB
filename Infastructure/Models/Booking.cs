@@ -16,37 +16,32 @@ namespace Infrastructure.Models
 
         //[Required]
         //[Display(Name = "Guest")]
-        public string? GuestId { get; set; }
+        public string? GuestId { get; set; } // References the user who made the booking
 
+        // Foreign key removed due to multiple cascade paths causing issues
         //[ForeignKey("GuestId")]
         //public ApplicationUser? ApplicationUser { get; set; }
 
         [Required]
         [Display(Name = "Property")]
-        public int PropertyId { get; set; }
+        public int PropertyId { get; set; } // References the property being booked
 
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
 
-        // [ForeignKey("DiscountId")]
-        //public Discount? Discount { get; set; }
+        [Required]
+        public DateTime Checkin { get; set; } // When the renter can check in to the property
 
         [Required]
-        public DateTime Checkin { get; set; }
+        public DateTime Checkout { get; set; } // When the renter must check out from the property
 
         [Required]
-        public DateTime Checkout { get; set; }
-
-        //[Required]
-        //public int ServiceFee { get; set; }
-
-        //[Required]
-        //public int CleaningFee { get; set; }
+        public float Tax { get; set; } // Tax to be collected on the order
 
         [Required]
-        public float Tax { get; set; }
+        public float TotalPrice { get; set; } // Total price of the order
 
         [Required]
-        public float TotalPrice { get; set; }
+        public int NumGuests { get; set; } // Number of guests who will be staying at the property for the booking
     }
 }
