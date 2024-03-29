@@ -248,7 +248,7 @@ namespace DataAccess
 
 
 
-        public IEnumerable<Property> SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, int? bedroomCount, int? bathroomCount)
+        IEnumerable<Property> IGenericRepository<T>.SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int>? selectedAmenities, int? bedroomCount, int? bathroomCount)
         {
             // Start with querying all properties
             IQueryable<Property> query = _dbContext.Properties;
@@ -288,35 +288,32 @@ namespace DataAccess
                 query = query.Where(p => p.GuestMax >= guestNumber);
             }
 
-            // Filter by cost per night
             if (costPerNight.HasValue)
             {
-                // Convert decimal to float for comparison
-                float costPerNightFloat = (float)costPerNight.Value;
+                // Define a range within which the property prices should fall
+                decimal minPrice = costPerNight.Value - 100000; // Adjust the range as needed
+                decimal maxPrice = costPerNight.Value + 1; // Adjust the range as needed
 
-                // Join PropertyNightlyPrice and PriceRange to get the nightly rates within the specified date range
+                // Join PropertyNightlyPrice to get the nightly rates
                 query = query.Join(_dbContext.PropertyNightlyPrices,
                                     p => p.Id,
                                     pnp => pnp.PropertyId,
                                     (p, pnp) => new { Property = p, Price = pnp })
-                             .Join(_dbContext.PriceRanges,
-                                    pnp => pnp.Price.PriceRangeId,
-                                    pr => pr.Id,
-                                    (pnp, pr) => new { Property = pnp.Property, Price = pnp.Price, PriceRange = pr })
-                             .Where(x => x.Price.Rate <= costPerNightFloat && x.PriceRange.StartDate <= checkIn && x.PriceRange.EndDate >= checkOut)
+                             .Where(x => x.Price.Rate >= (float)minPrice && x.Price.Rate <= (float)maxPrice)
                              .Select(x => x.Property)
                              .Distinct();
             }
 
+
             // Filter by amenities
-            if (amenityIds != null && amenityIds.Any())
+            if (selectedAmenities != null && selectedAmenities.Any())
             {
                 // Join Property and PropertyAmenity to filter properties based on amenities
                 query = query.Join(_dbContext.PropertyAmenities,
                                     p => p.Id,
                                     pa => pa.PropertyId,
                                     (p, pa) => new { Property = p, PropertyAmenity = pa })
-                             .Where(x => amenityIds.Contains(x.PropertyAmenity.AmenityId))
+                             .Where(x => selectedAmenities.Contains(x.PropertyAmenity.AmenityId))
                              .Select(x => x.Property)
                              .Distinct();
             }
@@ -324,13 +321,13 @@ namespace DataAccess
             // Filter by bedroom count
             if (bedroomCount.HasValue)
             {
-                query = query.Where(p => p.BedroomNum == bedroomCount);
+                query = query.Where(p => p.BedroomNum >= bedroomCount);
             }
 
             // Filter by bathroom count
             if (bathroomCount.HasValue)
             {
-                query = query.Where(p => p.BathroomNum == bathroomCount);
+                query = query.Where(p => p.BathroomNum >= bathroomCount);
             }
 
             // Execute the query and return the results
