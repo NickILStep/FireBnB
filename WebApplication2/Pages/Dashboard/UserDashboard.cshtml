@@ -1,11 +1,11 @@
 ﻿@page
 @model UserDashboardModel
+@using Utility;
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-
-<!--This page should only be access to login user-->
+<!--This page should only be accessible to logged-in users-->
 <div class="container">
     <h1>@Model.FullName Dashboard</h1>
     <!-- Top Row - Navigation Buttons -->
@@ -16,7 +16,7 @@
         <div class="col">
             <a href="#" class="btn btn-primary mr-2">Add A Review</a>
         </div>
-        @if (Model.propertyList.Any())
+        @if (User.IsInRole(SD.ListerRole))
         {
             <div class="col">
                 <!-- Takes them to property index page -->
@@ -26,89 +26,116 @@
         }
         else
         {
-            <!--Anything just for renters here-->
+            <!-- Anything just for renters here -->
         }
     </div>
     <div class="row">
         <!-- Left Side -->
         <div class="col-md-6">
-            <!--Lister Side. Show property bookings-->
+            <!-- Renter Side: Show upcoming bookings -->
+            @if (User.IsInRole(SD.RenterRole))
+            {
+                <h2>Your Bookings</h2>
+                @if (!Model.bookingList.Any())
+                {
+                    <p>No upcoming bookings found.</p>
+                }
+                else
+                {
+                    @foreach (var booking in Model.bookingList)
+                    {
+                        var property = Model.GetPropertyForBooking(booking);
+                        var location = property.Location; // Accessing the location from the property
+
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>
+                                        <strong>Property Title:</strong> <a asp-page="/Pathways" asp-route-id="@property.Id">@property.Title</a><br />
+                                        <strong>Start Date:</strong> @booking.Checkin.ToShortDateString() <br />
+                                        <strong>End Date:</strong> @booking.Checkout.ToShortDateString() <br />
+                                        <strong>Location:</strong> @($"{location.City.CityName}, {location.State.StateName}, {location.County.CountyName}") <!-- Displaying location -->
+                                    </p>
+                                    <!-- Cancel Button -->
+                                    <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
+                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
             @if (Model.propertyList.Any())
             {
+                    <!-- Lister Side: Show property bookings -->
                 <h2>Your Property Bookings</h2>
                 <div class="property-list">
-                    @foreach (var property in Model.propertyList)
+                    @if (!Model.propertyList.Any())
                     {
-                        <div class="property">
-                            <h3>@property.Title</h3>
-                            <h4>Bookings:</h4>
-                            <ul>
-                                @foreach (var booking in Model.propertyBookings[property.Id])
-                                {
-                                    <li>
-                                        Renter: <a asp-page="/Pathway" asp-route-id="@booking.Id">@Model.GetGuestName(booking.GuestId)</a><br />
-                                        Guest Count: @booking.NumGuests<br />
-                                        Start Date: @booking.Checkin<br />
-                                        End Date: @booking.Checkout
-                                        <!-- Cancel Button -->
-                                        <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
-                                            <button type="submit" class="btn btn-danger">Cancel</button>
-                                        </form>
-                                    </li>
-                                }
-                            </ul>
-                            <hr />
+                        <p>No property bookings found.</p>
+                    }
+                    else
+                    {
+                        <div class="property-list">
+                            @foreach (var property in Model.propertyList.Where(p => p.ListerId == Model.UserId))
+                            {
+                                <div class="property">
+                                    <h3>@property.Title</h3>
+                                    <h4>Bookings:</h4>
+                                    <ul>
+                                        @if (!Model.propertyBookings.ContainsKey(property.Id) || !Model.propertyBookings[property.Id].Any())
+                                        {
+                                            <li>No bookings found for this property.</li>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var booking in Model.propertyBookings[property.Id])
+                                            {
+                                                <li>
+                                                    Renter: <a asp-page="/Pathway" asp-route-id="@booking.Id">@Model.GetGuestName(booking.GuestId)</a><br />
+                                                    Guest Count: @booking.NumGuests<br />
+                                                    Start Date: @booking.Checkin<br />
+                                                    End Date: @booking.Checkout
+                                                    <!-- Cancel Button -->
+                                                    <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
+                                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                                    </form>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    <hr />
+                                </div>
+                            }
                         </div>
                     }
                 </div>
             }
-            else
-            {
-                <h2>Your Bookings</h2>
-                <!--Renter side. Show their upcoming booking-->
-                @foreach (var booking in Model.bookingList)
-                {
-                    var property = Model.GetPropertyForBooking(booking);
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <p>
-                                    <strong>Property Title:</strong> <a asp-page="/Pathways" asp-route-id="@property.Id">@property.Title</a><br />
-                                    <strong>Start Date:</strong> @booking.Checkin.ToShortDateString() <br />
-                                    <strong>End Date:</strong> @booking.Checkout.ToShortDateString() <br />
-                                    <!--Location is not working-->
-                                    @*  <strong>Location:</strong> @($"{booking.Property.Location.City}, {booking.Property.Location.State}, {booking.Property.Location.County}") *@
-                                </p>
-                                <!-- Cancel Button -->
-                                <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                }
             }
         </div>
 
-        <!-- Right Side  -->
+        <!-- Right Side -->
         <div class="col-md-6">
-            <!-- For listers. Show their properties -->
-            @if (Model.propertyList.Any())
+            <!-- For listers: show their properties -->
+            @if (User.IsInRole(SD.ListerRole))
             {
                 <h2>Your Properties</h2>
                 <div class="property-list">
-                    @foreach (var property in Model.propertyList)
+                    @foreach (var property in Model.propertyList.Where(p => p.ListerId == Model.UserId))
                     {
                         <div class="property">
                             <h3><a asp-page="/Pathway" asp-route-id="@property.Id">@property.Title</a></h3>
-                            <!--Need to add images-->
+                            <!-- Need to add images -->
                         </div>
                     }
                 </div>
             }
             else
             {
-                <!-- For Renter tells them to add a house-->
+                <!-- For renters: tell them to add a house -->
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Have a home you want to rent?</h5>

@@ -339,5 +339,16 @@ namespace DataAccess
             //for track changes I'm flagging modified to the system
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
+        IEnumerable<Property> IGenericRepository<T>.GetAllWithLocationsCitiesCountiesStates()
+        {
+            // Implement the method to retrieve properties along with their location details
+            return _dbContext.Properties
+                .Include(p => p.Location)
+                    .ThenInclude(l => l.City)
+                .Include(p => p.Location)
+                    .ThenInclude(l => l.County)
+                .Include(p => p.Location)
+                    .ThenInclude(l => l.State);
+        }
     }
 }

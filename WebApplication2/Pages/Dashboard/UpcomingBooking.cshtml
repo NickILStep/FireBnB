@@ -9,7 +9,9 @@
         <tr>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Location</th>
+            <th>City</th>
+            <th>County</th>
+            <th>State</th>
             <th>Guest Count</th>
             <th>Total Price</th>
             <th>Action</th>
@@ -21,7 +23,9 @@
             <tr>
                 <td>@booking.Checkin.ToShortDateString()</td>
                 <td>@booking.Checkout.ToShortDateString()</td>
-                <td>@($"{booking.Property.Location.City.CityName}, {booking.Property.Location.County.CountyName}, {booking.Property.Location.State.StateName}")</td>
+                <td>@booking.Property.Location.City.CityName</td>
+                <td>@booking.Property.Location.County.CountyName</td>
+                <td>@booking.Property.Location.State.StateName</td>
                 <td>@booking.Property.GuestMax</td>
                 <td>@booking.TotalPrice</td>
                 <td>

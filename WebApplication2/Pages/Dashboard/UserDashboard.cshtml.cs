@@ -3,6 +3,7 @@ using Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Utility;
 
 namespace FireBnBWeb.Pages.Dashboard
 {
@@ -35,25 +36,41 @@ namespace FireBnBWeb.Pages.Dashboard
         public async Task<IActionResult> OnGetAsync()
         {
             var userManager = HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
-
             // Get the currently logged-in user
             var user = await _userManager.GetUserAsync(User);
+
+            // Fetch primary images for each property and store their URLs
+            propertyList = _unitofWork.Property.GetAllWithLocationsCitiesCountiesStates();
+
+            // Fetch bookings for the current user
+            bookingList = _unitofWork.Booking.GetAll(predicate: b => b.GuestId == user.Id, includes: "Property,Property.Location").ToList();
 
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            // Check if the user is in the "Renter" role
+            if (User.IsInRole(SD.RenterRole))
+            {
+                // User is a renter, fetch their bookings
+                bookingList = _unitofWork.Booking.GetAll(predicate: b => b.GuestId == user.Id, includes: "Property,Property.Location").ToList();
+            }
+            else
+            {
+                // User is a lister, fetch their properties
+                propertyList = _unitofWork.Property.GetAll(predicate: p => p.ListerId == user.Id);
+
+                // Fetch property bookings for the lister
+                foreach (var property in propertyList)
+                {
+                    var bookingsForProperty = _unitofWork.Booking.GetAll(predicate: b => b.PropertyId == property.Id);
+                    propertyBookings[property.Id] = bookingsForProperty.ToList();
+                }
+            }
 
             // Set the full name
             FullName = $"{user.FirstName} {user.LastName}";
 
-            // Fetch primary images for each property and store their URLs
-            foreach (var property in propertyList)
-            {
-                // Fetch bookings for the property
-                var bookingsForProperty = _unitofWork.Booking.GetAll(predicate: b => b.PropertyId == property.Id);
-                propertyBookings[property.Id] = bookingsForProperty.ToList();
-            }
             return Page();
         }
         // Function to get the guest's full name based on their ID
