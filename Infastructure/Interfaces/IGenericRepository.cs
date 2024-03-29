@@ -55,7 +55,7 @@ namespace Infrastructure.Interfaces
         ApplicationUser GetById(string v);
         IEnumerable<Amenity> GetAmenitiesByPropertyId(int propertyId);
         DateTime? GetEarliestCheckinDate(int propertyId);
-       
+        IEnumerable<Property> GetAllWithLocationsCitiesCountiesStates();
 
         // Increment and Decrement Shopping Cart
 

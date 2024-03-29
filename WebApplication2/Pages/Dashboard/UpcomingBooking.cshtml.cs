@@ -35,9 +35,15 @@ namespace FireBnBWeb.Pages.Dashboard
             }
 
             // Fetch bookings only for the current user
-            bookingList = _unitofWork.Booking.GetAll(
-                b => b.GuestId == user.Id,
-                includes: "Property,Property.Location").ToList();
+            var bookings = _unitofWork.Booking.GetAll(b => b.GuestId == user.Id).ToList();
+
+            // Retrieve property IDs from bookings
+            var propertyIds = bookings.Select(b => b.PropertyId).Distinct().ToList();
+
+            // Fetch properties including location details
+            propertyList = _unitofWork.Property.GetAllWithLocationsCitiesCountiesStates()
+                .Where(p => propertyIds.Contains(p.Id))
+                .ToList();
 
             return Page();
         }

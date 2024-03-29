@@ -37,8 +37,6 @@ namespace FireBnBWeb.Pages.Listings
         public float TotalPriceForSevenNights { get; private set; }
 
 
-
-
         public ViewPropertyModel(UnitofWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -46,7 +44,8 @@ namespace FireBnBWeb.Pages.Listings
 
         public IActionResult OnGet(int id)
         {
-            Property = _unitOfWork.Property.GetById(id);
+            // Fetch the property along with its location and related entities
+            Property = _unitOfWork.Property.GetAllWithLocationsCitiesCountiesStates().FirstOrDefault(p => p.Id == id);
             if (Property == null)
             {
                 return NotFound(); // Return a 404 Not Found error if the property with the specified ID is not found

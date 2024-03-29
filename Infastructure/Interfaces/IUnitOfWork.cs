@@ -22,6 +22,7 @@ namespace Infrastructure.Interfaces
         public IGenericRepository<Location> Location { get; }
         public IGenericRepository<PriceRange> PriceRange{ get; }
         public IGenericRepository<Property> Property { get; }
+        public IGenericRepository<Property> GetAllWithLocationsCitiesCountiesStates { get; }
         public IGenericRepository<PropertyAmenity> PropertyAmenity { get; }
         public IGenericRepository<PropertyBedConfiguration> PropertyBedConfiguration { get; }
         public IGenericRepository<PropertyDiscount> PropertyDiscount { get; }

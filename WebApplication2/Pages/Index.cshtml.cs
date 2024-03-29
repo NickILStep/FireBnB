@@ -11,6 +11,7 @@ namespace FireBnBWeb.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly UnitofWork _unitofwork;
         public IEnumerable<Property> objProperties;
+        public IEnumerable<Location> locations;
 
         [BindProperty(SupportsGet = true)]
         public string SearchQuery { get; set; }
@@ -36,7 +37,9 @@ namespace FireBnBWeb.Pages
         public int? BathroomCount { get; set; }
 
         public List<SelectListItem> AmenityOptions { get; set; }
-
+        public City City { get; set; } // Navigation property for the associated city
+        public State State { get; set; }
+        public County County { get; set; }
 
 
         public IndexModel(ILogger<IndexModel> logger, UnitofWork unitofwork)
@@ -44,6 +47,7 @@ namespace FireBnBWeb.Pages
             _unitofwork = unitofwork;
             _logger = logger;
             objProperties = new List<Property>();
+            locations = new List<Location>();
             AmenityOptions = _unitofwork.Amenity.GetAll().Select(a => new SelectListItem
             {
                 Value = a.Id.ToString(),
@@ -53,6 +57,9 @@ namespace FireBnBWeb.Pages
 
         public IActionResult OnGet()
         {
+            // Retrieve all properties along with their related locations, cities, counties, and states
+            objProperties = _unitofwork.GetAllWithLocationsCitiesCountiesStates();
+
             if (!string.IsNullOrEmpty(SearchQuery) || CheckIn.HasValue || CheckOut.HasValue || GuestNumber.HasValue || CostPerNight.HasValue || SelectedAmenities?.Any() == true || BedroomCount.HasValue || BathroomCount.HasValue)
             {
                 // Perform search based on provided parameters SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, List<int> SelectedAmenities, int? bedroomCount, int? bathroomCount);
