@@ -38,6 +38,7 @@ namespace FireBnBWeb.Pages.Listings
 
 
         public ViewPropertyModel(UnitofWork unitOfWork)
+
         {
             _unitOfWork = unitOfWork;
         }
@@ -117,7 +118,7 @@ namespace FireBnBWeb.Pages.Listings
             totalPriceForSevenNights += PropertyFees.Sum(fee => fee.Fee.Percentage ?? 0.0);
 
             // Calculate total tax
-            double totalTax = totalPriceForSevenNights * (CityTax + CountyTax + StateTax);
+            double totalTax = totalPriceForSevenNights * ((CityTax + CountyTax + StateTax) / 100);
 
             // Subtract discounts from the total price
             totalPriceForSevenNights -= PropertyDiscounts.Sum(discount => discount.Discount.Value);
