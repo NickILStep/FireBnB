@@ -1,6 +1,7 @@
 ﻿
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -189,6 +190,17 @@ namespace DataAccess
                 return _Property;
             }
         }
+        public IEnumerable<Property> GetAllWithLocationsCitiesCountiesStates()
+        {
+            return _dbContext.Properties
+                               .Include(p => p.Location)
+                                   .ThenInclude(l => l.City)
+                               .Include(p => p.Location)
+                                   .ThenInclude(l => l.County)
+                               .Include(p => p.Location)
+                                   .ThenInclude(l => l.State)
+                               .ToList();
+        }
 
         public IGenericRepository<PropertyAmenity> PropertyAmenity
         {
@@ -296,10 +308,11 @@ namespace DataAccess
                 }
                 return _Status;
             }
-        } 
-		
+        }
 
-		public int Commit()
+        IGenericRepository<Property> IUnitofWork.GetAllWithLocationsCitiesCountiesStates => throw new NotImplementedException();
+
+        public int Commit()
         {
             return _dbContext.SaveChanges();
         }

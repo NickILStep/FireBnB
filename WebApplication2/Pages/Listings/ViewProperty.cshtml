@@ -34,8 +34,18 @@
         <div class="card-footer col-8">
             <div class="p-2">
                 <div class="row">
-                    <!--Not working-->
-                    @* <p>Location: @($"{Model.Property.Location.City.CityName}, {Model.Property.Location.County.CountyName}, {Model.Property.Location.State.StateName}")</p> *@
+                    <p>
+                        @if (Model.Property.Location != null && Model.Property.Location.City != null)
+                        {
+                            <span>City: @Model.Property.Location.City.CityName,</span>
+                            <span>County: @Model.Property.Location.County.CountyName,</span>
+                            <span>State: @Model.Property.Location.State.StateName</span>
+                        }
+                        else
+                        {
+                            <span>Location: Unknown</span>
+                        }
+                    </p>
                     <p>Lister: @Model.Lister.FirstName @Model.Lister.LastName</p>
                     <p>Email: @Model.Lister.Email</p>
                 </div>

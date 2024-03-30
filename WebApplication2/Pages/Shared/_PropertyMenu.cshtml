@@ -1,4 +1,5 @@
 ﻿<!-- _PropertyMenu.cshtml -->
+@using Utility;
 @using Infrastructure.Models 
 @inject DataAccess.UnitofWork UnitofWork 
 
@@ -9,8 +10,7 @@
     // Check if the current user has any properties
     var hasProperty = UnitofWork.Property.GetAll(p => p.ApplicationUser == currentUser).Any();
 }
-
-@if (hasProperty)
+    @if (User.IsInRole(SD.ListerRole))
 {
     <!-- Render "Listing" link if the user has properties -->
     <a class="dropdown-item" asp-area="" asp-page="/Listings/Index">Listing</a>
