@@ -1,0 +1,46 @@
+﻿@page
+@model FireBnBWeb.Pages.Dashboard.IncomeReportModel
+@{
+    ViewData["Title"] = "Income Report";
+}
+
+<h1>Income Report</h1>
+
+@if (Model.PropertyList != null && Model.PropertyList.Any())
+{
+    <h2>Properties Owned by You:</h2>
+    <ul>
+        @foreach (var property in Model.PropertyList)
+        {
+            <li>@property.Title</li>
+        }
+    </ul>
+}
+
+@if (Model.BookingList != null && Model.BookingList.Any())
+{
+    <h2>Bookings for Your Properties:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.BookingList)
+            {
+                <tr>
+                    <td>@booking.Property.Title</td>
+                    <td>@booking.Checkin.ToShortDateString()</td>
+                    <td>@booking.Checkout.ToShortDateString()</td>
+                    <td>@booking.TotalPrice.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h2>Total Income: @Model.TotalIncome.ToString("C")</h2>
