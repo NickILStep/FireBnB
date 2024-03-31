@@ -31,7 +31,7 @@ namespace DataAccess
         public IGenericRepository<Discount> _Discount;
         public IGenericRepository<Fee> _Fee;
         public IGenericRepository<Image> _Image;
-        public IGenericRepository<Location> _Location;
+        //public IGenericRepository<Location> _Location;
         public IGenericRepository<PriceRange> _PriceRange;
         public IGenericRepository<Property> _Property;
         public IGenericRepository<PropertyAmenity> _PropertyAmenity;
@@ -155,17 +155,17 @@ namespace DataAccess
             }
         }
 
-        public IGenericRepository<Location> Location
-        {
-            get
-            {
-                if (_Location == null)
-                {
-                    _Location = new GenericRepository<Location>(_dbContext);
-                }
-                return _Location;
-            }
-        }
+        //public IGenericRepository<Location> Location
+        //{
+        //    get
+        //    {
+        //        if (_Location == null)
+        //        {
+        //            _Location = new GenericRepository<Location>(_dbContext);
+        //        }
+        //        return _Location;
+        //    }
+        //}
 
         public IGenericRepository<PriceRange> PriceRange
         {
@@ -192,17 +192,22 @@ namespace DataAccess
         }
         public IEnumerable<Property> GetAllWithLocationsCitiesCountiesStates()
         {
+            //    return _dbContext.Properties
+            //                       .Include(p => p.Location)
+            //                           .ThenInclude(l => l.City)
+            //                       .Include(p => p.Location)
+            //                           .ThenInclude(l => l.County)
+            //                       .Include(p => p.Location)
+            //                           .ThenInclude(l => l.State)
+            //                       .ToList();
+
             return _dbContext.Properties
-                               .Include(p => p.Location)
-                                   .ThenInclude(l => l.City)
-                               .Include(p => p.Location)
-                                   .ThenInclude(l => l.County)
-                               .Include(p => p.Location)
-                                   .ThenInclude(l => l.State)
-                               .ToList();
+                .Include(p => p.City)
+                .Include(p => p.County)
+                .Include(p => p.State);
         }
 
-        public IGenericRepository<PropertyAmenity> PropertyAmenity
+    public IGenericRepository<PropertyAmenity> PropertyAmenity
         {
             get
             {

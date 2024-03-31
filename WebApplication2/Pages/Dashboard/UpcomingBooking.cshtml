@@ -23,9 +23,12 @@
             <tr>
                 <td>@booking.Checkin.ToShortDateString()</td>
                 <td>@booking.Checkout.ToShortDateString()</td>
-                <td>@booking.Property.Location.City.CityName</td>
+                <td>@booking.Property.City.CityName</td>
+                <td>@booking.Property.County.CountyName</td>
+                <td>@booking.Property.State.StateName</td>
+                @*<td>@booking.Property.Location.City.CityName</td>
                 <td>@booking.Property.Location.County.CountyName</td>
-                <td>@booking.Property.Location.State.StateName</td>
+                <td>@booking.Property.Location.State.StateName</td> *@
                 <td>@booking.Property.GuestMax</td>
                 <td>@booking.TotalPrice</td>
                 <td>

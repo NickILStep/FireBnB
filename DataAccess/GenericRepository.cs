@@ -254,16 +254,16 @@ namespace DataAccess
             IQueryable<Property> query = _dbContext.Properties;
 
             // Include related entities to avoid lazy loading
-            query = query.Include(p => p.Location);
+            //query = query.Include(p => p.Location);
 
             // Filter by search query (if provided)
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                query = query.Where(p => p.Location.City.CityName.Contains(searchQuery)
-                         || p.Location.County.CountyName.Contains(searchQuery)
-                         || p.Location.State.StateName.Contains(searchQuery)
-                         || p.Location.Address.Contains(searchQuery)
-                         || p.Location.Zipcode.Contains(searchQuery));
+                query = query.Where(p => p.City.CityName.Contains(searchQuery)
+                         || p.County.CountyName.Contains(searchQuery)
+                         || p.State.StateName.Contains(searchQuery)
+                         || p.Address.Contains(searchQuery)
+                         || p.Zipcode.Contains(searchQuery));
             }
 
             // Filter by check-in date and check-out date (if provided)
@@ -342,13 +342,18 @@ namespace DataAccess
         IEnumerable<Property> IGenericRepository<T>.GetAllWithLocationsCitiesCountiesStates()
         {
             // Implement the method to retrieve properties along with their location details
+            //return _dbContext.Properties
+            //    .Include(p => p.Location)
+            //        .ThenInclude(l => l.City)
+            //    .Include(p => p.Location)
+            //        .ThenInclude(l => l.County)
+            //    .Include(p => p.Location)
+            //        .ThenInclude(l => l.State);
+
             return _dbContext.Properties
-                .Include(p => p.Location)
-                    .ThenInclude(l => l.City)
-                .Include(p => p.Location)
-                    .ThenInclude(l => l.County)
-                .Include(p => p.Location)
-                    .ThenInclude(l => l.State);
+                .Include(p => p.City)
+                .Include(p => p.County)
+                .Include(p => p.State);
         }
     }
 }

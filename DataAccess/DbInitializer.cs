@@ -158,18 +158,18 @@ namespace DataAccess
             }
             _db.SaveChanges();
 
-            var Locations = new List<Location>
-            {
-                new Location { CityId = 1, CountyId = 2, StateId = 4, Address = "123 Somewhere St.", Zipcode = "84321"},
-                new Location { CityId = 3, CountyId = 3, StateId = 2, Address = "456 Anywhere Blvd.", Zipcode = "84654"},
-                new Location { CityId = 2, CountyId = 1, StateId = 1, Address = "789 Nowhere Ave.", Zipcode = "84987"}
-            };
+            //var Locations = new List<Location>
+            //{
+            //    new Location { CityId = 1, CountyId = 2, StateId = 4, Address = "123 Somewhere St.", Zipcode = "84321"},
+            //    new Location { CityId = 3, CountyId = 3, StateId = 2, Address = "456 Anywhere Blvd.", Zipcode = "84654"},
+            //    new Location { CityId = 2, CountyId = 1, StateId = 1, Address = "789 Nowhere Ave.", Zipcode = "84987"}
+            //};
 
-            foreach (var l in Locations)
-            {
-                _db.Locations.Add(l);
-            }
-            _db.SaveChanges();
+            //foreach (var l in Locations)
+            //{
+            //    _db.Locations.Add(l);
+            //}
+            //_db.SaveChanges();
 
             var Statuses = new List<Status>
             {
@@ -186,9 +186,9 @@ namespace DataAccess
 
             var Properties = new List<Property>
             {
-                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 2, LocationId = 1, StatusId = 2, Title = "Dingus", Description = "A nice home", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 16, BedroomNum = 8, BathroomNum = 3 },
-                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).Last().Id, PropertyTypeId = 1, LocationId = 2, StatusId = 3, Title = "Chungus", Description = "A nice place", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = true, GuestMax = 4, BedroomNum = 2, BathroomNum = 1 },
-                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 5, LocationId = 3, StatusId = 1, Title = "Larry's Lair", Description = "A nice area", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 8, BedroomNum = 4, BathroomNum = 2 }
+                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 2, CityId = 1, CountyId = 2, StateId = 4, Address = "123 Somewhere St.", Zipcode = "84321", StatusId = 2, Title = "Dingus", Description = "A nice home", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 16, BedroomNum = 8, BathroomNum = 3 },
+                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).Last().Id, PropertyTypeId = 1, CityId = 3, CountyId = 3, StateId = 2, Address = "456 Anywhere Blvd.", Zipcode = "84654", StatusId = 3, Title = "Chungus", Description = "A nice place", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = true, GuestMax = 4, BedroomNum = 2, BathroomNum = 1 },
+                new Property {ListerId = _db.ApplicationUsers.OrderBy(user => user.SignupDate).First().Id, PropertyTypeId = 5, CityId = 2, CountyId = 1, StateId = 1, Address = "789 Nowhere Ave.", Zipcode = "84987", StatusId = 1, Title = "Larry's Lair", Description = "A nice area", LastUpdated = Convert.ToDateTime(DateTime.Now), GuestSharing = false, GuestMax = 8, BedroomNum = 4, BathroomNum = 2 }
             };
 
             foreach (var p in Properties)

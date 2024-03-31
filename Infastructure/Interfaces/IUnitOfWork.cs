@@ -19,7 +19,7 @@ namespace Infrastructure.Interfaces
         public IGenericRepository<Discount> Discount { get; }
         public IGenericRepository<Fee> Fee { get; }
         public IGenericRepository<Image> Image { get; }
-        public IGenericRepository<Location> Location { get; }
+        //public IGenericRepository<Location> Location { get; }
         public IGenericRepository<PriceRange> PriceRange{ get; }
         public IGenericRepository<Property> Property { get; }
         public IGenericRepository<Property> GetAllWithLocationsCitiesCountiesStates { get; }

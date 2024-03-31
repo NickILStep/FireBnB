@@ -94,7 +94,7 @@ namespace FireBnBWeb.Pages.Listings
                 .ToList();
 
             // Fetch location details for the property
-            var location = _unitOfWork.Location.Get(l => l.Id == id, includes: "City,County,State");
+            var location = _unitOfWork.Property.Get(p => p.Id == id, includes: "City,County,State");
 
             if (location != null)
             {
@@ -105,6 +105,17 @@ namespace FireBnBWeb.Pages.Listings
                 // Calculate total location tax
                 TotalLocationTax = CityTax + CountyTax + StateTax;
             }
+            //var location = _unitOfWork.Location.Get(l => l.Id == id, includes: "City,County,State");
+
+            //if (location != null)
+            //{
+            //    CityTax = location.City?.TaxRate ?? 0;
+            //    CountyTax = location.County?.TaxRate ?? 0;
+            //    StateTax = location.State?.TaxRate ?? 0;
+
+            //    // Calculate total location tax
+            //    TotalLocationTax = CityTax + CountyTax + StateTax;
+            //}
 
             // Fetch discounts associated with the property
             PropertyDiscounts = _unitOfWork.PropertyDiscount

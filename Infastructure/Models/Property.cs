@@ -28,12 +28,39 @@ namespace Infrastructure.Models
         [ForeignKey("PropertyTypeId")]
         public PropertyType? PropertyType { get; set; }
 
-        [Required]
-        [Display(Name = "Location")]
-        public int LocationId { get; set; } // References where the property is located (and taxes to apply to the property)
+        //[Required]
+        //[Display(Name = "Location")]
+        //public int LocationId { get; set; } // References where the property is located (and taxes to apply to the property)
 
-        [ForeignKey("LocationId")]
-        public Location? Location { get; set; }
+        //[ForeignKey("LocationId")]
+        //public Location? Location { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public int CityId { get; set; } // References the city
+
+        [ForeignKey("CityId")]
+        public City? City { get; set; }
+
+        [Required]
+        [Display(Name = "County")]
+        public int CountyId { get; set; } // References the county
+
+        [ForeignKey("CountyId")]
+        public County? County { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public int StateId { get; set; } // References the state
+
+        [ForeignKey("StateId")]
+        public State? State { get; set; }
+
+        [Required]
+        public string? Address { get; set; } // The street address for the property
+
+        [Required]
+        public string? Zipcode { get; set; } // The postal code for the property
 
         [Required]
         [Display(Name = "Status")]
