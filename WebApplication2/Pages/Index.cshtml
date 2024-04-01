@@ -64,7 +64,7 @@
         <div style="float:left; width: 100%;">
             <div class="row row-cols-2 col-md-15" style="width: 100%;">
                 <!-- Main Content -->
-                @foreach (var property in Model.objProperties)
+                @foreach (var property in Model.Properties)
                 {
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
@@ -75,16 +75,10 @@
                             <p class="card-text">
                                     @if (property.City != null)
                                     {
-                                    <span>City: @property.City.CityName,</span>
-                                    <span> County:  @property.County.CountyName,</span>
-                                    <span> State: @property.State.StateName</span>
+                                  <span>City: @property.City.CityName,</span>
+                                  <span>County: @property.County.CountyName,</span>
+                                  <span>State: @property.State.StateName</span>
                                     }
-                                    @* @if (property.Location != null && property.Location.City != null)
-                                    {
-                                    <span>City: @property.Location.City.CityName,</span>
-                                    <span> County:  @property.Location.County.CountyName,</span>
-                                    <span> State: @property.Location.State.StateName</span>
-                                    } *@
                                     else
                                     {
                                     <span>City: Unknown</span>
