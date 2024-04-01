@@ -32,7 +32,7 @@ namespace DataAccess
         public IGenericRepository<Fee> _Fee;
         public IGenericRepository<Image> _Image;
         //public IGenericRepository<Location> _Location;
-        public IGenericRepository<PriceRange> _PriceRange;
+        //public IGenericRepository<PriceRange> _PriceRange;
         public IGenericRepository<Property> _Property;
         public IGenericRepository<PropertyAmenity> _PropertyAmenity;
         public IGenericRepository<PropertyBedConfiguration> _PropertyBedConfiguration;
@@ -167,17 +167,17 @@ namespace DataAccess
         //    }
         //}
 
-        public IGenericRepository<PriceRange> PriceRange
-        {
-            get
-            {
-                if (_PriceRange == null)
-                {
-                    _PriceRange = new GenericRepository<PriceRange>(_dbContext);
-                }
-                return _PriceRange;
-            }
-        }
+        //public IGenericRepository<PriceRange> PriceRange
+        //{
+        //    get
+        //    {
+        //        if (_PriceRange == null)
+        //        {
+        //            _PriceRange = new GenericRepository<PriceRange>(_dbContext);
+        //        }
+        //        return _PriceRange;
+        //    }
+        //}
 
         public IGenericRepository<Property> Property
         {

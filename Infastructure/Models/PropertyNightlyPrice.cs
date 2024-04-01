@@ -21,12 +21,18 @@ namespace Infrastructure.Models
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
 
-        [Required]
-        [Display(Name = "PriceRange")]
-        public int PriceRangeId { get; set; } // References the price range (when this price will be in effect)
+        //[Required]
+        //[Display(Name = "PriceRange")]
+        //public int PriceRangeId { get; set; } // References the price range (when this price will be in effect)
 
-        [ForeignKey("PriceRangeId")]
-        public PriceRange? PriceRange { get; set; }
+        //[ForeignKey("PriceRangeId")]
+        //public PriceRange? PriceRange { get; set; }
+
+        [Required]
+        public DateTime StartDate { get; set; } // The start date for when a certain price will apply to a property
+
+        [Required]
+        public DateTime EndDate { get; set; } // The end date for when a certain price will apply to a property
 
         [Required]
         public float Rate { get; set; } // The price to rent the property

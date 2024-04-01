@@ -83,7 +83,8 @@ namespace FireBnBWeb.Pages.Listings
 
             // Fetch nightly prices associated with the property
             NightlyPrices = _unitOfWork.PropertyNightlyPrice
-                .GetAll(pnp => pnp.PropertyId == id, includes: "PriceRange")
+                .GetAll(pnp => pnp.PropertyId == id)
+                //.GetAll(pnp => pnp.PropertyId == id, includes: "PriceRange")
                 .ToList();
             // Calculate price for 7 nights
             PriceForSevenNights = NightlyPrices.Sum(nightlyPrice => nightlyPrice.Rate * 7);
