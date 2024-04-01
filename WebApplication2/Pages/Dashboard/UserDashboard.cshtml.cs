@@ -42,8 +42,7 @@ namespace FireBnBWeb.Pages.Dashboard
             // Fetch primary images for each property and store their URLs
             propertyList = _unitofWork.Property.GetAllWithLocationsCitiesCountiesStates();
 
-            // Fetch bookings for the current user
-            bookingList = _unitofWork.Booking.GetAll(predicate: b => b.GuestId == user.Id, includes: "Property,Property.Location").ToList();
+            bookingList = _unitofWork.Booking.GetAll( predicate: b => b.GuestId == user.Id, includes: "Property.County").ToList();
 
             if (user == null)
             {
@@ -53,7 +52,7 @@ namespace FireBnBWeb.Pages.Dashboard
             if (User.IsInRole(SD.RenterRole))
             {
                 // User is a renter, fetch their bookings
-                bookingList = _unitofWork.Booking.GetAll(predicate: b => b.GuestId == user.Id, includes: "Property,Property.Location").ToList();
+                bookingList = _unitofWork.Booking.GetAll(predicate: b => b.GuestId == user.Id, includes: "Property.County").ToList();
             }
             else
             {

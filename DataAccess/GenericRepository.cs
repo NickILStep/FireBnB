@@ -341,15 +341,6 @@ namespace DataAccess
         }
         IEnumerable<Property> IGenericRepository<T>.GetAllWithLocationsCitiesCountiesStates()
         {
-            // Implement the method to retrieve properties along with their location details
-            //return _dbContext.Properties
-            //    .Include(p => p.Location)
-            //        .ThenInclude(l => l.City)
-            //    .Include(p => p.Location)
-            //        .ThenInclude(l => l.County)
-            //    .Include(p => p.Location)
-            //        .ThenInclude(l => l.State);
-
             return _dbContext.Properties
                 .Include(p => p.City)
                 .Include(p => p.County)
