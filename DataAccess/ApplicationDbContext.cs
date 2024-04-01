@@ -33,9 +33,9 @@ namespace DataAccess
 
 		public DbSet<Image> Images { get; set; }
 
-		public DbSet<Location> Locations { get; set; }
+		//public DbSet<Location> Locations { get; set; }
 
-		public DbSet<PriceRange> PriceRanges { get; set; }
+		//public DbSet<PriceRange> PriceRanges { get; set; }
 
 		public DbSet<Property> Properties { get; set; }
 

@@ -73,12 +73,18 @@
                             </h5>
                             <p class="card-text">Description: @property.Description</p>
                             <p class="card-text">
-                                    @if (property.Location != null && property.Location.City != null)
+                                    @if (property.City != null)
+                                    {
+                                    <span>City: @property.City.CityName,</span>
+                                    <span> County:  @property.County.CountyName,</span>
+                                    <span> State: @property.State.StateName</span>
+                                    }
+                                    @* @if (property.Location != null && property.Location.City != null)
                                     {
                                     <span>City: @property.Location.City.CityName,</span>
                                     <span> County:  @property.Location.County.CountyName,</span>
                                     <span> State: @property.Location.State.StateName</span>
-                                    }
+                                    } *@
                                     else
                                     {
                                     <span>City: Unknown</span>

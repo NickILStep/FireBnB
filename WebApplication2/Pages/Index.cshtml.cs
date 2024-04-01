@@ -11,7 +11,7 @@ namespace FireBnBWeb.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly UnitofWork _unitofwork;
         public IEnumerable<Property> objProperties;
-        public IEnumerable<Location> locations;
+        //public IEnumerable<Location> locations;
 
         [BindProperty(SupportsGet = true)]
         public string SearchQuery { get; set; }
@@ -47,7 +47,7 @@ namespace FireBnBWeb.Pages
             _unitofwork = unitofwork;
             _logger = logger;
             objProperties = new List<Property>();
-            locations = new List<Location>();
+            //locations = new List<Location>();
             AmenityOptions = _unitofwork.Amenity.GetAll().Select(a => new SelectListItem
             {
                 Value = a.Id.ToString(),

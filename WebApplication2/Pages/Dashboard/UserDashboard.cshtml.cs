@@ -19,7 +19,7 @@ namespace FireBnBWeb.Pages.Dashboard
         private ApplicationUser _user;
         public IEnumerable<Booking> bookingList;
         public IEnumerable<Property> propertyList;
-        public IEnumerable<Location> locationList;
+        //public IEnumerable<Location> locationList;
         public IDictionary<int, List<Booking>> propertyBookings;
 
         public UserDashboardModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager)
@@ -28,7 +28,7 @@ namespace FireBnBWeb.Pages.Dashboard
             _userManager = userManager;
             bookingList = new List<Booking>();
             propertyList = new List<Property>();
-            locationList = new List<Location>();
+            //locationList = new List<Location>();
             propertyBookings = new Dictionary<int, List<Booking>>();
 
         }

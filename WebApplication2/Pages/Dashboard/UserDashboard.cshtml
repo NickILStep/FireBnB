@@ -45,7 +45,7 @@
                     @foreach (var booking in Model.bookingList)
                     {
                         var property = Model.GetPropertyForBooking(booking);
-                        var location = property.Location; // Accessing the location from the property
+                        @* var location = property.Location; // Accessing the location from the property *@
 
                         <div class="col">
                             <div class="card">
@@ -54,7 +54,8 @@
                                         <strong>Property Title:</strong> <a asp-page="/Pathways" asp-route-id="@property.Id">@property.Title</a><br />
                                         <strong>Start Date:</strong> @booking.Checkin.ToShortDateString() <br />
                                         <strong>End Date:</strong> @booking.Checkout.ToShortDateString() <br />
-                                        <strong>Location:</strong> @($"{location.City.CityName}, {location.State.StateName}, {location.County.CountyName}") <!-- Displaying location -->
+                                        <strong>Location:</strong> @($"{booking.Property.City.CityName}, {booking.Property.State.StateName}, {booking.Property.County.CountyName}") <!-- Displaying location -->
+                                        @* <strong>Location:</strong> @($"{location.City.CityName}, {location.State.StateName}, {location.County.CountyName}") <!-- Displaying location --> *@
                                     </p>
                                     <!-- Cancel Button -->
                                     <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
