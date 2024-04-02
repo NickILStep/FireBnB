@@ -1,5 +1,7 @@
 using DataAccess;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +13,7 @@ namespace FireBnBWeb.Pages.UserProfiles
         private readonly UnitofWork _unitofWork;
         private readonly UserManager<ApplicationUser> _userManager; // Inject UserManager
         private ApplicationUser _user;
+        private object _unitOfWork;
 
         // Constructor to initialize UnitOfWork and UserManager
         public UpsertModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager)
@@ -35,6 +38,21 @@ namespace FireBnBWeb.Pages.UserProfiles
             return Page();
         }
 
+        // POST
+        public IActionResult OnPost(int? id)
+        {
+            // Update
+            _user = _unitofWork.ApplicationUser.Get(x => x.Id == _user.Id);
+
+            //update the existing product
+            _unitofWork.ApplicationUser.Update(_user);
+
+            //Save Changes to DB
+            _unitofWork.Commit();
+
+            return RedirectToPage("./Index");
+        }
+
         // Properties to access user data in the Razor Page
         public string UserId => _userManager.GetUserId(User);
         public string FullName => $"{_user.FirstName} {_user.LastName}";
@@ -46,12 +64,5 @@ namespace FireBnBWeb.Pages.UserProfiles
         public DateTime Birthdate => _user.Birthdate;
         public DateTime SignupDate => _user.SignupDate;
         public string? ProfilePictureUrl => _user.ProfilePictureUrl;
-
-        // POST
-        //public IActionResult OnPost()
-        //{
-
-        //}
     }
 }
-

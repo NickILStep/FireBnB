@@ -29,32 +29,40 @@
             <label asp-for="@Model.LastName"></label>
             <input id="txtLastName" asp-for="@Model.LastName" class="form-control" />
         </div>
-        
+
         <div class="mb-3">
             <label asp-for="@Model.Email"></label>
             <input id="txtEmail" asp-for="@Model.Email" class="form-control" />
         </div>
-        
+
         <div class="mb-3">
             <label asp-for="@Model.PhoneNumber"></label>
             <input id="txtPhoneNumber" asp-for="@Model.PhoneNumber" class="form-control" />
         </div>
-        
+
         <div class="mb-3">
             <label asp-for="@Model.DisplayName"></label>
             <input id="txtDisplayName" asp-for="@Model.DisplayName" class="form-control" />
         </div>
-        
+
         <div class="mb-3">
             <label asp-for="@Model.Birthdate"></label>
             <input id="txtBirthdate" asp-for="@Model.Birthdate" class="form-control" />
         </div>
-        
+
         <div class="mb-3">
             <label asp-for="@Model.SignupDate"></label>
             <input id="txtSignupDate" asp-for="@Model.SignupDate" class="form-control" />
         </div>
-    </div>
+
+        @* Submit Data *@
+        <div class="col-12">
+            <button type="submit" onclick="" class="btn btn-primary" style="width:150px">Update</button>
+
+            <a asp-page="Index" class="btn btn-secondary" style="width:150px">
+                Back to Profile Page
+            </a>
+        </div>
 </form>
 
 <div class="col-4 btn-group" role="group">
