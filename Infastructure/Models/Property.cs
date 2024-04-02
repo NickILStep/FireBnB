@@ -92,5 +92,11 @@ namespace Infrastructure.Models
 
         [Required]
         public int CancellationDays { get; set; } // Number of days prior to a booking when cancellation will be free
+
+        [Required]
+        public float BasePrice { get; set; } // Base price to rent this property for a night. PropertyNightlyPrice table will override this value
+
+        [Required]
+        public int ImageId { get; set; } // The id of the property's primary image
     }
 }
