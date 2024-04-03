@@ -18,9 +18,11 @@
                 <input asp-for="objproperty.ListerId"type="hidden" value="@Model.UserId"/>
                 <input asp-for="objproperty.Status" type="hidden" value="1"/>
                 <input asp-for="objproperty.LastUpdated" type="hidden" value="@Model.dateTime"/>
+                <input asp-for="objproperty.ImageId" type="hidden" value="1" />
+                <input asp-for="objproperty.GuestSharing" type="hidden" value="true" />
                 <div class="form-floating py-2 col-12">
                     <input asp-for="objproperty.Title" class="form-control border-0 shadow" />
-                    <label asp-for="objproperty.Title" class="ms-2">Property Description</label>
+                    <label asp-for="objproperty.Title" class="ms-2">Property Title</label>
                     <span asp-validation-for="objproperty.Title" class="text-danger"></span>
 
                 </div>
@@ -55,8 +57,85 @@
 
                 </div>
                 <div class="form-floating py-2 col-12">
+                    <input asp-for="objproperty.BasePrice" class="form-control border-0 shadow" />
+                    <label asp-for="objproperty.BasePrice" class="ms-2">Base per Night</label>
+                    <span asp-validation-for="objproperty.BasePrice" class="text-danger"></span>
+
+                </div>
+                <h5>Address Details</h5>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="objproperty.Address" class="form-control border-0 shadow" />
+                    <label asp-for="objproperty.Address" class="ms-2">Address</label>
+                    <span asp-validation-for="objproperty.Address" class="text-danger"></span>
+
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="objproperty.Zipcode" class="form-control border-0 shadow" />
+                    <label asp-for="objproperty.Zipcode" class="ms-2">Zipcode</label>
+                    <span asp-validation-for="objproperty.Zipcode" class="text-danger"></span>
+
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">State</label>
+                    <select class="form-select" id="StateList" name="StateList" required>
+                        
+                        <option selected disabled value="">Choose...</option>
+                        @foreach(var state in Model.StateOptions)
+                        {
+                            <option for="StateList" value="@state.Value">@state.Text</option>
+                        }
+                        
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid state.
+                    </div>
+                    </div>
+                <div class="col-md-3">
+                    <label class="form-label">County</label>
+                    <select class="form-select" id="CountyList" name="CountyList" required>
+                        <option selected disabled value="">Choose...</option>
+                        @foreach (var county in Model.CountyOptions)
+                        {
+                            <option for="CountyList" value="@county.Value">@county.Text</option>
+                        }
+
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid County.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">City</label>
+                    <select class="form-select" id="CityList" name="CityList" required>
+                        <option selected disabled value="">Choose...</option>
+                        @foreach (var city in Model.CityOptions)
+                        {
+                            <option for="CityList"value="@city.Value">@city.Text</option>
+                        }
+
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid County.
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Property Type</label>
+                    <select class="form-select" id="TypeList" name="TypeList" required>
+                        <option selected disabled value="">Choose...</option>
+                        @foreach (var type in Model.PropTypeOptions)
+                        {
+                            <option for="TypeList" value="@type.Value">@type.Text</option>
+                        }
+
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid Type.
+                    </div>
+                </div>
+
+                <div class="form-floating py-2 col-12">
                     <h5>Amenities</h5>
-                    @foreach (var items in Model.amenity)
+                    @* @foreach (var items in Model.amenity)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -64,7 +143,7 @@
                                 @items.AmenityName
                             </label>
                         </div>
-                    }
+                    } *@
                 </div>
                 @* <div class="form-floating py-2 col-12">
                 <h5>Bed Configurations</h5>
@@ -78,18 +157,7 @@
                 </div>
                 }
                 </div> *@
-                <div class="form-floating py-2 col-12">
-                    <h5>Type</h5>
-                    @foreach (var items in Model.TypeList)
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="@items.Id">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                @items.Title
-                            </label>
-                        </div>
-                    }
-                </div>
+                
 
                 @if (Model.objproperty.Id != 0)
                 {
