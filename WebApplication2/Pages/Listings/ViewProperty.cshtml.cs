@@ -162,7 +162,8 @@ namespace FireBnBWeb.Pages.Listings
                 return GetDatesInRange(DateTime.Today, DateTime.Today.AddYears(1)); // Adjust the range as needed
             }
 
-            var currentDate = bookings.First().Checkin.Date;
+            var currentDate = DateTime.Now.Date;
+            //var currentDate = bookings.First().Checkin.Date;
             var availableDates = new List<DateTime>();
 
             foreach (var booking in bookings)
