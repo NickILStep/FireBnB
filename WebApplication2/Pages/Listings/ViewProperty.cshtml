@@ -4,40 +4,50 @@
     ViewData["Title"] = "Property Details";
 }
 
-@* @using System.Text.Json *@
-
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
 <script>
 
-    @*const model = @Html.Raw(JsonSerializer.Serialize(Model.AvailableDates));*@
-    // const dates = @Model.AvailableDates.ToArray();
-    const model = []
+    const model = new Array();
+    const dateArr = new Array();
+    var i = 0;
 
-    // for(var date in @Model.AvailableDates) {}
-
-    // var date1 = '@Model.AvailableDates.First().Year' + '-' + '@Model.AvailableDates.First().Month' + '-' + '@Model.AvailableDates.First().Day' + ' 00:00:00.000';
-    // var date2 = '@Model.AvailableDates.First().Year' + '-' + '@Model.AvailableDates.First().Month' + '-' + '@Model.AvailableDates.First().Day' + ' 20:00:00.000';
-
-    let day = @Model.AvailableDates.First().Day;
-    // let day = 2
-    let month = @Model.AvailableDates.First().Month;
-    // let month = 11
-    let year = @Model.AvailableDates.First().Year;
-
-    if(day < 10) {
-        day = '0' + day
+    @foreach (var d in Model.AvailableDates)
+    {
+        <text>
+            dateArr.push("@d.Year");
+            dateArr.push("@d.Month");
+            dateArr.push("@d.Day");
+        </text>
     }
 
-    if(month < 10) {
-        month = '0' + month
-    }
+    while(dateArr[i]) {
+        var year = dateArr[i];
+        var month = dateArr[i+1];
+        var day = dateArr[i+2];
 
-    let startDate = year + '-' + month + '-' + day;
 
-    model[0] = {
-            title: 'Available',
-            start: startDate
+        if(day < 10) {
+            day = '0' + day;
+        }
+
+        if(month < 10) {
+            month = '0' + month;
+        }
+
+        var date = year + '-' + month + '-' + day;
+
+        model.push(
+            {
+                title: 'Available',
+                start: date//,
+                //url: "https://google.com"
+            }
+        );
+
+        i += 3;
     }
+    
+    console.log(model);
 
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
@@ -175,7 +185,7 @@
                     <p>Available Dates:</p>
                     <div id="calendar"></div>
                     <br />
-                    @* @if (Model.AvailableDates.Any())
+                    @if (Model.AvailableDates.Any())
                     {
                         <ul>
                             @foreach (var date in Model.AvailableDates)
@@ -187,7 +197,7 @@
                     else
                     {
                         <p>No available dates.</p>
-                    } *@
+                    }
                 </div>
                <div>
                    Place reviews of the property here.
