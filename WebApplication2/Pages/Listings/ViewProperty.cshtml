@@ -4,6 +4,80 @@
     ViewData["Title"] = "Property Details";
 }
 
+@* @using System.Text.Json *@
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+<script>
+
+    @*const model = @Html.Raw(JsonSerializer.Serialize(Model.AvailableDates));*@
+    // const dates = @Model.AvailableDates.ToArray();
+    const model = []
+
+    // for(var date in @Model.AvailableDates) {}
+
+    // var date1 = '@Model.AvailableDates.First().Year' + '-' + '@Model.AvailableDates.First().Month' + '-' + '@Model.AvailableDates.First().Day' + ' 00:00:00.000';
+    // var date2 = '@Model.AvailableDates.First().Year' + '-' + '@Model.AvailableDates.First().Month' + '-' + '@Model.AvailableDates.First().Day' + ' 20:00:00.000';
+
+    let day = @Model.AvailableDates.First().Day;
+    // let day = 2
+    let month = @Model.AvailableDates.First().Month;
+    // let month = 11
+    let year = @Model.AvailableDates.First().Year;
+
+    if(day < 10) {
+        day = '0' + day
+    }
+
+    if(month < 10) {
+        month = '0' + month
+    }
+
+    let startDate = year + '-' + month + '-' + day;
+
+    model[0] = {
+            title: 'Available',
+            start: startDate
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: model
+            // events: [
+            //     {
+            //         title: 'Single',
+            //         start: '2023-10-23 18:00:00.000',
+            //         end: '2023-10-23 20:00:00.00'
+            //     },
+            //     {
+            //         title: 'Spanning',
+            //         start: '2023-10-23 22:00:00.000',
+            //         end: '2023-10-24 24:00:00.000'
+            //     },
+            //     {
+            //         title: 'Recurring Single',
+            //         startTime: '20:00:00.000',
+            //         endTime: '21:00:00.000',
+            //         startRecur: '2023-10-23',
+            //         endRecur: '2023-11-23',
+            //         daysOfWeek: [1, 3, 5]
+            //     },
+            //     {
+            //         title: 'Recurring Spanning',
+            //         startTime: '23:00:00.000',
+            //         endTime: '26:00:00.000',
+            //         startRecur: '2023-10-24',
+            //         endRecur: '2023-11-24',
+            //         daysOfWeek: [2]
+            //     }
+            // ]
+        });
+        calendar.render();
+    });
+
+</script>
+
 <div class="card container p-4 m-3">
     <div class="card-header pt-3">
         <div>
@@ -96,10 +170,12 @@
                     {
                         <p>No booking information available.</p>
                     }
-                    Calendar with Available Dates
+                    <br />
                     <!--Make this into a calendar-->
-                   @*  <p>Available Dates:</p>
-                    @if (Model.AvailableDates.Any())
+                    <p>Available Dates:</p>
+                    <div id="calendar"></div>
+                    <br />
+                    @* @if (Model.AvailableDates.Any())
                     {
                         <ul>
                             @foreach (var date in Model.AvailableDates)
@@ -114,7 +190,7 @@
                     } *@
                 </div>
                <div>
-                   Place reviews of the property here. 
+                   Place reviews of the property here.
                </div>
             </div>
         </div>
@@ -162,7 +238,7 @@
                         else
                         {
                             <!-- If the user is not logged in, display the "Log in" button -->
-                            <a href="/Account/Login" class="btn btn-primary">Log In To Book!</a>
+                            <a href="/Identity/Account/Login" class="btn btn-primary">Log In To Book!</a>
                         }
                     </div>
                 </div>
