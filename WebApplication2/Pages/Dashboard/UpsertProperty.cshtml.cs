@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Utility;
 
 namespace FireBnBWeb.Pages.Dashboard
 {
@@ -35,7 +36,9 @@ namespace FireBnBWeb.Pages.Dashboard
 
         public List<SelectListItem> AmenityOptions { get; set; }
         public List<SelectListItem> PropTypeOptions { get; set; }
-
+        
+        public Property PropOptions {  get; set; }
+        public ApplicationUser AppUser { get; set; }
 
         public PropertyType objproptype
         { get; set; }
@@ -88,8 +91,6 @@ namespace FireBnBWeb.Pages.Dashboard
 
             }
             
-            
-            BedList = _unitofwork.BedConfiguration.GetAll();
 
             if (objproperty == null)
             {
@@ -98,8 +99,9 @@ namespace FireBnBWeb.Pages.Dashboard
             return Page();
         }
         public string UserId => _userManager.GetUserId(User);
+
         public DateTime dateTime => DateTime.Now;
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -117,13 +119,30 @@ namespace FireBnBWeb.Pages.Dashboard
                 objproperty.StateId = StateList.FirstOrDefault();
                 _unitofwork.Property.Add(objproperty);
                 _unitofwork.Commit();
+                PropOptions = _unitofwork.Property.GetAll().LastOrDefault();
+
+                foreach (var amenity in AmenityList)
+                {
+                    objpropamenity = new PropertyAmenity();
+                    objpropamenity.PropertyId = PropOptions.Id;
+                    objpropamenity.AmenityId = amenity;
+                    _unitofwork.PropertyAmenity.Add(objpropamenity);
+                    AppUser = _unitofwork.ApplicationUser.GetById(UserId);
+                    _unitofwork.Commit();
+                    
+                }
+                if (User.IsInRole(SD.ListerRole)) { }
+                else
+                {
+                    await _userManager.AddToRoleAsync(AppUser, SD.ListerRole);
+                }
             }
             
 
             _unitofwork.Commit();
             if (objproperty.Id == 0)
             {
-                return RedirectToPage("./UserDashboard");
+                return RedirectToPage("UserDashboard");
             }
             return Page();
         }
