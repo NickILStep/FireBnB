@@ -12,23 +12,34 @@ namespace FireBnBWeb.Pages.Dashboard
         private readonly UnitofWork _unitofwork;
         private readonly UserManager<ApplicationUser> _userManager; // Inject UserManager
         private ApplicationUser _user;
-
+        [BindProperty]
         public Property objproperty { get; set; }
         public PropertyAmenity objpropamenity { get; set; }
-        public IEnumerable<Amenity> amenity { get; set; }
-        public List<int> SelectedAmenities { get; set; }
         public PropertyBedConfiguration objpropbedconfig { get; set; }
         public IEnumerable<BedConfiguration> BedList { get; set; }
-        //public PropertyDiscount objpropdiscount { get; set; }
-        //public IEnumerable<Discount> DiscountList { get; set; }
-        //public PropertyFee objpropfee { get; set; }
-        //public IEnumerable<Fee> FeeList { get; set; }
-        //public PropertyNightlyPrice objpropprice { get; set; }
-        //public IEnumerable<PropertyNightlyPrice> PropPriceList { get; set; }
         
+        [BindProperty]
+        public List<int> StateList { get; set; }
+        [BindProperty]
+        public List<int> CityList { get; set; }
+        [BindProperty]
+        public List<int> CountyList { get; set; }
+        [BindProperty]
+        public List<int> AmenityList { get; set; }
+
+        [BindProperty]
+        public List<int> TypeList { get; set; }
+        public List<SelectListItem> StateOptions { get; set; }
+        public List<SelectListItem> CityOptions { get; set; }
+        public List<SelectListItem> CountyOptions { get; set; }
+
+        public List<SelectListItem> AmenityOptions { get; set; }
+        public List<SelectListItem> PropTypeOptions { get; set; }
+
+
         public PropertyType objproptype
         { get; set; }
-        public IEnumerable<PropertyType> TypeList { get; set; }
+       
 
         public UpsertPropertyModel(UnitofWork unitofwork, UserManager<ApplicationUser> userManager)
         {
@@ -36,16 +47,36 @@ namespace FireBnBWeb.Pages.Dashboard
             _userManager = userManager;
             objproperty = new Property();
             objpropamenity = new PropertyAmenity();
-            amenity = new List<Amenity>();
             objpropbedconfig = new PropertyBedConfiguration();
-            //objpropdiscount = new PropertyDiscount();
-            //objpropfee = new PropertyFee();
             objproptype = new PropertyType();
-            //PropFeeList = new List<PropertyFee>();
-            //PropPriceList = new List<PropertyNightlyPrice>();
-            TypeList = new List<PropertyType>();
+            
             BedList = new List<BedConfiguration>();
-            //PropDiscountList = new List<PropertyDiscount>();
+            
+            StateOptions = _unitofwork.State.GetAll().Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.StateName
+            }).ToList();
+            CityOptions = _unitofwork.City.GetAll().Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.CityName
+            }).ToList();
+            CountyOptions = _unitofwork.County.GetAll().Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.CountyName
+            }).ToList();
+            AmenityOptions = _unitofwork.Amenity.GetAll().Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.AmenityName
+            }).ToList();
+            PropTypeOptions = _unitofwork.PropertyType.GetAll().Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.Title
+            }).ToList();
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -54,14 +85,10 @@ namespace FireBnBWeb.Pages.Dashboard
             if (id != 0)
             {
                 objproperty = _unitofwork.Property.GetById(id);
-                // PropDiscountList = _unitofwork.PropertyDiscount.GetAll(p => p.PropertyId == id, includes: "Discount");
-                //PropBedList = _unitofwork.PropertyBedConfiguration.GetAll(p => p.PropertyId == id, includes: "BedConfiguragtion");
-                //PropFeeList = _unitofwork.PropertyFee.GetAll(p => p.PropertyId == id, includes: "Fee");
-                //PropPriceList = _unitofwork.PropertyNightlyPrice.GetAll(p => p.PropertyId == id, includes: "NightlyPrice");
 
             }
-            amenity = _unitofwork.Amenity.GetAll();
-            TypeList = _unitofwork.PropertyType.GetAll();
+            
+            
             BedList = _unitofwork.BedConfiguration.GetAll();
 
             if (objproperty == null)
@@ -74,10 +101,22 @@ namespace FireBnBWeb.Pages.Dashboard
         public DateTime dateTime => DateTime.Now;
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Data Incomplete";
+                return Page();
+            }
+
             if (objproperty.Id == 0)
             {
+                objproperty.StatusId = 1;
+                objproperty.StateId = StateList.FirstOrDefault();
+                objproperty.CityId = CityList.FirstOrDefault();
+                objproperty.CountyId = CountyList.FirstOrDefault();
+                objproperty.PropertyTypeId = TypeList.FirstOrDefault();
+                objproperty.StateId = StateList.FirstOrDefault();
                 _unitofwork.Property.Add(objproperty);
-
+                _unitofwork.Commit();
             }
             
 
