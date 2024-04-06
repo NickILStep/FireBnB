@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.JSInterop.Implementation;
+using Newtonsoft.Json.Linq;
 using Utility;
 
 namespace FireBnBWeb.Pages.Dashboard
@@ -26,6 +27,8 @@ namespace FireBnBWeb.Pages.Dashboard
 
     Me:
     1. View properties the renter has previously stayed at - use timestamps
+    Me todo:
+    1. View properties the renter has previously stayed at
     2. next step
 
      */
@@ -35,11 +38,12 @@ namespace FireBnBWeb.Pages.Dashboard
         private readonly ILogger<IndexModel> _logger;
         private readonly UnitofWork _unitofWork;
         private readonly UserManager<ApplicationUser> _userManager;
-        public IEnumerable<Booking> bookingList;
         private ApplicationUser _user;
+
 
         public IEnumerable<Property> objProperties;
         public IEnumerable<Property> Properties { get; private set; }
+        public IEnumerable<Booking> bookingList;
         public Review objUserReview { get; set; }
         public Booking objBooking { get; set; }
         public Property objProperty { get; set; }
@@ -101,14 +105,17 @@ namespace FireBnBWeb.Pages.Dashboard
             _unitofWork = unitofWork;
             _userManager = userManager;
             objProperties = new List<Property>();
+            Properties = new List<Property>();
             bookingList = new List<Booking>();
+            objUserReview = new Review();
+            objBooking = new Booking();
+            objProperty = new Property();
             AmenityOptions = _unitofWork.Amenity.GetAll().Select(a => new SelectListItem
             {
                 Value = a.Id.ToString(),
                 Text = a.AmenityName
             }).ToList();
-        }    
-
+        }
 
         //Methods
 
