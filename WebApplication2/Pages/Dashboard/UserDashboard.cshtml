@@ -21,7 +21,7 @@
             <div class="col">
                 <!-- Takes them to property index page -->
                 <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Money Tab</a>
-                <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Add Property</a>
+                <a asp-area="" asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary mr-2">Add Property</a>
             </div>
         }
         else
@@ -128,7 +128,7 @@
                     @foreach (var property in Model.propertyList.Where(p => p.ListerId == Model.UserId))
                     {
                         <div class="property">
-                            <h3><a asp-page="/Pathway" asp-route-id="@property.Id">@property.Title</a></h3>
+                            <h3><a asp-page="UpsertProperty" asp-route-id="@property.Id">@property.Title</a></h3>
                             <!-- Need to add images -->
                         </div>
                     }

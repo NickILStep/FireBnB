@@ -172,7 +172,7 @@
                     <p>Description: @Model.Property.Description</p>
                 </div>
                 <div>
-                    @if (Model.EarliestCheckinDate != null)
+                    @* @if (Model.EarliestCheckinDate != null)
                     {
                         <p>Earliest Check-in Date: @Model.EarliestCheckinDate.Value.ToShortDateString()</p>
                     }
@@ -180,9 +180,8 @@
                     {
                         <p>No booking information available.</p>
                     }
-                    <br />
+                    <br /> *@
                     <!--Make this into a calendar-->
-                    <p>Available Dates:</p>
                     <div id="calendar"></div>
                     <br />
                     @* @if (Model.AvailableDates.Any())
