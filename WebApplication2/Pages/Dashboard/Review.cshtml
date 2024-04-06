@@ -39,6 +39,7 @@
                         <div class="col-auto">
                             <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Details</a>
                             <a asp-page="/Dashboard/LeaveReview" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Leave a Review</a>
+                            @* use booking id *@
                         </div>
                     </div>
                 </div>
@@ -48,6 +49,7 @@
 
     <div id="CreatingReview" class="col-4 float-left">
         <input asp-for="objUserReview.Id" type="hidden" value="User.Id" />
+        <input asp-for="objUserReview.BookingId" type="hidden" value="BookingId" />
         <label class="form-label">Review</label>
         <select class="form-select" id="ReviewStars" name="ReviewStars" required>
             <option selected disabled value="-1">Select Rating</option>
