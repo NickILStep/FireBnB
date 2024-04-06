@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.JSInterop.Implementation;
 using Utility;
 
 namespace FireBnBWeb.Pages.Dashboard
@@ -24,7 +25,7 @@ namespace FireBnBWeb.Pages.Dashboard
     - if role = lister show div y
 
     Me:
-    1. View properties the renter has previously stayed at
+    1. View properties the renter has previously stayed at - use timestamps
     2. next step
 
      */
@@ -172,6 +173,8 @@ namespace FireBnBWeb.Pages.Dashboard
                 //use drop down for now
                 objUserReview.Comment = userComment.ToString();
                 objUserReview.Timestamp = DateTime.Now;
+
+                //rework this for better logic -  listers can rent
                 if (User.IsInRole(SD.ListerRole))
                 {
                     objUserReview.ReviewType = true;

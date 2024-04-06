@@ -9,7 +9,7 @@
 *@
 
 @* Listing all the properties renter has been to *@
-@* <div id="listRentedProperties" style="padding-top:40px;">
+<div id="listRentedProperties" class="float-left" style="padding-top:40px;">
     <h2>Renter Reviews</h2>
     <div style="float:left; width: 100%;">
         <div class="row row-cols-2 col-md-15" style="width: 100%; padding-top:40px;">
@@ -39,18 +39,17 @@
                         <div class="col-auto">
                             <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Details</a>
                             <a asp-page="/Dashboard/LeaveReview" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Leave a Review</a>
+                            @* use booking id *@
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-</div> *@
 
-@* Can I direct the user to a new page with this review form to fill out, & would need to store Property Id *@
-<div id="CreatingReview" class="col-auto">
-    <input asp-for="objUserReview.Id" type="hidden" value="User.Id" />
-    <div id="CreatingReview" class="col-md-3">
+    <div id="CreatingReview" class="col-4 float-left">
+        <input asp-for="objUserReview.Id" type="hidden" value="User.Id" />
+        <input asp-for="objUserReview.BookingId" type="hidden" value="BookingId" />
         <label class="form-label">Review</label>
         <select class="form-select" id="ReviewStars" name="ReviewStars" required>
             <option selected disabled value="-1">Select Rating</option>
@@ -63,11 +62,17 @@
         <div class="invalid-feedback">
             Please select a valid star rating
         </div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="userComment" class="form-control col-6 border-0 shadow h-100" />
+            <label asp-for="userComment" class="">Review</label>
+            <span asp-validation-for="userComment" class="text-danger"></span>
+        </div>
     </div>
 </div>
-<div class="form-floating py-2 col-12">
-    <input asp-for="userComment" class="form-control col-6 border-0 shadow h-100" />
-    <label asp-for="userComment" class="">Review</label>
-    <span asp-validation-for="userComment" class="text-danger"></span>
-</div>
-</div>
+
+@* Can I direct the user to a new page with this review form to fill out, & would need to store Property Id
+    Or what is a good working way that is good enough ux for customer
+    ~idea: drop of name to get id of property to use then use for creation of review
+*@
+
+
