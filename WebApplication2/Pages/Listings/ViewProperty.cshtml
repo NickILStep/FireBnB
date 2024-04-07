@@ -91,7 +91,7 @@
 <div class="card container p-4 m-3">
     <div class="card-header pt-3">
         <div>
-            @Model.Property.Title
+            <h1 class="text-primary">@Model.Property.Title</h1>
         </div>
     </div>
     <div class="p-3 card-body">
@@ -118,39 +118,50 @@
         <div class="card-footer col-8">
             <div class="p-2">
                 <div class="row">
-                    <p>
+                    <h4 class="text-white"> Property Overview</h4>
+                    <div>
+                        <span>Description: @Model.Property.Description</span><br>
+                    </div>
+                    <div>
                         @if (Model.Property.City != null)
                         {
-                            <span>City: @Model.Property.City.CityName,</span>
-                            <span>County: @Model.Property.County.CountyName,</span>
-                            <span>State: @Model.Property.State.StateName</span>
+                            <span>@Model.Property.City.CityName, @Model.Property.County.CountyName, @Model.Property.State.StateName</span>
                         }
                         else
                         {
                             <span>Location: Unknown</span>
+
+                            <br>
                         }
-                    </p>
-                    <p>Lister: @Model.Lister.FirstName @Model.Lister.LastName</p>
-                    <p>Email: @Model.Lister.Email</p>
-                </div>
-                <div class="row">
-                    <div>
-                        <p>Guest Count: @Model.Property.GuestMax</p>
                     </div>
                     <div>
-                        <p>Guest Type: @Model.Property.GuestSharing</p>
+                        <span>Owner: @Model.Lister.FirstName @Model.Lister.LastName</span><br>
                     </div>
                     <div>
-                        <p>Bedroom Count: @Model.Property.BedroomNum</p>
+                        <span>Contact:</span><br>
+                        <ul>
+                            <li>Email: @Model.Lister.Email</li>
+                            @if (Model.Lister.PhoneNumber != null)
+                            {
+                                <li>Phone Number: @Model.Lister.PhoneNumber</li>
+                            }
+                        </ul>
+                    </div>
+                    <h4 class="text-white"> Property's Details</h4>
+                    <div>
+                        <span>Guest Count: @Model.Property.GuestMax</span><br>
                     </div>
                     <div>
-                        <p>Bathroom Count: @Model.Property.BathroomNum</p>
+                        <span>Bedroom Count: @Model.Property.BedroomNum</span><br>
                     </div>
                     <div>
-                        <p>Total Bed Count: @Model.TotalBedCount</p>
+                        <span>Bathroom Count: @Model.Property.BathroomNum</span><br>
                     </div>
                     <div>
-                        <p>Bed Types:</p>
+                        <span>Total Bed Count: @Model.TotalBedCount</span><br>
+                    </div>
+                    <div>
+                        <span>Bed Types:</span><br>
                         <ul>
                             @foreach (var bedConfiguration in Model.PropertyBedConfigurations)
                             {
@@ -159,7 +170,7 @@
                         </ul>
                     </div>
                     <div>
-                        <p>Amenities:</p>
+                        <span>Amenities:</span><br>
                         <ul>
                             @foreach (var amenity in Model.Amenities)
                             {
@@ -167,89 +178,79 @@
                             }
                         </ul>
                     </div>
-                </div>
-                <div>
-                    <p>Description: @Model.Property.Description</p>
-                </div>
-                <div>
-                    @if (Model.EarliestCheckinDate != null)
-                    {
-                        <p>Earliest Check-in Date: @Model.EarliestCheckinDate.Value.ToShortDateString()</p>
-                    }
-                    else
-                    {
-                        <p>No booking information available.</p>
-                    }
-                    <br />
-                    <!--Make this into a calendar-->
-                    <p>Available Dates:</p>
-                    <div id="calendar"></div>
-                    <br />
-                    @if (Model.AvailableDates.Any())
-                    {
-                        <ul>
-                            @foreach (var date in Model.AvailableDates)
-                            {
-                                <li>@date.ToShortDateString()</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p>No available dates.</p>
-                    }
-                </div>
-               <div>
-                   Place reviews of the property here.
-               </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card">
-                <div class="row p-3">
-                    <!-- Display prices -->
-                    Prices
-                    @foreach (var nightlyPrice in Model.NightlyPrices)
-                    {
-                        <p>Price for 1 night: $@nightlyPrice.Rate</p>
-                    }
-                    <p>Price for max night (7): $@Model.PriceForSevenNights</p>
-                    @if (Model.PropertyFees.Any())
-                    {
-                        <p>Fees:</p>
-                        <ul>
-                            @foreach (var propertyFee in Model.PropertyFees)
-                            {
-                                <li>@propertyFee.Fee.Type: $@propertyFee.Fee.Percentage</li>
-                            }
-                        </ul>
-                    }
-                    @if (Model.TotalLocationTax > 0)
-                    {
-                        <p>Total Location Tax: $@Model.TotalLocationTax</p>
-                    }
-                    @if (Model.PropertyDiscounts.Any())
-                    {
-                        <p>Discounts:</p>
-                        <ul>
-                            @foreach (var propertyDiscount in Model.PropertyDiscounts)
-                            {
-                                <li>@propertyDiscount.Discount.Code: @propertyDiscount.Discount.Value</li>
-                            }
-                        </ul>
-                    }
-                    <h4>Total Price for 7 Nights: $@Model.TotalPriceForSevenNights</h4>
+                    <h4 class="text-white"> Property's Available</h4>
                     <div>
-                        @if (User.Identity.IsAuthenticated)
+                        @if (Model.EarliestCheckinDate != null)
                         {
-                            <!-- If the user is logged in, display the "Book It" button -->
-                            <a href="#" class="btn btn-primary">Book It!</a>
+                            <span>Earliest Check-in Date: @Model.EarliestCheckinDate.Value.ToShortDateString()</span>
+
+                            <br>
                         }
                         else
                         {
-                            <!-- If the user is not logged in, display the "Log in" button -->
-                            <a href="/Identity/Account/Login" class="btn btn-primary">Log In To Book!</a>
+                            <span>No booking information available.</span>
+
+                            <br>
                         }
+                    </div>
+                    <div>
+                        <div id="calendar"></div>
+                    </div>
+                    <div>
+                        <h4 class="text-white"> Property's Reviews</h4>
+                        <span>Place reviews of the property here.</span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4"> 
+            <div class="row p-3">
+                <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+                    <div class="card-body">
+                        <h4>Price Break Down For Property</h4>
+                        @foreach (var nightlyPrice in Model.NightlyPrices)
+                        {
+                            <span class="card-text" style="color: #073642;">Price For 1 Night: $@nightlyPrice.Rate</span> <br>
+                        }
+                        <span class="card-text" style="color: #073642;">Price For Max Night (7): $@Model.PriceForSevenNights</span><br>
+                        @if (Model.PropertyFees.Any())
+                        {
+                            <span class="card-text" style="color: #073642;">Fees:</span> <br>
+                            <ul class="card-text" style="color: #073642;list-style: none; margin: 0; padding-left: 1rem;">
+                                @foreach (var propertyFee in Model.PropertyFees)
+                                {
+                                    <li>@propertyFee.Fee.Type: $@propertyFee.Fee.Percentage</li>
+                                }
+                            </ul>
+                        }
+                        @if (Model.TotalLocationTax > 0)
+                        {
+                            <span class="card-text" style="color: #073642;">Total Location Tax: $@Model.TotalLocationTax</span> <br>
+                        }
+                        @if (Model.PropertyDiscounts.Any())
+                        {
+                            <span class="card-text" style="color: #073642;">Discounts:</span><br>
+                            <ul class="card-text" style="color: #073642; list-style: none; margin: 0; padding-left: 1rem;">
+                                @foreach (var propertyDiscount in Model.PropertyDiscounts)
+                                {
+                                    <li>@propertyDiscount.Discount.Code: @propertyDiscount.Discount.Value</li>
+                                }
+                            </ul>
+                        }
+                        <h4 class="card-title text-primary text-white">Total Price For 7 Nights: $@Model.TotalPriceForSevenNights</h4>
+                        <div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <!-- If the user is logged in, display the "Book It" button -->
+                                <a href="#" class="btn btn-primary">Book It!</a>
+                            }
+                            else
+                            {
+                                <!-- If the user is not logged in, display the "Log in" button -->
+                                <a href="/Identity/Account/Login" class="btn btn-primary">Log In To Book!</a>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
