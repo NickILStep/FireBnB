@@ -129,7 +129,7 @@
                     {
                         <div class="property">
                             <h3><a asp-page="UpsertProperty" asp-route-id="@property.Id">@property.Title</a></h3>
-                            <!-- Need to add images -->
+                            <button><a asp-page="Delete" asp-route-id="@property.Id">Delete</a></button>
                         </div>
                     }
                 </div>
