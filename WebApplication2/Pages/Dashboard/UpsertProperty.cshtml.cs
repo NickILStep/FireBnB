@@ -17,7 +17,6 @@ namespace FireBnBWeb.Pages.Dashboard
         public Property objproperty { get; set; }
         public PropertyAmenity objpropamenity { get; set; }
         public PropertyBedConfiguration objpropbedconfig { get; set; }
-        public IEnumerable<BedConfiguration> BedList { get; set; }
         
         [BindProperty]
         public List<int> StateList { get; set; }
@@ -27,13 +26,15 @@ namespace FireBnBWeb.Pages.Dashboard
         public List<int> CountyList { get; set; }
         [BindProperty]
         public List<int> AmenityList { get; set; }
+        [BindProperty]
+        public List<int> BedList { get; set; }
 
         [BindProperty]
         public List<int> TypeList { get; set; }
         public List<SelectListItem> StateOptions { get; set; }
         public List<SelectListItem> CityOptions { get; set; }
         public List<SelectListItem> CountyOptions { get; set; }
-
+        public List<SelectListItem> BedOptions;
         public List<SelectListItem> AmenityOptions { get; set; }
         public List<SelectListItem> PropTypeOptions { get; set; }
         
@@ -43,7 +44,7 @@ namespace FireBnBWeb.Pages.Dashboard
         public PropertyType objproptype
         { get; set; }
        
-
+        public bool newproperty = false;
         public UpsertPropertyModel(UnitofWork unitofwork, UserManager<ApplicationUser> userManager)
         {
             _unitofwork = unitofwork;
@@ -53,7 +54,7 @@ namespace FireBnBWeb.Pages.Dashboard
             objpropbedconfig = new PropertyBedConfiguration();
             objproptype = new PropertyType();
             
-            BedList = new List<BedConfiguration>();
+         
             
             StateOptions = _unitofwork.State.GetAll().Select(a => new SelectListItem
             {
@@ -79,6 +80,11 @@ namespace FireBnBWeb.Pages.Dashboard
             {
                 Value = a.Id.ToString(),
                 Text = a.Title
+            }).ToList();
+            BedOptions = _unitofwork.BedConfiguration.GetAll().Select(a=> new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.Configuration
             }).ToList();
         }
 
@@ -111,6 +117,7 @@ namespace FireBnBWeb.Pages.Dashboard
 
             if (objproperty.Id == 0)
             {
+                newproperty = true;
                 objproperty.StatusId = 1;
                 objproperty.StateId = StateList.FirstOrDefault();
                 objproperty.CityId = CityList.FirstOrDefault();
@@ -120,29 +127,39 @@ namespace FireBnBWeb.Pages.Dashboard
                 _unitofwork.Property.Add(objproperty);
                 _unitofwork.Commit();
                 PropOptions = _unitofwork.Property.GetAll().LastOrDefault();
-
+                objpropbedconfig.PropertyId = PropOptions.Id;
+                objpropbedconfig.BedConfigurationId = BedList.FirstOrDefault();
                 foreach (var amenity in AmenityList)
                 {
                     objpropamenity = new PropertyAmenity();
                     objpropamenity.PropertyId = PropOptions.Id;
                     objpropamenity.AmenityId = amenity;
                     _unitofwork.PropertyAmenity.Add(objpropamenity);
-                    AppUser = _unitofwork.ApplicationUser.GetById(UserId);
+                    
                     _unitofwork.Commit();
                     
                 }
+                AppUser = _unitofwork.ApplicationUser.GetById(UserId);
                 if (User.IsInRole(SD.ListerRole)) { }
                 else
                 {
                     await _userManager.AddToRoleAsync(AppUser, SD.ListerRole);
                 }
             }
-            
+            else
+            {
+                _unitofwork.Property.Update(objproperty);
+                TempData["success"] = "Property updated Successfully";
+            }
 
             _unitofwork.Commit();
-            if (objproperty.Id == 0)
+            if (newproperty == true)
             {
-                return RedirectToPage("UserDashboard");
+                return RedirectToPage("./UserDashboard");
+            }
+            else
+            {
+                return RedirectToPage("./UserDashboard");
             }
             return Page();
         }

@@ -122,13 +122,16 @@
                 <div class="property-list">
                     @foreach (var property in Model.propertyList.Where(p => p.ListerId == Model.UserId))
                     {
+
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
                                 <a asp-page="/Dashboard/UpsertProperty" asp-route-id="@property.Id" class="btn btn-primary">
                                     <h3 class="card-title">@property.Title</h3>
+                                  <button><a asp-page="Delete" asp-route-id="@property.Id">Delete</a></button>
                                 </a>
                             <!-- Add images here -->
                           
+
                         </div>
                             <p class="card-text p-3">Description: @property.Description</p>
                             <p class="card-text p-3">
