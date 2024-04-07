@@ -242,12 +242,12 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <!-- If the user is logged in, display the "Book It" button -->
-                            <a href="#" class="btn btn-primary">Book It!</a>
+                            <a asp-page="/BookingsPages/BookingRequest" asp-route-id="@Model.Property.Id" class="btn btn-primary">Book It!</a>
                         }
                         else
                         {
                             <!-- If the user is not logged in, display the "Log in" button -->
-                            <a href="/Identity/Account/Login" class="btn btn-primary">Log In To Book!</a>
+                            <a href="/Identity/Account/Login" class="btn btn-primary" asp>Log In To Book!</a>
                         }
                     </div>
                 </div>
