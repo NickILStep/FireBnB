@@ -1,9 +1,12 @@
 using DataAccess;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
+using Utility;
 
 namespace FireBnBWeb.Pages.Listings
 {
@@ -17,7 +20,19 @@ namespace FireBnBWeb.Pages.Listings
     public class ViewPropertyModel : PageModel
     {
         private readonly UnitofWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private ApplicationUser _user;
 
+        /* FROM REVIEW */
+        public IEnumerable<Property> objProperties;
+        public IEnumerable<Property> Properties { get; private set; }
+        public IEnumerable<Booking> bookingList;
+        public Review objUserReview { get; set; }
+        public Booking objBooking { get; set; }
+        public Property objProperty { get; set; }
+
+
+        /* GET & SET FOR VIEWPROPERTY */
         public Property Property { get; private set; }
         public List<Image> Images { get; private set; }
         public int TotalBedCount { get; private set; }
@@ -37,10 +52,34 @@ namespace FireBnBWeb.Pages.Listings
         public float TotalPriceForSevenNights { get; private set; }
 
 
-        public ViewPropertyModel(UnitofWork unitOfWork)
+        /* GET & SET FOR REVIEW */
+        [BindProperty]
+        public int Rating { get; set; }
 
+        [BindProperty]
+        public string Comment { get; set; }
+
+        [BindProperty]
+        public DateTime Timestamp { get; set; }
+
+        [BindProperty]
+        public bool ReviewType { get; set; }
+
+        [BindProperty]
+        public List<int> ReviewStars { get; set; }
+
+        [BindProperty]
+        public string userComment { get; set; }
+
+
+        public ViewPropertyModel(UnitofWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
+            objUserReview = new Review();
+            objBooking = new Booking();
+            objProperty = new Property();
+
         }
 
         public IActionResult OnGet(int id)
@@ -194,6 +233,54 @@ namespace FireBnBWeb.Pages.Listings
                 dates.Add(date);
             }
             return dates;
+        }
+
+        //FROM REVIEW
+        public string UserId => _userManager.GetUserId(User);
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Data Error unable to connect to database";
+                return Page();
+            }
+
+            /* For Commit */
+            //associate Review.BookingId to Booking.Booking.Id
+            objUserReview.BookingId = objBooking.Id;
+            // Associate Booking.PropertyId to Property.Id
+            objBooking.PropertyId = objProperty.Id;
+            // Associate Booking.GuestId to User.Id
+            _user = _unitOfWork.ApplicationUser.GetById(UserId);
+            objBooking.GuestId = _user.Id;
+
+            if (objUserReview.Id == 0)
+            {
+                objUserReview.Rating = ReviewStars.FirstOrDefault();
+                //use drop down for now
+                objUserReview.Comment = userComment.ToString();
+                objUserReview.Timestamp = DateTime.Now;
+
+                //rework this for better logic -  listers can rent
+                if (User.IsInRole(SD.ListerRole))
+                {
+                    objUserReview.ReviewType = true;
+                }
+                else if (User.IsInRole(SD.RenterRole))
+                {
+                    objUserReview.ReviewType = false;
+                }
+
+                _unitOfWork.Commit();
+            }
+
+            else
+            {
+                _unitOfWork.Commit();
+                return RedirectToPage("./Index");
+            }
+
+            return Page();
         }
     }
 }

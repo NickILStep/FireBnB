@@ -19,7 +19,6 @@
                 <input asp-for="objproperty.Status" type="hidden" value="1"/>
                 <input asp-for="objproperty.LastUpdated" type="hidden" value="@Model.dateTime"/>
                 <input asp-for="objproperty.ImageId" type="hidden" value="1" />
-                <input asp-for="objproperty.GuestSharing" type="hidden" value="true" />
                 <div class="form-floating py-2 col-12">
                     <input asp-for="objproperty.Title" class="form-control border-0 shadow" />
                     <label asp-for="objproperty.Title" class="ms-2">Property Title</label>
@@ -32,18 +31,7 @@
                     <span asp-validation-for="objproperty.Description" class="text-danger"></span>
 
                 </div>
-                <div class="form-floating py-2 col-12">
-                    <input asp-for="objproperty.BedroomNum" class="form-control border-0 shadow" />
-                    <label asp-for="objproperty.BedroomNum" class="ms-2">Bedroom Number</label>
-                    <span asp-validation-for="objproperty.BedroomNum" class="text-danger"></span>
-
-                </div>
-                <div class="form-floating py-2 col-12">
-                    <input asp-for="objproperty.BathroomNum" class="form-control border-0 shadow" />
-                    <label asp-for="objproperty.BathroomNum" class="ms-2">Bathroom Number</label>
-                    <span asp-validation-for="objproperty.BathroomNum" class="text-danger"></span>
-
-                </div>
+                
                 <div class="form-floating py-2 col-12">
                     <input asp-for="objproperty.GuestMax" class="form-control border-0 shadow" />
                     <label asp-for="objproperty.GuestMax" class="ms-2">Guest Max</label>
@@ -62,90 +50,145 @@
                     <span asp-validation-for="objproperty.BasePrice" class="text-danger"></span>
 
                 </div>
-                <h5>Address Details</h5>
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="objproperty.Address" class="form-control border-0 shadow" />
-                    <label asp-for="objproperty.Address" class="ms-2">Address</label>
-                    <span asp-validation-for="objproperty.Address" class="text-danger"></span>
-
-                </div>
-                <div class="form-floating py-2 col-12">
-                    <input asp-for="objproperty.Zipcode" class="form-control border-0 shadow" />
-                    <label asp-for="objproperty.Zipcode" class="ms-2">Zipcode</label>
-                    <span asp-validation-for="objproperty.Zipcode" class="text-danger"></span>
-
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">State</label>
-                    <select class="form-select" id="StateList" name="StateList" required>
-                        
-                        <option selected disabled value="">Choose...</option>
-                        @foreach(var state in Model.StateOptions)
-                        {
-                            <option for="StateList" value="@state.Value">@state.Text</option>
-                        }
-                        
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid state.
-                    </div>
-                    </div>
-                <div class="col-md-3">
-                    <label class="form-label">County</label>
-                    <select class="form-select" id="CountyList" name="CountyList" required>
-                        <option selected disabled value="">Choose...</option>
-                        @foreach (var county in Model.CountyOptions)
-                        {
-                            <option for="CountyList" value="@county.Value">@county.Text</option>
-                        }
-
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid County.
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="objproperty.GuestSharing">
+                        <label class="form-check-label" asp-for="objproperty.GuestSharing">
+                            Guest Sharing
+                        </label>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">City</label>
-                    <select class="form-select" id="CityList" name="CityList" required>
-                        <option selected disabled value="">Choose...</option>
-                        @foreach (var city in Model.CityOptions)
-                        {
-                            <option for="CityList"value="@city.Value">@city.Text</option>
-                        }
+                @if (Model.objproperty.Id != 0)
+                {
+                    <input asp-for="objproperty.Address" type="hidden">
+                    <input asp-for="objproperty.ImageId" type="hidden">
+                    <input asp-for="objproperty.Description" type="hidden">
+                    <input asp-for="objproperty.BedroomNum" type="hidden">
+                    <input asp-for="objproperty.BasePrice" type="hidden">
+                    <input asp-for="objproperty.BathroomNum" type="hidden">
+                    <input asp-for="objproperty.CancellationDays" type="hidden">
+                    <input asp-for="objproperty.CityId" type="hidden">
+                    <input asp-for="objproperty.CountyId" type="hidden">
+                    <input asp-for="objproperty.StateId" type="hidden">
+                    <input asp-for="objproperty.StatusId" type="hidden">            
+                    <input asp-for="objproperty.LastUpdated" type="hidden">
+                    <input asp-for="objproperty.ListerId" type="hidden">
+                    <input asp-for="objproperty.Zipcode" type="hidden">
+                    <input asp-for="objproperty.PropertyTypeId" type="hidden">
+                }
+                @if (Model.objproperty.Id == 0)
+                {
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="objproperty.BedroomNum" class="form-control border-0 shadow" />
+                        <label asp-for="objproperty.BedroomNum" class="ms-2">Bedroom Number</label>
+                        <span asp-validation-for="objproperty.BedroomNum" class="text-danger"></span>
 
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid County.
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Property Type</label>
-                    <select class="form-select" id="TypeList" name="TypeList" required>
-                        <option selected disabled value="">Choose...</option>
-                        @foreach (var type in Model.PropTypeOptions)
-                        {
-                            <option for="TypeList" value="@type.Value">@type.Text</option>
-                        }
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="objproperty.BathroomNum" class="form-control border-0 shadow" />
+                        <label asp-for="objproperty.BathroomNum" class="ms-2">Bathroom Number</label>
+                        <span asp-validation-for="objproperty.BathroomNum" class="text-danger"></span>
 
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid Type.
                     </div>
-                </div>
+                    <h5>Address Details</h5>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="objproperty.Address" class="form-control border-0 shadow" />
+                        <label asp-for="objproperty.Address" class="ms-2">Address</label>
+                        <span asp-validation-for="objproperty.Address" class="text-danger"></span>
 
-                <div class="form-floating py-2 col-12">
-                    <h5>Amenities</h5>
-                    @foreach (var amenity in Model.AmenityOptions)
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="AmenityList" name="AmenityList" value="@amenity.Value">
-                            <label class="form-check-label" for="AmenityList">
-                                @amenity.Text
-                            </label>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="objproperty.Zipcode" class="form-control border-0 shadow" />
+                        <label asp-for="objproperty.Zipcode" class="ms-2">Zipcode</label>
+                        <span asp-validation-for="objproperty.Zipcode" class="text-danger"></span>
+
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Bed Configuration</label>
+                        <select class="form-select" id="BedList" name="BedList" required>
+
+                            <option selected disabled value="">Choose...</option>
+                            @foreach (var Bed in Model.BedOptions)
+                            {
+                                <option for="BedList" value="@Bed.Value">@Bed.Text</option>
+                            }
+
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid Bed Configuration.
                         </div>
-                    }
-                
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">State</label>
+                        <select class="form-select" id="StateList" name="StateList" required>
 
+                            <option selected disabled value="">Choose...</option>
+                            @foreach (var state in Model.StateOptions)
+                            {
+                                <option for="StateList" value="@state.Value">@state.Text</option>
+                            }
+
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">County</label>
+                        <select class="form-select" id="CountyList" name="CountyList" required>
+                            <option selected disabled value="">Choose...</option>
+                            @foreach (var county in Model.CountyOptions)
+                            {
+                                <option for="CountyList" value="@county.Value">@county.Text</option>
+                            }
+
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid County.
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">City</label>
+                        <select class="form-select" id="CityList" name="CityList" required>
+                            <option selected disabled value="">Choose...</option>
+                            @foreach (var city in Model.CityOptions)
+                            {
+                                <option for="CityList"value="@city.Value">@city.Text</option>
+                            }
+
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid County.
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Property Type</label>
+                        <select class="form-select" id="TypeList" name="TypeList" required>
+                            <option selected disabled value="">Choose...</option>
+                            @foreach (var type in Model.PropTypeOptions)
+                            {
+                                <option for="TypeList" value="@type.Value">@type.Text</option>
+                            }
+
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid Type.
+                        </div>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <h5>Amenities</h5>
+                        @foreach (var amenity in Model.AmenityOptions)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="AmenityList" name="AmenityList" value="@amenity.Value">
+                                <label class="form-check-label" for="AmenityList">
+                                    @amenity.Text
+                                </label>
+                            </div>
+                        }
+                    </div>
+                }
                 @if (Model.objproperty.Id != 0)
                 {
                     <input asp-for="objproperty.Id" type="hidden">
@@ -155,7 +198,7 @@
                         <button type="submit" class="btn btn-primary form-control">@(Model.objproperty.Id != 0 ? "Update " : "Create ")</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-page="/Dashboard/UserDashboard" class="btn btn-outline-primary border  form-control">
+                        <a asp-page="./UserDashboard" class="btn btn-outline-primary border  form-control">
                             Back to List
                         </a>
                     </div>

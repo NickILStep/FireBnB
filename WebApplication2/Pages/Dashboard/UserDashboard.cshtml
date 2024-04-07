@@ -9,24 +9,20 @@
 <div class="container">
     <h1>@Model.FullName Dashboard</h1>
     <!-- Top Row - Navigation Buttons -->
-    <div class="row mb-3">
+    <div class="row mb-1">
         <div class="col">
             <a asp-page="/Dashboard/UpcomingBooking" class="btn btn-primary mr-2">Booking</a>
         </div>
         <div class="col">
-            <a href="#" class="btn btn-primary mr-2">Add A Review</a>
-        </div>
+            <a asp-page="/Dashboard/Review" class="btn btn-primary mr-2">Add A Review</a>
+        </div>  
         @if (User.IsInRole(SD.ListerRole))
         {
             <div class="col">
                 <!-- Takes them to property index page -->
-                <a asp-area="" asp-page="/Property/Index" class="btn btn-primary mr-2">Money Tab</a>
-                <a asp-area="" asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary mr-2">Add Property</a>
+                <a asp-area="" asp-page="/Dashboard/IncomeReport" class="btn btn-primary mr-2">Income Report</a>
+                <a asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
             </div>
-        }
-        else
-        {
-            <!-- Anything just for renters here -->
         }
     </div>
     <div class="row">
@@ -46,7 +42,6 @@
                     {
                         var property = Model.GetPropertyForBooking(booking);
                         @* var location = property.Location; // Accessing the location from the property *@
-
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
@@ -127,10 +122,32 @@
                 <div class="property-list">
                     @foreach (var property in Model.propertyList.Where(p => p.ListerId == Model.UserId))
                     {
-                        <div class="property">
-                            <h3><a asp-page="UpsertProperty" asp-route-id="@property.Id">@property.Title</a></h3>
-                            <!-- Need to add images -->
+
+                    <div class="card custom-card m-2" style="width: 18rem; height: auto;">
+                        <div class="card-body" style="height: auto;">
+                                <a asp-page="/Dashboard/UpsertProperty" asp-route-id="@property.Id" class="btn btn-primary">
+                                    <h3 class="card-title">@property.Title</h3>
+                                  <button><a asp-page="Delete" asp-route-id="@property.Id">Delete</a></button>
+                                </a>
+                            <!-- Add images here -->
+                          
+
                         </div>
+                            <p class="card-text p-3">Description: @property.Description</p>
+                            <p class="card-text p-3">
+                                @if (property.City != null)
+                                {
+                                    <span>City: @property.City.CityName,</span>
+                                    <span>County: @property.County.CountyName,</span>
+                                    <span>State: @property.State.StateName</span>
+                                }
+                                else
+                                {
+                                    <span>City: Unknown</span>
+                                }
+                            </p>
+                            <!-- Add other property details here -->
+                    </div>
                     }
                 </div>
             }

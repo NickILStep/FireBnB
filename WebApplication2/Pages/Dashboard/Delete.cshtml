@@ -16,20 +16,38 @@
                 @*<div asp-validation-summary="ModelOnly"></div>*@
                 <div class="form-floating py-2 col-12">
                     <input readonly asp-for="objproperty.Title" class="form-control border-0 shadow" />
-                    <label readonly asp-for="objproperty.Title" class="ms-2">Category Name</label>
+                    <label readonly asp-for="objproperty.Title" class="ms-2">Property Title</label>
                     <span asp-validation-for="objproperty.Title" class="text-danger"></span>
 
                 </div>
+                
+                <input asp-for="objproperty.Address" type="hidden">
+                <input asp-for="objproperty.ImageId" type="hidden">
+                <input asp-for="objproperty.Description" type="hidden">
+                <input asp-for="objproperty.BedroomNum" type="hidden">
+                <input asp-for="objproperty.BasePrice" type="hidden">
+                <input asp-for="objproperty.BathroomNum" type="hidden">
+                <input asp-for="objproperty.CancellationDays" type="hidden">
+                <input asp-for="objproperty.CityId" type="hidden">
+                <input asp-for="objproperty.CountyId" type="hidden">
+                <input asp-for="objproperty.StateId" type="hidden">
+                <input asp-for="objproperty.StatusId" type="hidden">
+                <input asp-for="objproperty.GuestSharing" type="hidden">
+                <input asp-for="objproperty.GuestMax" type="hidden">
+                <input asp-for="objproperty.LastUpdated" type="hidden">
+                <input asp-for="objproperty.ListerId" type="hidden">
+                <input asp-for="objproperty.Zipcode" type="hidden">
+                <input asp-for="objproperty.PropertyTypeId" type="hidden">
                 
 
                 <input asp-for="objproperty.Id" type="hidden">
 
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                        <button type="submit" class="btn btn-danger form-control" >Delete</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-page="Index" class="btn btn-outline-primary border  form-control">
+                        <a asp-page="./UserDashboard" class="btn btn-outline-primary border  form-control">
                             Back to List
                         </a>
                     </div>

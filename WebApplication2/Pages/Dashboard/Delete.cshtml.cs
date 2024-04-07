@@ -1,13 +1,16 @@
 using DataAccess;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Utility;
 
 namespace FireBnBWeb.Pages.Dashboard
 {
     public class DeleteModel : PageModel
     {
         private readonly UnitofWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         [BindProperty]
         public Property objproperty{ get; set; }
@@ -22,9 +25,14 @@ namespace FireBnBWeb.Pages.Dashboard
         public IEnumerable<PropertyFee> propertyFeesList { get; set; }
         public IEnumerable<PropertyNightlyPrice> propertyNightlyPricesList { get; set; }
         public IEnumerable<PropertyDiscount> propertyDiscountList { get; set; } 
-        public DeleteModel(UnitofWork unitOfWork)
+        public IEnumerable<Property> checkproperty {  get; set; }
+        public string UserId => _userManager.GetUserId(User);
+        public ApplicationUser AppUser { get; set; }
+        public int currentproperty;
+        public DeleteModel(UnitofWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
             objproperty = new Property();
             propamenitieslist = new List<PropertyAmenity>();
             propbedconfigurationsList = new List<PropertyBedConfiguration>();
@@ -38,20 +46,16 @@ namespace FireBnBWeb.Pages.Dashboard
             if (id != 0)
             {
                 objproperty = _unitOfWork.Property.GetById(id);
-                propamenitieslist = _unitOfWork.PropertyAmenity.GetAll(p=>p.PropertyId == id);
-                propbedconfigurationsList = _unitOfWork.PropertyBedConfiguration.GetAll(p => p.PropertyId == id);
-                propertyDiscountList = _unitOfWork.PropertyDiscount.GetAll(p=>p.PropertyId == id);
-                propertyNightlyPricesList = _unitOfWork.PropertyNightlyPrice.GetAll(p=>p.PropertyId == id);
-                propertyFeesList = _unitOfWork.PropertyFee.GetAll(p=>p.PropertyId == id);
-
-            }
+                
+                
+    }
             if (objproperty == null)
             {
                 return NotFound();
             }
             return Page();
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -61,46 +65,21 @@ namespace FireBnBWeb.Pages.Dashboard
 
             else
             {
+                currentproperty = objproperty.Id;
                 _unitOfWork.Property.Delete(objproperty);
-                foreach(var amenity in propamenitieslist)
-                {
-                    objpropamenity = new PropertyAmenity();
-                    objpropamenity = amenity;
-                    _unitOfWork.PropertyAmenity.Delete(objpropamenity);
-                    _unitOfWork.Commit();
-                }
-                foreach(var bed in propbedconfigurationsList)
-                {
-                    objpropbedconfig = new PropertyBedConfiguration();
-                    objpropbedconfig = bed;
-                    _unitOfWork.PropertyBedConfiguration.Delete(objpropbedconfig);
-                    _unitOfWork.Commit();
-                }
-                foreach(var fee in propertyFeesList)
-                {
-                    objPropFee = new PropertyFee();
-                    objPropFee = fee;
-                    _unitOfWork.PropertyFee.Delete(objPropFee);
-                    _unitOfWork.Commit();
-                }
-                foreach(var night in propertyNightlyPricesList)
-                {
-                    objnightprice = new PropertyNightlyPrice();
-                    objnightprice = night;
-                    _unitOfWork.PropertyNightlyPrice.Delete(objnightprice);
-                    _unitOfWork.Commit();
-                }
-                foreach(var discount in  propertyDiscountList)
-                {
-                    objdiscount = new PropertyDiscount();
-                    objdiscount = discount;
-                    _unitOfWork.PropertyDiscount.Delete(objdiscount);
-                    _unitOfWork.Commit();
-                }
+                _unitOfWork.Commit();
+                
                 TempData["success"] = "Category deleted Successfully";
+                
             }
             _unitOfWork.Commit();
-            return RedirectToPage("./Index");
+
+            checkproperty = _unitOfWork.Property.GetAll(p => p.ListerId == UserId);
+            if(checkproperty == null)
+            {
+                await _userManager.RemoveFromRoleAsync(AppUser, SD.ListerRole);
+            }
+            return RedirectToPage("./UserDashboard");
         }
     }
 }

@@ -68,27 +68,26 @@
                 {
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
-                            <h5 class="card-title">
+                            <!--Old code had this broken. Fix it-->
+                            <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-primary mb-2">
                                 @property.Title
-                            </h5>
-                            <p class="card-text">Description: @property.Description</p>
-                            <p class="card-text">
-                                    @if (property.City != null)
-                                    {
-                                  <span>City: @property.City.CityName,</span>
-                                  <span>County: @property.County.CountyName,</span>
-                                  <span>State: @property.State.StateName</span>
-                                    }
-                                    else
-                                    {
+                            </a>
+                            <br>
+                            <span class="card-text">Description: @property.Description</span><br>
+                            <span class="card-text">
+                                @if (property.City != null)
+                                {
+                                    <span>City: @property.City.CityName,</span>
+                                    <span>County: @property.County.CountyName,</span>
+                                    <span>State: @property.State.StateName</span>
+                                }
+                                else
+                                {
                                     <span>City: Unknown</span>
-                                    }
-                            </p>
-                            <p class="card-text">Bedroom: @property.BedroomNum</p>
-                            <p class="card-text">GuestMax: @property.GuestMax</p>
-                            <div class="col-auto">
-                                <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Details</a>
-                            </div>
+                                }
+                            </span><br>
+                            <span class="card-text">Bedroom: @property.BedroomNum</span><br>
+                            <span class="card-text">GuestMax: @property.GuestMax</span><br>
                         </div>
                     </div>
                 }
