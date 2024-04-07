@@ -38,7 +38,7 @@
                         <p class="card-text">GuestMax: @property.GuestMax</p>
                         <div class="col-auto">
                             <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Details</a>
-                            <a asp-page="/Dashboard/LeaveReview" asp-route-id="@property.Id" class="btn btn-secondary mb-2">Leave a Review</a>
+                            <a asp-controller="" method="post" asp-action="@Model.objUserReview.Id" class="btn btn-secondary mb-2">Leave a Review</a>
                             @* use booking id *@
                         </div>
                     </div>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div id="CreatingReview" class="col-4 float-left">
+   @*  <div id="CreatingReview" class="col-4 float-left">
         <input asp-for="objUserReview.Id" type="hidden" value="User.Id" />
         <input asp-for="objUserReview.BookingId" type="hidden" value="BookingId" />
         <label class="form-label">Review</label>
@@ -67,7 +67,7 @@
             <label asp-for="userComment" class="">Review</label>
             <span asp-validation-for="userComment" class="text-danger"></span>
         </div>
-    </div>
+    </div> *@
 </div>
 
 @* Can I direct the user to a new page with this review form to fill out, & would need to store Property Id
