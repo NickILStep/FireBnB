@@ -14,14 +14,14 @@
             <a asp-page="/Dashboard/UpcomingBooking" class="btn btn-primary mr-2">Booking</a>
         </div>
         <div class="col">
-            <a href="#" class="btn btn-primary mr-2">Add A Review</a>
-        </div>
+            <a asp-page="/Dashboard/Review" class="btn btn-primary mr-2">Add A Review</a>
+        </div>  
         @if (User.IsInRole(SD.ListerRole))
         {
             <div class="col">
                 <!-- Takes them to property index page -->
                 <a asp-area="" asp-page="/Dashboard/IncomeReport" class="btn btn-primary mr-2">Income Report</a>
-                <a asp-area="" asp-page="/Dashboard/UpsertProperty" class="btn btn-primary">Add Property</a>
+                <a asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
             </div>
         }
     </div>

@@ -14,10 +14,10 @@
 {
     <!-- Render "Listing" link if the user has properties -->
     <a class="dropdown-item" asp-area="" asp-page="/Dashboard/IncomeReport"> Income Report</a>
-    <a class="dropdown-item" asp-area="Identity" asp-page="/Dashboard/UpsertProperty">Add Property</a>
+    <a class="dropdown-item" asp-page="/Dashboard/UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
 }
 else
 {
     <!-- Render "Add home" link if the user doesn't have properties -->
-    <a class="dropdown-item" asp-area="Identity" asp-page="/Dashboard/UpsertProperty">Add Your Property</a>
+    <a class="dropdown-item" asp-page="/Dashboard/UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
 }
