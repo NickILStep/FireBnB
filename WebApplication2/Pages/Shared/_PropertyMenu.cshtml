@@ -13,10 +13,11 @@
     @if (User.IsInRole(SD.ListerRole))
 {
     <!-- Render "Listing" link if the user has properties -->
-    <a class="dropdown-item" asp-area="" asp-page="/Listings/Index">Listing</a>
+    <a class="dropdown-item" asp-area="" asp-page="/Dashboard/IncomeReport"> Income Report</a>
+    <a class="dropdown-item" asp-area="Identity" asp-page="/Dashboard/UpsertProperty">Add Property</a>
 }
 else
 {
     <!-- Render "Add home" link if the user doesn't have properties -->
-    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Add home</a>
+    <a class="dropdown-item" asp-area="Identity" asp-page="/Dashboard/UpsertProperty">Add Your Property</a>
 }

@@ -8,7 +8,7 @@
 
 @if (Model.PropertyList != null && Model.PropertyList.Any())
 {
-    <h2>Properties Owned by You:</h2>
+    <h4>Properties Owned by You:</h4>
     <ul>
         @foreach (var property in Model.PropertyList)
         {
@@ -19,7 +19,7 @@
 
 @if (Model.BookingList != null && Model.BookingList.Any())
 {
-    <h2>Bookings for Your Properties:</h2>
+    <h5>Bookings for Your Properties:</h5>
     <table>
         <thead>
             <tr>
@@ -43,4 +43,4 @@
     </table>
 }
 
-<h2>Total Income: @Model.TotalIncome.ToString("C")</h2>
+<h5>Total Income: @Model.TotalIncome.ToString("C")</h5>
