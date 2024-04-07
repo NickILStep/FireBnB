@@ -237,7 +237,7 @@ namespace FireBnBWeb.Pages.Listings
 
         //FROM REVIEW
         public string UserId => _userManager.GetUserId(User);
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -245,7 +245,7 @@ namespace FireBnBWeb.Pages.Listings
                 return Page();
             }
 
-            /* For Commit */
+            /* FOR COMMIT */
             //associate Review.BookingId to Booking.Booking.Id
             objUserReview.BookingId = objBooking.Id;
             // Associate Booking.PropertyId to Property.Id
@@ -257,6 +257,7 @@ namespace FireBnBWeb.Pages.Listings
             if (objUserReview.Id == 0)
             {
                 objUserReview.Rating = ReviewStars.FirstOrDefault();
+                //ReviewStars.GetType();
                 //use drop down for now
                 objUserReview.Comment = userComment.ToString();
                 objUserReview.Timestamp = DateTime.Now;
@@ -274,11 +275,11 @@ namespace FireBnBWeb.Pages.Listings
                 _unitOfWork.Commit();
             }
 
-            else
-            {
-                _unitOfWork.Commit();
-                return RedirectToPage("./Index");
-            }
+            //else
+            //{
+            //    _unitOfWork.Commit();
+            //    return RedirectToPage("./Index");
+            //}
 
             return Page();
         }
