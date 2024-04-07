@@ -68,10 +68,8 @@
                 {
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
-                            <a href="/listings/ViewProperty?id=@property.Id" class="btn btn-primary">
-                                <h5 class="card-title text-white">
-                                    @property.Title
-                                </h5>
+                            <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-primary mb-2">
+                                @property.Title
                             </a>
                             <br>
                             <span class="card-text">Description: @property.Description</span><br>
