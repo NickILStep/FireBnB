@@ -201,6 +201,39 @@
                         <span>Place reviews of the property here.</span><br>
                     </div>
                 </div>
+                <div>
+                    <p>Description: @Model.Property.Description</p>
+                </div>
+                <div>
+                    @* @if (Model.EarliestCheckinDate != null)
+                    {
+                        <p>Earliest Check-in Date: @Model.EarliestCheckinDate.Value.ToShortDateString()</p>
+                    }
+                    else
+                    {
+                        <p>No booking information available.</p>
+                    }
+                    <br /> *@
+                    <!--Make this into a calendar-->
+                    <div id="calendar"></div>
+                    <br />
+                    @* @if (Model.AvailableDates.Any())
+                    {
+                        <ul>
+                            @foreach (var date in Model.AvailableDates)
+                            {
+                                <li>@date.ToShortDateString()</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No available dates.</p>
+                    } *@
+                </div>
+               <div>
+                   Place reviews of the property here.
+               </div>
             </div>
         </div>
 
@@ -252,6 +285,27 @@
                             }
                         </div>
                     </div>
+                </div>
+            </div>
+            <div id="CreatingReview" class="col-auto">
+                <input asp-for="objUserReview.Id" type="hidden" value="User.Id" />
+                <input asp-for="objUserReview.BookingId" type="hidden" value="BookingId" />
+                <label class="form-label">Review</label>
+                <select class="form-select" id="ReviewStars" name="ReviewStars" required>
+                    <option selected disabled value="-1">Select Rating</option>
+                    <option value="1">1 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid star rating
+                </div>
+                <div class="form-floating py-2 col-auto" style="height:100px;overflow:hidden;" TextMode="MultiLine" Wrap="True">
+                    <input asp-for="userComment" class="form-control col-auto border-0 shadow h-100" />
+                    <label asp-for="userComment" class="">Review</label>
+                    <span asp-validation-for="userComment" class="text-danger"></span>
                 </div>
             </div>
         </div>
