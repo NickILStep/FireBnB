@@ -11,24 +11,69 @@
     <form method="get">
         <div class="form-row align-items-center">
             <div class="col-auto">
-                <input asp-for="SearchQuery" class="form-control mr-sm-2" type="search" placeholder="Search Destination" aria-label="Search Destination">
+                <label class="sr-only" for="cityDropdown">City</label>
+                <select asp-for="SelectedCityId" class="form-control" id="cityDropdown">
+                    <option value="">Select City</option>
+                    @foreach (var city in Model.Cities)
+                    {
+                        <option value="@city.Value">@city.Text</option>
+                    }
+                </select>
             </div>
             <div class="col-auto">
-                <label class="sr-only" for="guestNumber">Guest Number</label>
-                <input asp-for="GuestNumber" class="form-control" id="guestNumber" type="number" placeholder="Guest Number">
+                <label class="sr-only" for="countyDropdown">County</label>
+                <select asp-for="SelectedCountyId" class="form-control" id="countyDropdown">
+                    <option value="">Select County</option>
+                    @foreach (var county in Model.Counties)
+                    {
+                        <option value="@county.Value">@county.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="stateDropdown">State</label>
+                <select asp-for="SelectedStateId" class="form-control" id="stateDropdown">
+                    <option value="">Select State</option>
+                    @foreach (var state in Model.States)
+                    {
+                        <option value="@state.Value">@state.Text</option>
+                    }
+                </select>
+                </div>
+            <div class="col-auto">
+                    <label class="sr-only" for="guestNumber">Guest Number</label>
+                    <select asp-for="GuestNumber" class="form-control" id="guestNumber">
+                        <option value="">Select Guest Number</option>
+                        @for (int i = 1; i <= 100; i++) // Change 10 to your desired maximum guest count
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
             </div>
             <div class="col-auto">
                 <label class="sr-only" for="pricePerNight">Price per Night</label>
-                <input asp-for="CostPerNight" class="form-control" id="pricePerNight" type="number" placeholder="Price per Night">
+                <input asp-for="CostPerNight" class="form-control" id="CostPerNight" type="number" placeholder="Cost per Night">
             </div>
-            <div class="col-auto">
-                <label class="sr-only" for="bedroomCount">Bedroom Count</label>
-                <input asp-for="BedroomCount" class="form-control" id="bedroomCount" type="number" placeholder="Bedroom Count">
-            </div>
-            <div class="col-auto">
-                <label class="sr-only" for="bathroomCount">Bathroom Count</label>
-                <input asp-for="BathroomCount" class="form-control" id="bathroomCount" type="number" placeholder="Bathroom Count">
-            </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="bedroomCount">Bedroom Count</label>
+                    <select asp-for="BedroomCount" class="form-control" id="bedroomCount">
+                        <option value="">Select Bedroom Number</option>
+                        @for (int i = 1; i <= 100; i++) // Change 10 to your desired maximum guest count
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="bathroomCount">Bathroom Count</label>
+                    <select asp-for="BathroomCount" class="form-control" id="bathroomCount">
+                        <option value="">Select Bathroom Number</option>
+                        @for (int i = 1; i <= 100; i++) // Change 10 to your desired maximum guest count
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
             <div class="col-auto">
                 Check-In Date
                 <label class="sr-only" for="checkIn">Check-in</label>
@@ -40,18 +85,31 @@
                 <input asp-for="CheckOut" class="form-control" id="checkOut" type="date" placeholder="Check-out">
             </div>
             <div class="col-auto">
-                Amenities
-                <!-- Checkboxes for selecting amenities -->
-                @foreach (var amenity in Model.AmenityOptions)
-                {
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="amenity_@amenity.Value" name="SelectedAmenities" value="@amenity.Value">
-                        <label class="form-check-label" for="amenity_@amenity.Value">
-                            @amenity.Text
-                        </label>
-                    </div>
-                }
+                <button class="btn btn-primary mb-2" type="button" id="toggleAmenities">
+                    Amenities
+                </button>
+                <div id="amenitiesSection" style="display: none;">
+                    <!-- Checkboxes for selecting amenities -->
+                    @foreach (var amenity in Model.AmenityOptions)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="amenity_@amenity.Value" name="SelectedAmenities" value="@amenity.Value">
+                            <label class="form-check-label" for="amenity_@amenity.Value">
+                                @amenity.Text
+                            </label>
+                        </div>
+                    }
+                </div>
             </div>
+
+            @section Scripts {
+                <script>
+                    document.getElementById('toggleAmenities').addEventListener('click', function () {
+                        var amenitiesSection = document.getElementById('amenitiesSection');
+                        amenitiesSection.style.display = amenitiesSection.style.display === 'none' ? 'block' : 'none';
+                    });
+                </script>
+            }
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
             </div>
@@ -68,12 +126,13 @@
                 {
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
-                            <!--Old code had this broken. Fix it-->
                             <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-primary mb-2">
                                 @property.Title
                             </a>
                             <br>
                             <span class="card-text">Description: @property.Description</span><br>
+                            Primary Image Will go here
+                            Starting Pirce will goes here
                             <span class="card-text">
                                 @if (property.City != null)
                                 {
@@ -87,7 +146,8 @@
                                 }
                             </span><br>
                             <span class="card-text">Bedroom: @property.BedroomNum</span><br>
-                            <span class="card-text">GuestMax: @property.GuestMax</span><br>
+                            <span class="card-text">Bathroom: @property.BathroomNum</span><br>
+                            <span class="card-text">Guest Count: @property.GuestMax</span><br>
                         </div>
                     </div>
                 }
