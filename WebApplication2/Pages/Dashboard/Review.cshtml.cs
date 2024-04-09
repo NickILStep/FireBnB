@@ -142,16 +142,16 @@ namespace FireBnBWeb.Pages.Dashboard
             objProperties = _unitofWork.GetAllWithLocationsCitiesCountiesStates();
             
 
-            if (!string.IsNullOrEmpty(SearchQuery) || CheckIn.HasValue || CheckOut.HasValue || GuestNumber.HasValue || CostPerNight.HasValue || SelectedAmenities?.Any() == true || BedroomCount.HasValue || BathroomCount.HasValue)
-            {
-                // Perform search based on provided parameters SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, List<int> SelectedAmenities, int? bedroomCount, int? bathroomCount);
-                objProperties = _unitofWork.Property.SearchProperties(SearchQuery, CheckIn, CheckOut, GuestNumber, CostPerNight, SelectedAmenities, BedroomCount, BathroomCount);
-            }
-            else
-            {
-                // If no search parameters provided, get all properties
-                objProperties = _unitofWork.Property.GetAll();
-            }
+            //if (!string.IsNullOrEmpty(SearchQuery) || CheckIn.HasValue || CheckOut.HasValue || GuestNumber.HasValue || CostPerNight.HasValue || SelectedAmenities?.Any() == true || BedroomCount.HasValue || BathroomCount.HasValue)
+            //{
+            //    // Perform search based on provided parameters SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int> amenityIds, List<int> SelectedAmenities, int? bedroomCount, int? bathroomCount);
+            //    objProperties = _unitofWork.Property.SearchProperties(SearchQuery, CheckIn, CheckOut, GuestNumber, CostPerNight, SelectedAmenities, BedroomCount, BathroomCount);
+            //}
+            //else
+            //{
+            //    // If no search parameters provided, get all properties
+            //    objProperties = _unitofWork.Property.GetAll();
+            //}
 
             return Page();
         }

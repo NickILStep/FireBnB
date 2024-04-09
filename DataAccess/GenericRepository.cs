@@ -248,22 +248,30 @@ namespace DataAccess
 
 
 
-        IEnumerable<Property> IGenericRepository<T>.SearchProperties(string searchQuery, DateTime? checkIn, DateTime? checkOut, int? guestNumber, decimal? costPerNight, List<int>? selectedAmenities, int? bedroomCount, int? bathroomCount)
+        public IEnumerable<Property> SearchProperties(
+    string searchQuery,
+    DateTime? checkIn,
+    DateTime? checkOut,
+    int? guestNumber,
+    decimal? costPerNight,
+    List<int>? selectedAmenities,
+    int? bedroomCount,
+    int? bathroomCount,
+    int? selectedCityId,
+    int? selectedCountyId,
+    int? selectedStateId)
         {
             // Start with querying all properties
             IQueryable<Property> query = _dbContext.Properties;
-
-            // Include related entities to avoid lazy loading
-            //query = query.Include(p => p.Location);
 
             // Filter by search query (if provided)
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 query = query.Where(p => p.City.CityName.Contains(searchQuery)
-                         || p.County.CountyName.Contains(searchQuery)
-                         || p.State.StateName.Contains(searchQuery)
-                         || p.Address.Contains(searchQuery)
-                         || p.Zipcode.Contains(searchQuery));
+                                      || p.County.CountyName.Contains(searchQuery)
+                                      || p.State.StateName.Contains(searchQuery)
+                                      || p.Address.Contains(searchQuery)
+                                      || p.Zipcode.Contains(searchQuery));
             }
 
             // Filter by check-in date and check-out date (if provided)
@@ -282,17 +290,56 @@ namespace DataAccess
                 query = query.Where(p => !bookedPropertyIds.Contains(p.Id));
             }
 
+            // Filter by check-in date (if provided)
+            if (checkIn.HasValue)
+            {
+                // Get the list of property IDs that have bookings overlapping with the selected check-in date
+                var bookedPropertyIds = _dbContext.Bookings
+                    .Where(b => b.Checkin <= checkIn.Value && b.Checkout > checkIn.Value)
+                    .Select(b => b.PropertyId)
+                    .Distinct();
+
+                // Filter out properties that have bookings overlapping with the selected check-in date
+                query = query.Where(p => !bookedPropertyIds.Contains(p.Id));
+            }
+
+            // Adjust the check-out date range based on the selected check-in date
+            if (checkIn.HasValue)
+            {
+                // Calculate the maximum check-out date based on the selected check-in date
+                DateTime maxCheckOutDate = checkIn.Value.AddDays(7); // Maximum 7 days stay
+                if (checkOut.HasValue && checkOut.Value > maxCheckOutDate)
+                {
+                    // If the selected check-out date exceeds the maximum, adjust it
+                    checkOut = maxCheckOutDate;
+                }
+            }
+
+            // Filter by check-out date (if provided)
+            if (checkOut.HasValue)
+            {
+                // Get the list of property IDs that have bookings overlapping with the selected check-out date
+                var bookedPropertyIds = _dbContext.Bookings
+                    .Where(b => b.Checkin < checkOut.Value && b.Checkout >= checkOut.Value)
+                    .Select(b => b.PropertyId)
+                    .Distinct();
+
+                // Filter out properties that have bookings overlapping with the selected check-out date
+                query = query.Where(p => !bookedPropertyIds.Contains(p.Id));
+            }
+
             // Filter by guest count (if provided)
             if (guestNumber.HasValue)
             {
                 query = query.Where(p => p.GuestMax >= guestNumber);
             }
 
+            // Filter by cost per night (if provided)
             if (costPerNight.HasValue)
             {
                 // Define a range within which the property prices should fall
-                decimal minPrice = costPerNight.Value - 100000; // Adjust the range as needed
-                decimal maxPrice = costPerNight.Value + 1; // Adjust the range as needed
+                decimal minPrice = costPerNight.Value - 10; // Adjust the range as needed
+                decimal maxPrice = costPerNight.Value + 10; // Adjust the range as needed
 
                 // Join PropertyNightlyPrice to get the nightly rates
                 query = query.Join(_dbContext.PropertyNightlyPrices,
@@ -304,8 +351,7 @@ namespace DataAccess
                              .Distinct();
             }
 
-
-            // Filter by amenities
+            // Filter by selected amenities
             if (selectedAmenities != null && selectedAmenities.Any())
             {
                 // Join Property and PropertyAmenity to filter properties based on amenities
@@ -318,16 +364,32 @@ namespace DataAccess
                              .Distinct();
             }
 
-            // Filter by bedroom count
+            // Filter by bedroom count (if provided)
             if (bedroomCount.HasValue)
             {
                 query = query.Where(p => p.BedroomNum >= bedroomCount);
             }
 
-            // Filter by bathroom count
+            // Filter by bathroom count (if provided)
             if (bathroomCount.HasValue)
             {
                 query = query.Where(p => p.BathroomNum >= bathroomCount);
+            }
+
+            // Filter by selected city, county, and state IDs (if provided)
+            if (selectedCityId.HasValue)
+            {
+                query = query.Where(p => p.CityId == selectedCityId);
+            }
+
+            if (selectedCountyId.HasValue)
+            {
+                query = query.Where(p => p.CountyId == selectedCountyId);
+            }
+
+            if (selectedStateId.HasValue)
+            {
+                query = query.Where(p => p.StateId == selectedStateId);
             }
 
             // Execute the query and return the results
