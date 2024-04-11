@@ -19,8 +19,12 @@
         @if (User.IsInRole(SD.ListerRole))
         {
             <div class="col">
-                <!-- Takes them to property index page -->
                 <a asp-area="" asp-page="/Dashboard/IncomeReport" class="btn btn-primary mr-2">Income Report</a>
+            </div>
+        }
+        @if (User.IsInRole(SD.ListerRole))
+        {
+            <div class="col">
                 <a asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
             </div>
         }
@@ -118,36 +122,27 @@
             <!-- For listers: show their properties -->
             @if (User.IsInRole(SD.ListerRole))
             {
-                <h2>Your Properties</h2>
+                <h4>Your Properties</h4>
                 <div class="property-list">
                     @foreach (var property in Model.propertyList.Where(p => p.ListerId == Model.UserId))
                     {
 
-                    <div class="card custom-card m-2" style="width: 18rem; height: auto;">
-                        <div class="card-body" style="height: auto;">
-                                <a asp-page="/Dashboard/UpsertProperty" asp-route-id="@property.Id" class="btn btn-primary">
-                                    <h3 class="card-title">@property.Title</h3>
-                                  <button><a asp-page="Delete" asp-route-id="@property.Id">Delete</a></button>
-                                </a>
-                            <!-- Add images here -->
-                          
-
+                        <div class="card text-white bg-secondary mb-2" style="width: 18rem;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <a asp-page="/Dashboard/UpsertProperty" asp-route-id="@property.Id" class="btn btn-primary mb-3">
+                                        <h4 class="card-title">@property.Title</h4>
+                                    </a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@property.Id" class="mb-3">
+                                        <button type="submit" class="btn btn-danger">
+                                            <h4 class="card-title">Delete</h4>
+                                        </button>
+                                    </form>
+                                </div>
+                                <p class="card-text mb-1" style=" color: #073642;">Description: @property.Description</p>
+                                <p class="card-text mb-1" style=" color: #073642;">Status: @Model.Statuses[property.StatusId]?.StatusName</p>
+                            </div>
                         </div>
-                            <p class="card-text p-3">Description: @property.Description</p>
-                            <p class="card-text p-3">
-                                @if (property.City != null)
-                                {
-                                    <span>City: @property.City.CityName,</span>
-                                    <span>County: @property.County.CountyName,</span>
-                                    <span>State: @property.State.StateName</span>
-                                }
-                                else
-                                {
-                                    <span>City: Unknown</span>
-                                }
-                            </p>
-                            <!-- Add other property details here -->
-                    </div>
                     }
                 </div>
             }

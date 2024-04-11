@@ -1,4 +1,5 @@
 using DataAccess;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,14 @@ namespace FireBnBWeb.Pages.Dashboard
         public IEnumerable<Property> propertyList;
         //public IEnumerable<Location> locationList;
         public IDictionary<int, List<Booking>> propertyBookings;
+        public List<Status> Statuses { get; } = new List<Status>
+    {
+        new Status { StatusName = "Available" },
+        new Status { StatusName = "Hidden" },
+        new Status { StatusName = "Partially Available" },
+        new Status { StatusName = "Suspended" },
+        new Status { StatusName = "Owner Use" }
+    };
 
         public UserDashboardModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager)
         {
