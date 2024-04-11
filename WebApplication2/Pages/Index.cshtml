@@ -11,6 +11,7 @@
     <form method="get">
         <div class="form-row align-items-center">
             <div class="col-auto">
+                City
                 <label class="sr-only" for="cityDropdown">City</label>
                 <select asp-for="SelectedCityId" class="form-control" id="cityDropdown">
                     <option value="">Select City</option>
@@ -21,6 +22,7 @@
                 </select>
             </div>
             <div class="col-auto">
+                County
                 <label class="sr-only" for="countyDropdown">County</label>
                 <select asp-for="SelectedCountyId" class="form-control" id="countyDropdown">
                     <option value="">Select County</option>
@@ -31,6 +33,7 @@
                 </select>
             </div>
             <div class="col-auto">
+                State
                 <label class="sr-only" for="stateDropdown">State</label>
                 <select asp-for="SelectedStateId" class="form-control" id="stateDropdown">
                     <option value="">Select State</option>
@@ -39,41 +42,7 @@
                         <option value="@state.Value">@state.Text</option>
                     }
                 </select>
-                </div>
-            <div class="col-auto">
-                    <label class="sr-only" for="guestNumber">Guest Number</label>
-                    <select asp-for="GuestNumber" class="form-control" id="guestNumber">
-                        <option value="">Select Guest Number</option>
-                        @for (int i = 1; i <= 100; i++) // Change 10 to your desired maximum guest count
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
             </div>
-            <div class="col-auto">
-                <label class="sr-only" for="pricePerNight">Price per Night</label>
-                <input asp-for="CostPerNight" class="form-control" id="CostPerNight" type="number" placeholder="Cost per Night">
-            </div>
-                <div class="col-auto">
-                    <label class="sr-only" for="bedroomCount">Bedroom Count</label>
-                    <select asp-for="BedroomCount" class="form-control" id="bedroomCount">
-                        <option value="">Select Bedroom Number</option>
-                        @for (int i = 1; i <= 100; i++) // Change 10 to your desired maximum guest count
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <label class="sr-only" for="bathroomCount">Bathroom Count</label>
-                    <select asp-for="BathroomCount" class="form-control" id="bathroomCount">
-                        <option value="">Select Bathroom Number</option>
-                        @for (int i = 1; i <= 100; i++) // Change 10 to your desired maximum guest count
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
-                </div>
             <div class="col-auto">
                 Check-In Date
                 <label class="sr-only" for="checkIn">Check-in</label>
@@ -84,36 +53,89 @@
                 <label class="sr-only" for="checkOut">Check-out</label>
                 <input asp-for="CheckOut" class="form-control" id="checkOut" type="date" placeholder="Check-out">
             </div>
+        </div>
+
+        <div class="form-row align-items-center">
             <div class="col-auto">
-                <button class="btn btn-primary mb-2" type="button" id="toggleAmenities">
-                    Amenities
+                <button class="btn btn-primary mb-2" type="button" id="toggleAdvanced">
+                    Advanced Search
                 </button>
-                <div id="amenitiesSection" style="display: none;">
-                    <!-- Checkboxes for selecting amenities -->
-                    @foreach (var amenity in Model.AmenityOptions)
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="amenity_@amenity.Value" name="SelectedAmenities" value="@amenity.Value">
-                            <label class="form-check-label" for="amenity_@amenity.Value">
-                                @amenity.Text
-                            </label>
+                <div id="advancedSection" style="display: none;">
+                    <!-- Additional search options -->
+                    <div class="col-auto">
+                        <label class="sr-only" for="guestNumber">Guest Number</label>
+                        <select asp-for="GuestNumber" class="form-control" id="guestNumber">
+                            <option value="">Select Guest Number</option>
+                            @for (int i = 1; i <= 100; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="pricePerNight">Price per Night</label>
+                        <input asp-for="CostPerNight" class="form-control" id="CostPerNight" type="number" placeholder="Cost per Night">
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="bedroomCount">Bedroom Count</label>
+                        <select asp-for="BedroomCount" class="form-control" id="bedroomCount">
+                            <option value="">Select Bedroom Number</option>
+                            @for (int i = 1; i <= 100; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="bathroomCount">Bathroom Count</label>
+                        <select asp-for="BathroomCount" class="form-control" id="bathroomCount">
+                            <option value="">Select Bathroom Number</option>
+                            @for (int i = 1; i <= 100; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary mb-2" type="button" id="toggleAmenities">
+                            Amenities
+                        </button>
+                        <div id="amenitiesSection" style="display: none;">
+                            <!-- Checkboxes for selecting amenities -->
+                            @foreach (var amenity in Model.AmenityOptions)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="amenity_@amenity.Value" name="SelectedAmenities" value="@amenity.Value">
+                                    <label class="form-check-label" for="amenity_@amenity.Value">
+                                        @amenity.Text
+                                    </label>
+                                </div>
+                            }
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
+        </div>
 
-            @section Scripts {
-                <script>
-                    document.getElementById('toggleAmenities').addEventListener('click', function () {
-                        var amenitiesSection = document.getElementById('amenitiesSection');
-                        amenitiesSection.style.display = amenitiesSection.style.display === 'none' ? 'block' : 'none';
-                    });
-                </script>
-            }
+        <div class="form-row align-items-center">
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
             </div>
         </div>
+
+        @section Scripts {
+            <script>
+                document.getElementById('toggleAdvanced').addEventListener('click', function () {
+                    var advancedSection = document.getElementById('advancedSection');
+                    advancedSection.style.display = advancedSection.style.display === 'none' ? 'block' : 'none';
+                });
+
+                document.getElementById('toggleAmenities').addEventListener('click', function () {
+                    var amenitiesSection = document.getElementById('amenitiesSection');
+                    amenitiesSection.style.display = amenitiesSection.style.display === 'none' ? 'block' : 'none';
+                });
+            </script>
+        }
         <br />
     </form>
 
@@ -127,12 +149,42 @@
                     <div class="card custom-card m-2" style="width: 18rem; height: auto;">
                         <div class="card-body" style="height: auto;">
                             <a asp-page="/listings/ViewProperty" asp-route-id="@property.Id" class="btn btn-primary mb-2">
-                                @property.Title
+                                <h4> @property.Title </h4>
                             </a>
                             <br>
+                            @if (property.ImageId != null)
+                            {
+                                var primaryImageUrl = Model.GetPrimaryImageUrl(property.ImageId);
+                                if (!string.IsNullOrEmpty(primaryImageUrl))
+                                {
+                                    <img src="@primaryImageUrl" alt="Primary Image" style="max-width: 100%; height: auto;" />
+                                }
+                                else
+                                {
+                                    <span>No image available</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>No image available</span>
+                            }
+                            @if (property.Id != null)
+                            {
+                                var nightlyPrice = Model.GetNightlyPrice(property.Id);
+                                if (nightlyPrice != null)
+                                {
+                                    <h4><span>Starting Price:  $@nightlyPrice</span> </h4>
+                                }
+                                else
+                                {
+                                    <h4><span>No Price Is Available</span></h4>
+                                }
+                            }
+                            else
+                            {
+                                <span>Nightly price not available</span>
+                            }
                             <span class="card-text">Description: @property.Description</span><br>
-                            Primary Image Will go here
-                            Starting Pirce will goes here
                             <span class="card-text">
                                 @if (property.City != null)
                                 {
