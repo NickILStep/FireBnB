@@ -8,22 +8,32 @@
 <script>
 
     const model = new Array();
-    const dateArr = new Array();
+    const availableArr = new Array();
+    const unavailableArr = new Array();
     var i = 0;
 
     @foreach (var d in Model.AvailableDates)
     {
         <text>
-            dateArr.push("@d.Year");
-            dateArr.push("@d.Month");
-            dateArr.push("@d.Day");
+            availableArr.push("@d.Year");
+            availableArr.push("@d.Month");
+            availableArr.push("@d.Day");
         </text>
     }
 
-    while(dateArr[i]) {
-        var year = dateArr[i];
-        var month = dateArr[i+1];
-        var day = dateArr[i+2];
+    @foreach (var d in Model.UnavailableDates)
+    {
+        <text>
+            unavailableArr.push("@d.Year");
+            unavailableArr.push("@d.Month");
+            unavailableArr.push("@d.Day");
+        </text>
+    }
+
+    while(availableArr[i]) {
+        var year = availableArr[i];
+        var month = availableArr[i+1];
+        var day = availableArr[i+2];
 
 
         if(day < 10) {
@@ -39,10 +49,52 @@
         model.push(
             {
                 title: 'Available',
-                start: date//,
-                //url: "https://google.com"
+                start: date,
+                color: '#00ba37',
+                url: "/BookingsPages/BookingRequest?id=" + @Model.Property.Id + "&date=" + year + "-" + month + "-" + day
             }
         );
+
+        i += 3;
+    }
+
+    i = 0;
+
+    while(unavailableArr[i]) {
+        var year = unavailableArr[i];
+        var month = unavailableArr[i+1];
+        var day = unavailableArr[i+2];
+
+
+        if(day < 10) {
+            day = '0' + day;
+        }
+
+        if(month < 10) {
+            month = '0' + month;
+        }
+
+        var date = year + '-' + month + '-' + day;
+        const d = new Date();
+
+        if(year < d.getFullYear() || (year == d.getFullYear() && month < d.getMonth() + 1) || (year == d.getFullYear() && month == d.getMonth() + 1 && day < d.getDate())) {
+            model.push(
+                {
+                    title: 'Booked',
+                    start: date,
+                    color: '#571818'
+                }
+            );
+        }
+        else {
+            model.push(
+                {
+                    title: 'Booked',
+                    start: date,
+                    color: '#e65054'
+                }
+            );
+        }
 
         i += 3;
     }
@@ -214,10 +266,10 @@
                     <!--Make this into a calendar-->
                     <div id="calendar"></div>
                     <br />
-                    @* @if (Model.AvailableDates.Any())
+                    @* @if (Model.UnavailableDates.Any())
                     {
                         <ul>
-                            @foreach (var date in Model.AvailableDates)
+                            @foreach (var date in Model.UnavailableDates)
                             {
                                 <li>@date.ToShortDateString()</li>
                             }

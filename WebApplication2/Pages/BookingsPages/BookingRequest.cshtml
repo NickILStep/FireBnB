@@ -61,3 +61,12 @@
 		</div>
 	</div>
 </form>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const date = urlParams.get('date');
+    console.log(date);
+
+    document.getElementById("startDate").defaultValue = date;
+</script>
