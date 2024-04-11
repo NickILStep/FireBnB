@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Utility;
 
-namespace FireBnBWeb.Pages.Dashboard
+namespace FireBnBWeb.Pages.Dashboard.Properties
 {
     public class UpsertPropertyModel : PageModel
     {
@@ -17,7 +17,7 @@ namespace FireBnBWeb.Pages.Dashboard
         public Property objproperty { get; set; }
         public PropertyAmenity objpropamenity { get; set; }
         public PropertyBedConfiguration objpropbedconfig { get; set; }
-        
+
         [BindProperty]
         public List<int> StateList { get; set; }
         [BindProperty]
@@ -37,13 +37,13 @@ namespace FireBnBWeb.Pages.Dashboard
         public List<SelectListItem> BedOptions;
         public List<SelectListItem> AmenityOptions { get; set; }
         public List<SelectListItem> PropTypeOptions { get; set; }
-        
-        public Property PropOptions {  get; set; }
+
+        public Property PropOptions { get; set; }
         public ApplicationUser AppUser { get; set; }
 
         public PropertyType objproptype
         { get; set; }
-       
+
         public bool newproperty = false;
         public UpsertPropertyModel(UnitofWork unitofwork, UserManager<ApplicationUser> userManager)
         {
@@ -53,9 +53,9 @@ namespace FireBnBWeb.Pages.Dashboard
             objpropamenity = new PropertyAmenity();
             objpropbedconfig = new PropertyBedConfiguration();
             objproptype = new PropertyType();
-            
-         
-            
+
+
+
             StateOptions = _unitofwork.State.GetAll().Select(a => new SelectListItem
             {
                 Value = a.Id.ToString(),
@@ -81,7 +81,7 @@ namespace FireBnBWeb.Pages.Dashboard
                 Value = a.Id.ToString(),
                 Text = a.Title
             }).ToList();
-            BedOptions = _unitofwork.BedConfiguration.GetAll().Select(a=> new SelectListItem
+            BedOptions = _unitofwork.BedConfiguration.GetAll().Select(a => new SelectListItem
             {
                 Value = a.Id.ToString(),
                 Text = a.Configuration
@@ -96,7 +96,7 @@ namespace FireBnBWeb.Pages.Dashboard
                 objproperty = _unitofwork.Property.GetById(id);
 
             }
-            
+
 
             if (objproperty == null)
             {
@@ -135,9 +135,9 @@ namespace FireBnBWeb.Pages.Dashboard
                     objpropamenity.PropertyId = PropOptions.Id;
                     objpropamenity.AmenityId = amenity;
                     _unitofwork.PropertyAmenity.Add(objpropamenity);
-                    
+
                     _unitofwork.Commit();
-                    
+
                 }
                 AppUser = _unitofwork.ApplicationUser.GetById(UserId);
                 if (User.IsInRole(SD.ListerRole)) { }
@@ -161,7 +161,7 @@ namespace FireBnBWeb.Pages.Dashboard
             {
                 return RedirectToPage("./UserDashboard");
             }
-            return Page();
+            
         }
     }
 }

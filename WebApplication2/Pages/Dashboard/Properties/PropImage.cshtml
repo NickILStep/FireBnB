@@ -1,0 +1,34 @@
+﻿@page
+@model FireBnBWeb.Pages.Dashboard.Properties.PropImageModel
+@{
+}
+<div>
+	@if (Model.ImagesList != null)
+	{
+		<h2>Primary Image</h2>
+		@foreach (var image in Model.ImagesList)
+		{
+			@if (image.IsPrimary == true)
+			{
+				<img src="@image.Url"/>
+				<input for="thereprimary" type="hidden" id="thereprimary" value="true"/>
+			}
+
+		}
+		<h2>Other Images</h2>
+		@foreach(var image in Model.ImagesList)
+		{
+			@if(image.IsPrimary == false)
+			{
+				<img src="@image.Url"/>
+			}
+		}
+	}
+</div>
+<div>
+	<input asp-for="objImage.Url"/>
+	<label asp-for="objImage.Url">Image URl</label>
+
+	<input asp-for="objImage.IsPrimary"/>
+	<label asp-for="objImage.IsPrimary">Is Primary</label>
+</div>

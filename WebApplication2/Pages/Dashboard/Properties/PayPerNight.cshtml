@@ -1,0 +1,31 @@
+﻿@page
+@model FireBnBWeb.Pages.Dashboard.Properties.PayPerNightModel
+@{
+}
+@if (Model.objNightlyPriceList != null)
+{
+	<h3>List of current Prices per night</h3>
+	@foreach (var price in Model.objNightlyPriceList)
+	{
+		<p>From @price.StartDate to @price.EndDate</p>
+		<p>The rate is @price.Rate</p>
+	}
+}
+<form method="post">
+	<div>
+		
+
+		<input asp-for="objNightPrice.StartDate" />
+		<label asp-for="objNightPrice.StartDate" />
+
+		<input asp-for="objNightPrice.EndDate" />
+		<label asp-for="objNightPrice.EndDate" />
+
+		<input asp-for="objNightPrice.Rate" />
+		<label asp-for="objNightPrice.Rate" />
+	</div>
+	<div class="col-6 col-md-3">
+		<button type="submit" class="btn btn-primary form-control">Create</button>
+		<button asp-page="./PropImages" class="btn btn-outline-primary border  form-control">Add Images</button>
+	</div>
+</form>
