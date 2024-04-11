@@ -6,41 +6,108 @@
 
 <h1>Income Report</h1>
 
-@if (Model.PropertyList != null && Model.PropertyList.Any())
-{
-    <h4>Properties Owned by You:</h4>
-    <ul>
-        @foreach (var property in Model.PropertyList)
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.PropertyList != null && Model.PropertyList.Any())
         {
-            <li>@property.Title</li>
+            <h4>Select Properties</h4>
+            <select id="propertyDropdown" class="form-control">
+                <option value="">All Properties</option>
+                @foreach (var property in Model.PropertyList)
+                {
+                    <option value="@property.Id">@property.Title</option>
+                }
+            </select>
+
+            <div id="weeklyIncome" style="display: none;">
+                <h5>Weekly Income (Total):</h5>
+                <p><strong>Total:</strong> @Model.TotalIncome.ToString("C")</p>
+            </div>
+
+            <div id="lastWeekIncome" style="display: none;">
+                <ul>
+                    <li>Last Week: @Model.LastWeekIncome.ToString("C")</li>
+                </ul>
+            </div>
+
+            <div id="currentWeekIncome" style="display: none;">
+                <ul>
+                    <li>Current Week: @Model.CurrentWeekIncome.ToString("C")</li>
+                </ul>
+            </div>
+
+            <div id="monthlyIncome" style="display: none;">
+                <h5>Monthly Income (Total):</h5>
+                <p><strong>Total:</strong> @Model.TotalIncome.ToString("C")</p>
+            </div>
+
+            <div id="lastMonthIncome" style="display: none;">
+                <ul>
+                    <li>Last Month: @Model.LastMonthIncome.ToString("C")</li>
+                </ul>
+            </div>
+
+            <div id="currentMonthIncome" style="display: none;">
+                <ul>
+                    <li>Current Month: @Model.CurrentMonthIncome.ToString("C")</li>
+                </ul>
+            </div>
         }
-    </ul>
-}
+    </div>
 
-@if (Model.BookingList != null && Model.BookingList.Any())
-{
-    <h5>Bookings for Your Properties:</h5>
-    <table>
-        <thead>
-            <tr>
-                <th>Property</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var booking in Model.BookingList)
-            {
-                <tr>
-                    <td>@booking.Property.Title</td>
-                    <td>@booking.Checkin.ToShortDateString()</td>
-                    <td>@booking.Checkout.ToShortDateString()</td>
-                    <td>@booking.TotalPrice.ToString("C")</td>
-                </tr>
+    <div class="col-md-6">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-body">
+                <h4>Total Income</h4>
+                <h5 class="card-title">@Model.TotalIncome.ToString("C")</h5>
+            </div>
+            <div class="card-body">
+                <h5>Last Month's Income:</h5>
+                <p>@Model.LastMonthIncome.ToString("C")</p>
+            </div>
+            <div class="card-body">
+                <h5>Last Week's Income:</h5>
+                <p>@Model.LastWeekIncome.ToString("C")</p>
+            </div>
+            <div class="card-body">
+                <h5>Current Month's Income:</h5>
+                <p>@Model.CurrentMonthIncome.ToString("C")</p>
+            </div>
+            <div class="card-body">
+                <h5>Current Week's Income:</h5>
+                <p>@Model.CurrentWeekIncome.ToString("C")</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('propertyDropdown').addEventListener('change', function () {
+            var propertyId = this.value;
+            var weeklyIncomeDiv = document.getElementById('weeklyIncome');
+            var lastWeekIncomeDiv = document.getElementById('lastWeekIncome');
+            var currentWeekIncomeDiv = document.getElementById('currentWeekIncome');
+            var monthlyIncomeDiv = document.getElementById('monthlyIncome');
+            var lastMonthIncomeDiv = document.getElementById('lastMonthIncome');
+            var currentMonthIncomeDiv = document.getElementById('currentMonthIncome');
+
+            if (propertyId === '') {
+                weeklyIncomeDiv.style.display = 'none';
+                lastWeekIncomeDiv.style.display = 'none';
+                currentWeekIncomeDiv.style.display = 'none';
+                monthlyIncomeDiv.style.display = 'none';
+                lastMonthIncomeDiv.style.display = 'none';
+                currentMonthIncomeDiv.style.display = 'none';
+            } else {
+                weeklyIncomeDiv.style.display = 'block';
+                lastWeekIncomeDiv.style.display = 'block';
+                currentWeekIncomeDiv.style.display = 'block';
+                monthlyIncomeDiv.style.display = 'block';
+                lastMonthIncomeDiv.style.display = 'block';
+                currentMonthIncomeDiv.style.display = 'block';
             }
-        </tbody>
-    </table>
+        });
+    </script>
 }
-
-<h5>Total Income: @Model.TotalIncome.ToString("C")</h5>
