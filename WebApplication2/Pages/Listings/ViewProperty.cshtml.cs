@@ -203,7 +203,7 @@ namespace FireBnBWeb.Pages.Listings
                 return GetDatesInRange(DateTime.Today, DateTime.Today.AddYears(1)); // Adjust the range as needed
             }
 
-            var currentDate = DateTime.Today;
+            var currentDate = DateTime.Today.AddYears(-1);
             var availableDates = new List<DateTime>();
 
             foreach (var booking in bookings)

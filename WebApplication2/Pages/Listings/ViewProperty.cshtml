@@ -29,6 +29,8 @@
             unavailableArr.push("@d.Day");
         </text>
     }
+    
+    const d = new Date();
 
     while(availableArr[i]) {
         var year = availableArr[i];
@@ -46,14 +48,25 @@
 
         var date = year + '-' + month + '-' + day;
 
-        model.push(
-            {
-                title: 'Available',
-                start: date,
-                color: '#00ba37',
-                url: "/BookingsPages/BookingRequest?id=" + @Model.Property.Id + "&date=" + year + "-" + month + "-" + day
-            }
-        );
+        if(year < d.getFullYear() || (year == d.getFullYear() && month < d.getMonth() + 1) || (year == d.getFullYear() && month == d.getMonth() + 1 && day < d.getDate())) {
+            model.push(
+                {
+                    title: 'Past',
+                    start: date,
+                    color: '#17632e'
+                }
+            );
+        }
+        else {
+            model.push(
+                {
+                    title: 'Available',
+                    start: date,
+                    color: '#00ba37',
+                    url: "/BookingsPages/BookingRequest?id=" + @Model.Property.Id + "&date=" + year + "-" + month + "-" + day
+                }
+            );
+        }
 
         i += 3;
     }
@@ -75,7 +88,6 @@
         }
 
         var date = year + '-' + month + '-' + day;
-        const d = new Date();
 
         if(year < d.getFullYear() || (year == d.getFullYear() && month < d.getMonth() + 1) || (year == d.getFullYear() && month == d.getMonth() + 1 && day < d.getDate())) {
             model.push(
@@ -102,9 +114,18 @@
     console.log(model);
 
     document.addEventListener('DOMContentLoaded', function () {
+        const startDay = new Date();
+        startDay.setFullYear(startDay.getFullYear() - 1);
+        const endDay = new Date();
+        endDay.setFullYear(endDay.getFullYear() + 1);
+
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
+            validRange: {
+                start: startDay,
+                end: endDay
+            },
             events: model
             // events: [
             //     {
@@ -266,10 +287,10 @@
                     <!--Make this into a calendar-->
                     <div id="calendar"></div>
                     <br />
-                    @* @if (Model.UnavailableDates.Any())
+                    @* @if (Model.AvailableDates.Any())
                     {
                         <ul>
-                            @foreach (var date in Model.UnavailableDates)
+                            @foreach (var date in Model.AvailableDates)
                             {
                                 <li>@date.ToShortDateString()</li>
                             }
