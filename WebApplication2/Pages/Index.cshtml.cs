@@ -56,6 +56,9 @@ namespace FireBnBWeb.Pages
         public List<SelectListItem> Counties { get; set; }
         public List<SelectListItem> States { get; set; }
 
+        public ICollection<Image> Images { get; set; }
+        public Dictionary<int, string> PropertyImages { get; set; }
+
 
         public IndexModel(ILogger<IndexModel> logger, UnitofWork unitofwork)
         {
@@ -75,54 +78,24 @@ namespace FireBnBWeb.Pages
             // Populate dropdown lists for cities, counties, and states
             Cities = _unitofwork.City.GetAll().Select(c => new SelectListItem
             {
-                Value = c.Id.ToString(), // Assuming Id is the ID of the city
+                Value = c.Id.ToString(),
                 Text = c.CityName
             }).ToList();
 
             Counties = _unitofwork.County.GetAll().Select(c => new SelectListItem
             {
-                Value = c.Id.ToString(), // Assuming Id is the ID of the county
+                Value = c.Id.ToString(), 
                 Text = c.CountyName
             }).ToList();
 
             States = _unitofwork.State.GetAll().Select(s => new SelectListItem
             {
-                Value = s.Id.ToString(), // Assuming Id is the ID of the state
+                Value = s.Id.ToString(),
                 Text = s.StateName
             }).ToList();
 
-            //// If a city is selected, filter properties by city
-            //if (SelectedCityId != null)
-            //{
-            //    Properties = Properties.Where(property => property.CityId == SelectedCityId);
-            //}
 
-            //// If a county is selected, filter properties by county
-            //if (SelectedCountyId != null)
-            //{
-            //    Properties = Properties.Where(property => property.CountyId == SelectedCountyId);
-            //}
-
-            //// If a state is selected, filter properties by state
-            //if (SelectedStateId != null)
-            //{
-            //    Properties = Properties.Where(property => property.StateId == SelectedStateId);
-            //}
-
-            //// If max guest count is specified, filter properties by max guest count
-            //if (GuestNumber != null)
-            //{
-            //    Properties = Properties.Where(property => property.GuestMax >= GuestNumber);
-            //}
-            //if (BedroomCount != null)
-            //{
-            //    Properties = Properties.Where(property => property.BedroomNum >= BedroomCount);
-            //}
-            //if (BathroomCount != null)
-            //{
-            //    Properties = Properties.Where(property => property.BathroomNum >= BathroomCount);
-            //}
-
+           
             // If search criteria are provided, perform the search
             if (!string.IsNullOrEmpty(SearchQuery) || CheckIn != null || CheckOut != null || GuestNumber != null || CostPerNight != null || SelectedAmenities != null || BedroomCount != null || BathroomCount != null || SelectedCityId != null || SelectedCountyId != null || SelectedStateId != null)
             {
@@ -139,5 +112,20 @@ namespace FireBnBWeb.Pages
 
             return Page();
         }
+        public string GetPrimaryImageUrl(int imageId)
+        {
+            var primaryImage = _unitofwork.Image.GetById(imageId);
+            return primaryImage != null ? primaryImage.Url : null;
+        }
+        public float? GetNightlyPrice(int propertyId)
+        {
+            var currentDate = DateTime.Now;
+            var nightlyPrice = _unitofwork.PropertyNightlyPrice.GetAll()
+                .FirstOrDefault(p => p.PropertyId == propertyId && p.StartDate <= currentDate && p.EndDate >= currentDate);
+
+            return nightlyPrice?.Rate;
+        }
+
+
     }
 }
