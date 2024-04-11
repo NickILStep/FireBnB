@@ -41,6 +41,7 @@ namespace FireBnBWeb.Pages.Listings
         public ApplicationUser Lister { get; private set; }
         public DateTime? EarliestCheckinDate { get; set; }
         public IEnumerable<DateTime> AvailableDates { get; set; }
+        public IEnumerable<DateTime> UnavailableDates { get; set; }
         public List<PropertyNightlyPrice> NightlyPrices { get; private set; }
         public float PriceForSevenNights { get; private set; }
         public List<PropertyFee> PropertyFees { get; private set; }
@@ -119,6 +120,7 @@ namespace FireBnBWeb.Pages.Listings
 
             // Calculate available dates for the property
             AvailableDates = GetAvailableDates(id);
+            UnavailableDates = GetUnavailableDates(id);
 
             // Fetch nightly prices associated with the property
             NightlyPrices = _unitOfWork.PropertyNightlyPrice
@@ -201,8 +203,7 @@ namespace FireBnBWeb.Pages.Listings
                 return GetDatesInRange(DateTime.Today, DateTime.Today.AddYears(1)); // Adjust the range as needed
             }
 
-            var currentDate = DateTime.Now.Date;
-            //var currentDate = bookings.First().Checkin.Date;
+            var currentDate = DateTime.Today.AddYears(-1);
             var availableDates = new List<DateTime>();
 
             foreach (var booking in bookings)
@@ -213,7 +214,10 @@ namespace FireBnBWeb.Pages.Listings
                     availableDates.AddRange(GetDatesInRange(currentDate, booking.Checkin.Date.AddDays(-1)));
                 }
 
-                currentDate = booking.Checkout.Date.AddDays(1);
+                if (currentDate <= booking.Checkout.Date)
+                {
+                    currentDate = booking.Checkout.Date.AddDays(1);
+                }
             }
 
             // Add available dates after the last booking
@@ -223,6 +227,22 @@ namespace FireBnBWeb.Pages.Listings
             }
 
             return availableDates;
+        }
+        
+        private IEnumerable<DateTime> GetUnavailableDates(int propertyId)
+        {
+            var bookings = _unitOfWork.Booking.GetAll(b => b.PropertyId == propertyId)
+                                               .OrderBy(b => b.Checkin)
+                                               .ToList();
+
+            var unavailableDates = new List<DateTime>();
+
+            foreach (var booking in bookings)
+            {
+                unavailableDates.AddRange(GetDatesInRange(booking.Checkin.Date, booking.Checkout.Date));
+            }
+
+            return unavailableDates;
         }
 
         private IEnumerable<DateTime> GetDatesInRange(DateTime startDate, DateTime endDate)
