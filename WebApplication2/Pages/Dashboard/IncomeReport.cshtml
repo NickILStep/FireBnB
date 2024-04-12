@@ -100,3 +100,12 @@
         });
     </script>
 }
+<button id="generatePdfButton">Generate PDF</button>
+
+@section Scripts {
+    <script>
+        document.getElementById('generatePdfButton').addEventListener('click', function () {
+            window.location.href = '/Dashboard/IncomeReport/GeneratePdf';
+        });
+    </script>
+}
