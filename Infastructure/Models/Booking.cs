@@ -43,5 +43,8 @@ namespace Infrastructure.Models
 
         [Required]
         public int NumGuests { get; set; } // Number of guests who will be staying at the property for the booking
+
+        [Required]
+        public bool IsConfirmed { get; set; } // Whether or not the lister has accepted the booking request
     }
 }
