@@ -40,6 +40,7 @@ namespace FireBnBWeb.Pages.BookingsPages
     public class BookingRequestModel : PageModel
     {
         private readonly UnitofWork _unitOfWork;
+        [BindProperty]
         public Property Property { get; private set; }
         public List<Image> Images { get; private set; }
         public int TotalBedCount { get; private set; }
@@ -58,16 +59,17 @@ namespace FireBnBWeb.Pages.BookingsPages
         public List<PropertyDiscount> PropertyDiscounts { get; private set; }
         public float TotalPriceForSevenNights { get; private set; }
 
-        public Booking Booking { get; private set; }
+        [BindProperty]
+        public Booking objBooking { get; private set; }
         public string adf {  get; private set; }
         public string adl { get; private set; }
-        public float currentPrice {  get; private set; }
 
         public BookingRequestModel(UnitofWork unitOfWork)
 
         {
             _unitOfWork = unitOfWork;
-            Booking = new Booking();
+            objBooking = new Booking();
+            Property = new Property();
         }
 
 
@@ -110,6 +112,8 @@ namespace FireBnBWeb.Pages.BookingsPages
             AvailableDates = GetAvailableDates(id);
             DateTime FirstDate = AvailableDates.First();
             DateTime LastDate = AvailableDates.Last();
+            // The whole statement is to craft the specific string for the date picker controls.
+            // The controls need the 0 (i.e. 04, not 4) or it doesn't work
             if(FirstDate.Month < 10 && FirstDate.Day < 10)
             {
                 adf = FirstDate.Year + "-0" + FirstDate.Month + "-0" + FirstDate.Day;
@@ -262,6 +266,22 @@ namespace FireBnBWeb.Pages.BookingsPages
 
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Data Incomplete";
+                return Page();
+            }
+
+            objBooking.PropertyId = Property.Id;
+            /*
+             * GuestID
+             * NumGuests
+             * CheckIn
+             * CheckOut
+             * Tax (??)
+             * TotalPrice
+             * */
+
             return Page();
         }
     }

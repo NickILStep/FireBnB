@@ -3,16 +3,17 @@
 @{
 }
 
-<form>
+<form method="post">
 	<div class="row m-3">
 		<div class="col-8">
+            <input asp-for="objBooking.Property" type="hidden" value="@Model.Property" />
             <h3>@Model.Property.Title</h3>
             <p>How many Guests?</p>
-            <input class="form-control" id="guestNum" asp-for="Booking.NumGuests"/>
+            <input class="form-control" id="guestNum" asp-for="objBooking.NumGuests" value="1"/>
             <p>Select Dates</p>
-            <input class="form-control datePicker" id="startDate" asp-for="Booking.Checkin" type="date" value="" min="@Model.adf" max="@Model.adl" />
+            <input class="form-control datePicker" id="startDate" asp-for="objBooking.Checkin" type="date" value="" min="@Model.adf" max="@Model.adl" />
             <p>To</p>
-            <input class="form-control datePicker" id="endDate" asp-for="Booking.Checkout" type="date" value="" min="@Model.adf" max="@Model.adl" />
+            <input class="form-control datePicker" id="endDate" asp-for="objBooking.Checkout" type="date" value="" min="@Model.adf" max="@Model.adl" />
 		</div>
         <div class="col-4">
             <div class="card">
@@ -53,7 +54,7 @@
                         {
                             <!-- If the user is logged in, display the "Book It" button -->
                             <!--<button class="btn btn-primary" type="submit">Submit</button>-->
-                            <a asp-area="" asp-page="/Index" class="btn btn-primary">Submit</a>
+                            <button type="submit" class="btn btn-primary form-control">Submit Request</button>
                         }
                     </div>
                 </div>
