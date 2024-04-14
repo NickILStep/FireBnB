@@ -8,9 +8,10 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
     public class PayPerNightModel : PageModel
     {
         public readonly UnitofWork _unitofWork;
-        public PropertyNightlyPrice objNightPrice;
-        public IEnumerable<PropertyNightlyPrice> objNightlyPriceList;
-        public int? propertyid;
+		[BindProperty]
+		public PropertyNightlyPrice objNightPrice { get; set; }
+		public IEnumerable<PropertyNightlyPrice> objNightlyPriceList { get; set; }
+		public int? propertyid;
 
         public PayPerNightModel(UnitofWork unitofWork) 
         {
@@ -32,7 +33,7 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
                 return Page();
             }
             _unitofWork.PropertyNightlyPrice.Add(objNightPrice);
-
+            _unitofWork.Commit();
             return Page();
         }
     }
