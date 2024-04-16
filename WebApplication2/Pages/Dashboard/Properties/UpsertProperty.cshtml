@@ -7,7 +7,7 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-primary py-2">@(Model.objproperty.Id != 0 ? "Update " : "Create ") Category</h2>
+				<h2 class="text-primary py-2">@(Model.objproperty.Id != 0 ? "Update " : "Create ") Property</h2>
 			</div>
 		</div>
 	</div>
@@ -198,7 +198,7 @@
 						<button type="submit" class="btn btn-primary form-control">@(Model.objproperty.Id != 0 ? "Update " : "Create ")</button>
 					</div>
 					<div class="col-6 col-md-3">
-						<a asp-page="./UserDashboard" class="btn btn-outline-primary border  form-control">
+						<a asp-page="/DashboardUserDashboard" class="btn btn-outline-primary border  form-control">
 							Back to List
 						</a>
 					</div>
