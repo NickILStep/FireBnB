@@ -4,10 +4,10 @@
 	ViewData["Title"] = "UpsertProperty";
 }
 <div class="card shadow border-0 mt-4">
-	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+	<div class="card-header bg-primary ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-primary py-2">@(Model.objproperty.Id != 0 ? "Update " : "Create ") Property</h2>
+				<h2 class="text-dark py-2">@(Model.objproperty.Id != 0 ? "Update " : "Create ") Property</h2>
 			</div>
 		</div>
 	</div>
@@ -21,32 +21,32 @@
 				<input asp-for="objproperty.ImageId" type="hidden" value="1" />
 				<div class="form-floating py-2 col-12">
 					<input asp-for="objproperty.Title" class="form-control border-0 shadow" />
-					<label asp-for="objproperty.Title" class="ms-2">Property Title</label>
+					<label asp-for="objproperty.Title" class="ms-2" style="color: #073642;">Property Title</label>
 					<span asp-validation-for="objproperty.Title" class="text-danger"></span>
 
 				</div>
 				<div class="form-floating py-2 col-12">
 					<input asp-for="objproperty.Description" class="form-control border-0 shadow" />
-					<label asp-for="objproperty.Description" class="ms-2">Property Description</label>
+					<label asp-for="objproperty.Description" class="ms-2" style="color: #073642;">Property Description</label>
 					<span asp-validation-for="objproperty.Description" class="text-danger"></span>
 
 				</div>
 
 				<div class="form-floating py-2 col-12">
 					<input asp-for="objproperty.GuestMax" class="form-control border-0 shadow" />
-					<label asp-for="objproperty.GuestMax" class="ms-2">Guest Max</label>
+					<label asp-for="objproperty.GuestMax" class="ms-2" style="color: #073642;">Guest Max</label>
 					<span asp-validation-for="objproperty.GuestMax" class="text-danger"></span>
 
 				</div>
 				<div class="form-floating py-2 col-12">
 					<input asp-for="objproperty.CancellationDays" class="form-control border-0 shadow" />
-					<label asp-for="objproperty.CancellationDays" class="ms-2">Cancellation Days</label>
+					<label asp-for="objproperty.CancellationDays" class="ms-2" style="color: #073642;">Cancellation Days</label>
 					<span asp-validation-for="objproperty.CancellationDays" class="text-danger"></span>
 
 				</div>
 				<div class="form-floating py-2 col-12">
 					<input asp-for="objproperty.BasePrice" class="form-control border-0 shadow" />
-					<label asp-for="objproperty.BasePrice" class="ms-2">Base per Night</label>
+					<label asp-for="objproperty.BasePrice" class="ms-2" style="color: #073642;">Base per Night</label>
 					<span asp-validation-for="objproperty.BasePrice" class="text-danger"></span>
 
 				</div>
@@ -80,26 +80,26 @@
 				{
 					<div class="form-floating py-2 col-12">
 						<input asp-for="objproperty.BedroomNum" class="form-control border-0 shadow" />
-						<label asp-for="objproperty.BedroomNum" class="ms-2">Bedroom Number</label>
+						<label asp-for="objproperty.BedroomNum" class="ms-2" style="color: #073642;">Bedroom Number</label>
 						<span asp-validation-for="objproperty.BedroomNum" class="text-danger"></span>
 
 					</div>
 					<div class="form-floating py-2 col-12">
 						<input asp-for="objproperty.BathroomNum" class="form-control border-0 shadow" />
-						<label asp-for="objproperty.BathroomNum" class="ms-2">Bathroom Number</label>
+						<label asp-for="objproperty.BathroomNum" class="ms-2" style="color: #073642;">Bathroom Number</label>
 						<span asp-validation-for="objproperty.BathroomNum" class="text-danger"></span>
 
 					</div>
 					<h5>Address Details</h5>
 					<div class="form-floating py-2 col-12">
 						<input asp-for="objproperty.Address" class="form-control border-0 shadow" />
-						<label asp-for="objproperty.Address" class="ms-2">Address</label>
+						<label asp-for="objproperty.Address" class="ms-2" style="color: #073642;">Address</label>
 						<span asp-validation-for="objproperty.Address" class="text-danger"></span>
 
 					</div>
 					<div class="form-floating py-2 col-12">
 						<input asp-for="objproperty.Zipcode" class="form-control border-0 shadow" />
-						<label asp-for="objproperty.Zipcode" class="ms-2">Zipcode</label>
+						<label asp-for="objproperty.Zipcode" class="ms-2" style="color: #073642;">Zipcode</label>
 						<span asp-validation-for="objproperty.Zipcode" class="text-danger"></span>
 
 					</div>
@@ -198,7 +198,7 @@
 						<button type="submit" class="btn btn-primary form-control">@(Model.objproperty.Id != 0 ? "Update " : "Create ")</button>
 					</div>
 					<div class="col-6 col-md-3">
-						<a asp-page="/DashboardUserDashboard" class="btn btn-outline-primary border  form-control">
+						<a asp-page="/Dashboard/UserDashboard" class="btn btn-outline-primary border  form-control">
 							Back to List
 						</a>
 					</div>
