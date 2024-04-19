@@ -5,12 +5,13 @@
 }
 
 <h1>Income Report</h1>
+<h4>As of <div id="datetime"></div></h4>
 
 <div class="row">
     <div class="col-md-6">
         @if (Model.PropertyList != null && Model.PropertyList.Any())
         {
-            <h4>Select Properties</h4>
+            <h4>Property:</h4>
             <select id="propertyDropdown" class="form-control">
                 <option value="">All Properties</option>
                 @foreach (var property in Model.PropertyList)
@@ -71,6 +72,12 @@
     </div>
 </div>
 
+<!--Button-->
+<form asp-page-asp-page-handler="button" method="post">
+    <input type="hidden" id="hiddenPropertyId" name="propertyId" />
+    <button class="btn btn-default">Generate PDF</button>
+</form>
+
 @section Scripts {
     <script>
         document.getElementById('propertyDropdown').addEventListener('change', function () {
@@ -98,15 +105,11 @@
                 currentMonthIncomeDiv.style.display = 'block';
             }
         });
-    </script>
-}
-<!--Button-->
-<button id="generatePdfButton">Generate PDF</button>
 
-@section Scripts {
-    <script>
-        document.getElementById('generatePdfButton').addEventListener('click', function () {
-            window.location.href = '/Dashboard/IncomeReport/GeneratePdf';
-        });
+        document.getElementById('datetime').outerHTML = new Date().toDateString();
+
+        // document.getElementById('generatePdfButton').addEventListener('click', function () {
+        //     window.location.href = '/Dashboard/IncomeReport/GeneratePdf';
+        // });
     </script>
 }

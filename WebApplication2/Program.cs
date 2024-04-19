@@ -21,9 +21,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<UnitofWork>();
 builder.Services.AddScoped<DbInitializer>();
 
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,5 +50,7 @@ void SeedDatabase()
     var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
     dbInitializer.Initialize();
 }
+
+License.LicenseKey = "IRONSUITE.NSTEPHENSON.MAIL.WEBER.EDU.7844-B43FF56EFF-BRATJE3RMGRN5CLG-EEVDJHHDUSZB-LKYE3AZQAZPR-PDPS7RMI7G4Q-KNZAUZYDDICA-OVPBMP343SCT-SED3KC-T6TLNIUXN76MEA-DEPLOYMENT.TRIAL-XZRP5W.TRIAL.EXPIRES.18.MAY.2024";
 
 app.Run();
