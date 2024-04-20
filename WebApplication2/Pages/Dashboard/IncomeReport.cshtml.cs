@@ -67,21 +67,23 @@ namespace FireBnBWeb.Pages.Dashboard
             CalculateCurrentMonthIncome();
             CalculateCurrentWeekIncome();
 
-
             return Page();
         }
-        public async Task<IActionResult> OnGetGeneratePdfAsync(int? propertyId)
+
+        public async Task<IActionResult> OnPostAsync(int? propertyId)
         {
             await OnGetAsync(propertyId);
 
             // Generate HTML content for the PDF
             var htmlContent = $@"
                 <h1>Income Report</h1>
+                <h3>As of {DateTime.Now}</h3>
                 <p>Total Income: {TotalIncome:C}</p>
                 <p>Last Month's Income: {LastMonthIncome:C}</p>
                 <p>Last Week's Income: {LastWeekIncome:C}</p>
                 <p>Current Month's Income: {CurrentMonthIncome:C}</p>
                 <p>Current Week's Income: {CurrentWeekIncome:C}</p>";
+            //var htmlContent = "<h1>Test Text</h1>";
 
             // Initialize IronPdf renderer
             var renderer = new ChromePdfRenderer();
