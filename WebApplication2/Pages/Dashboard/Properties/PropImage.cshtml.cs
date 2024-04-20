@@ -9,7 +9,8 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
     {
         public readonly UnitofWork _unitofWork;
         public IEnumerable<Image> ImagesList { get; set; }
-        public Image objImage { get; set; }
+		[BindProperty]
+		public Image objImage { get; set; }
         public bool thereprimary { get; set; }
         public PropImageModel(UnitofWork unitofWork)
         {
@@ -21,5 +22,16 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
             ImagesList = _unitofWork.Image.GetAll(p => p.PropertyId == id);
             return Page();
         }
+        public IActionResult OnPost()
+        {
+			if (!ModelState.IsValid)
+			{
+				TempData["error"] = "Data Incomplete";
+				return Page();
+			}
+            _unitofWork.Image.Add(objImage);
+            _unitofWork.Commit();
+            return Page();
+		}
     }
 }

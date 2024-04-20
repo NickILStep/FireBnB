@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using IronPdf;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace FireBnBWeb.Pages.Dashboard
 {
@@ -12,7 +16,6 @@ namespace FireBnBWeb.Pages.Dashboard
     {
         private readonly UnitofWork _unitofWork;
         private readonly UserManager<ApplicationUser> _userManager;
-
         public IEnumerable<Booking> BookingList { get; set; }
         public IEnumerable<Property> PropertyList { get; set; }
         public decimal TotalIncome { get; set; }
@@ -24,11 +27,9 @@ namespace FireBnBWeb.Pages.Dashboard
         public decimal CurrentMonthIncome { get; set; }
         public decimal CurrentWeekIncome { get; set; }
 
-        public IncomeReportModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager)
-        {
+        public IncomeReportModel(UnitofWork unitofWork, UserManager<ApplicationUser> userManager) { 
             _unitofWork = unitofWork;
             _userManager = userManager;
-
         }
         public async Task<IActionResult> OnGetAsync(int? propertyId)
         {
@@ -68,6 +69,28 @@ namespace FireBnBWeb.Pages.Dashboard
 
 
             return Page();
+        }
+        public async Task<IActionResult> OnGetGeneratePdfAsync(int? propertyId)
+        {
+            await OnGetAsync(propertyId);
+
+            // Generate HTML content for the PDF
+            var htmlContent = $@"
+                <h1>Income Report</h1>
+                <p>Total Income: {TotalIncome:C}</p>
+                <p>Last Month's Income: {LastMonthIncome:C}</p>
+                <p>Last Week's Income: {LastWeekIncome:C}</p>
+                <p>Current Month's Income: {CurrentMonthIncome:C}</p>
+                <p>Current Week's Income: {CurrentWeekIncome:C}</p>";
+
+            // Initialize IronPdf renderer
+            var renderer = new ChromePdfRenderer();
+
+            // Render HTML content to PDF
+            var pdf = renderer.RenderHtmlAsPdf(htmlContent);
+
+            // Save the PDF to a file or return it as a file download
+            return File(pdf.BinaryData, "application/pdf", "IncomeReport.pdf");
         }
 
         private void CalculateWeeklyIncome()

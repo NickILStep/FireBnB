@@ -2,41 +2,107 @@
 @model FireBnBWeb.Pages.Dashboard.UpcomingBookingModel
 @using Infrastructure.Models
 
-<h1>Upcoming Bookings</h1>
+<h1>All Bookings</h1>
 
+@if (!Model.bookingList.Any(b => b.Checkin <= DateTime.Now && b.Checkout >= DateTime.Now))
+{
+    <h3 class="text-light">No Current Booking Here!</h3>
+}
+else
+{
 <table class="table">
     <thead>
-        <tr>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>City</th>
-            <th>County</th>
-            <th>State</th>
-            <th>Guest Count</th>
-            <th>Total Price</th>
-            <th>Action</th>
+        <tr class="table-primary">
+            <th>Current Bookings</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var booking in Model.bookingList)
+        @foreach (var booking in Model.bookingList.Where(b => b.Checkin <= DateTime.Now && b.Checkout >= DateTime.Now))
         {
-            <tr>
+            <tr class="table-dark">
+                <td>@Model.propertyList.FirstOrDefault(p => p.Id == booking.PropertyId)?.Title</td>
                 <td>@booking.Checkin.ToShortDateString()</td>
                 <td>@booking.Checkout.ToShortDateString()</td>
                 <td>@booking.Property.City.CityName</td>
                 <td>@booking.Property.County.CountyName</td>
                 <td>@booking.Property.State.StateName</td>
-                @*<td>@booking.Property.Location.City.CityName</td>
-                <td>@booking.Property.Location.County.CountyName</td>
-                <td>@booking.Property.Location.State.StateName</td> *@
                 <td>@booking.Property.GuestMax</td>
-                <td>@booking.TotalPrice</td>
+                <td>$@booking.TotalPrice</td>
                 <td>
-                    <!--Remove or update, can either do it as java script or take to a new page-->
-                    <button class="btn btn-danger" onclick="removeBooking('@booking.Id')">Remove</button>
-                    <button class="btn btn-primary" onclick="updateBooking('@booking.Id')">Update</button>
+                    <!--Remove or update, take to a new page-->
+                    <button class="btn btn-danger" onclick="removeBooking('@booking.Id')">Cancel Booking</button>
+                    <button class="btn btn-primary" onclick="updateBooking('@booking.Id')">Update Booking</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+}
+
+@if (!Model.bookingList.Any(b => b.Checkin > DateTime.Now))
+{
+    <h3 class="text-light">No Upcoming Booking!</h3>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr class="table-primary">
+            <th>Future Bookings</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model.bookingList.Where(b => b.Checkin > DateTime.Now))
+        {
+            <tr class="table-dark">
+                <td>@Model.propertyList.FirstOrDefault(p => p.Id == booking.PropertyId)?.Title</td>
+                <td>@booking.Checkin.ToShortDateString()</td>
+                <td>@booking.Checkout.ToShortDateString()</td>
+                <td>@booking.Property.City.CityName</td>
+                <td>@booking.Property.County.CountyName</td>
+                <td>@booking.Property.State.StateName</td>
+                <td>@booking.Property.GuestMax</td>
+                <td>$@booking.TotalPrice</td>
+                <td>
+                    <button class="btn btn-danger" onclick="removeBooking('@booking.Id')">Cancel Booking</button>
+                    <button class="btn btn-primary" onclick="updateBooking('@booking.Id')">Update Booking</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@if (!Model.bookingList.Any(b => b.Checkin < DateTime.Now))
+{
+    <h3 class="text-light">No Pasting Booking Here!</h3>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr class="table-primary">
+            <th>Past Bookings</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model.bookingList.Where(b => b.Checkout < DateTime.Now))
+        {
+            <tr class="table-dark">
+                <td>@Model.propertyList.FirstOrDefault(p => p.Id == booking.PropertyId)?.Title</td>
+                <td>@booking.Checkin.ToShortDateString()</td>
+                <td>@booking.Checkout.ToShortDateString()</td>
+                <td>@booking.Property.City.CityName</td>
+                <td>@booking.Property.County.CountyName</td>
+                <td>@booking.Property.State.StateName</td>
+                <td>@booking.Property.GuestMax</td>
+                <td>$@booking.TotalPrice</td>
+                <td>
+                    <button class="btn btn-danger" onclick="removeBooking('@booking.Id')">Review Booking</button>
+                    <button class="btn btn-primary" onclick="updateBooking('@booking.Id')">Detail of Booking</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}

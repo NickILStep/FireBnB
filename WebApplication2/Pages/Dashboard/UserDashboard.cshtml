@@ -25,7 +25,7 @@
         @if (User.IsInRole(SD.ListerRole))
         {
             <div class="col">
-                <a asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
+                <a asp-page="/Dashboard/Properties/UpsertProperty" asp-route-id="0" class="btn btn-primary">Add Property</a>
             </div>
         }
     </div>
@@ -49,17 +49,13 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <p>
-                                        <strong>Property Title:</strong> <a asp-page="/Pathways" asp-route-id="@property.Id">@property.Title</a><br />
-                                        <strong>Start Date:</strong> @booking.Checkin.ToShortDateString() <br />
-                                        <strong>End Date:</strong> @booking.Checkout.ToShortDateString() <br />
-                                        <strong>Location:</strong> @($"{booking.Property.City.CityName}, {booking.Property.State.StateName}, {booking.Property.County.CountyName}") <!-- Displaying location -->
-                                        @* <strong>Location:</strong> @($"{location.City.CityName}, {location.State.StateName}, {location.County.CountyName}") <!-- Displaying location --> *@
-                                    </p>
-                                    <!-- Cancel Button -->
-                                    <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
-                                        <button type="submit" class="btn btn-danger">Cancel</button>
-                                    </form>
+                                    <a asp-page="/Pathways" asp-route-id="@booking.Property.Id"> <h4 class="btn btn-primary">@booking.Property.Title</h4></a>
+                                    <p class="card-text mb-1">Your Guest Number: @booking.NumGuests</p>
+                                    <p class="card-text mb-1">When: @booking.Checkin.ToShortDateString() to :@booking.Checkout.ToShortDateString()</p>
+                                    <!--  Buttons -->
+                                    <button type="submit" class="btn btn-secondary">Detials</button>
+                                    <button type="submit" class="btn btn-secondary">Edit</button>
+                                    <button type="submit" class="btn btn-danger">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +149,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Have a home you want to rent?</h5>
                         <!-- Takes them to create a new account to be a lister -->
-                        <a asp-page="UpsertProperty" asp-route-id="0" class="btn btn-primary">Click Here To Add Your Home!</a>
+                        <a asp-page="/Dashboard/Properties/UpsertProperty" asp-route-id="0" class="btn btn-primary">Click Here To Add Your Home!</a>
                     </div>
                 </div>
             }
