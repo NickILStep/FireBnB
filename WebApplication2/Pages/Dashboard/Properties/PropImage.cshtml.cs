@@ -12,17 +12,20 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
 		[BindProperty]
 		public Image objImage { get; set; }
         public bool thereprimary { get; set; }
+        public int propid { get; set; }
         public PropImageModel(UnitofWork unitofWork)
         {
             _unitofWork = unitofWork;
             objImage = new Image();
         }
-        public IActionResult OnGet(int? id)
+        public IActionResult OnGet(int id)
         {
+            propid = id;
             ImagesList = _unitofWork.Image.GetAll(p => p.PropertyId == id);
             return Page();
         }
-        public IActionResult OnPost()
+		
+		public IActionResult OnPost()
         {
 			if (!ModelState.IsValid)
 			{
@@ -31,7 +34,7 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
 			}
             _unitofWork.Image.Add(objImage);
             _unitofWork.Commit();
-            return Page();
+			return RedirectToPage("./PropImage", new { id = objImage.PropertyId });
 		}
     }
 }

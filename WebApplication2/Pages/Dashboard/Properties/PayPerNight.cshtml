@@ -2,6 +2,7 @@
 @model FireBnBWeb.Pages.Dashboard.Properties.PayPerNightModel
 @{
 }
+<div>
 @if (Model.objNightlyPriceList != null)
 {
 	<h3>List of current Prices per night</h3>
@@ -11,6 +12,7 @@
 		<p>The rate is @price.Rate</p>
 	}
 }
+</div>
 <form method="post">
 	<div>
 		
@@ -23,9 +25,13 @@
 
 		<input asp-for="objNightPrice.Rate" />
 		<label asp-for="objNightPrice.Rate" />
+		<input asp-for="objNightPrice.PropertyId" type="hidden" value="@Model.propertyid"/>
 	</div>
 	<div class="col-6 col-md-3">
 		<button type="submit" class="btn btn-primary form-control">Create</button>
-		<button asp-page="./PropImages" class="btn btn-outline-primary border  form-control">Add Images</button>
+		
 	</div>
 </form>
+<div>
+	<a asp-page="PropImage" asp-route-id="@Model.propertyid" class="btn btn-outline-primary border form-control">Add Images</a>
+</div>
