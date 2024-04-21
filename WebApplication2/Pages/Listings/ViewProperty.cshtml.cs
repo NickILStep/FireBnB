@@ -72,6 +72,8 @@ namespace FireBnBWeb.Pages.Listings
         [BindProperty]
         public string userComment { get; set; }
 
+        public bool isRenter { get; set; }
+
 
         public ViewPropertyModel(UnitofWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
@@ -89,6 +91,12 @@ namespace FireBnBWeb.Pages.Listings
             if (Property == null)
             {
                 return NotFound(); // Return a 404 Not Found error if the property with the specified ID is not found
+            }
+
+            isRenter = false;
+            if (User.IsInRole(SD.RenterRole))
+            {
+                isRenter = true;
             }
 
             // Fetch images associated with the property
