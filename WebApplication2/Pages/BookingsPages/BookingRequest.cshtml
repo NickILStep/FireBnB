@@ -8,7 +8,7 @@
 		<div class="col-8">
             <h3>@Model.Property.Title</h3>
             <p>How many Guests?</p>
-            <input class="form-control" id="guestNum" asp-for="guestNum" />
+            <input class="form-control" id="guestNum" asp-for="guestNum" min="1" />
             <p>Select Dates</p>
             <input class="form-control datePicker" id="startDate" asp-for="startDate" type="date" value="" min="@Model.adf" max="@Model.adl" />
             <p>To</p>
