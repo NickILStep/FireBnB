@@ -10,7 +10,7 @@
 		{
 			@if (image.IsPrimary == true)
 			{
-				<img src="@image.Url" />
+				<img src="@image.Url" style="width: 18rem; height:auto" />
 				<input for="thereprimary" type="hidden" id="thereprimary" value="true" />
 			}
 
@@ -20,7 +20,7 @@
 		{
 			@if (image.IsPrimary == false)
 			{
-				<img src="@image.Url" />
+				<img src="@image.Url" style="width: 18rem; height:auto" />
 			}
 		}
 	}
