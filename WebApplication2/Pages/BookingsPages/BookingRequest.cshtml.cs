@@ -22,7 +22,7 @@ namespace FireBnBWeb.Pages.BookingsPages
             Cancellation policy we have.
             Being respectful policy. 
         Then, a note will be sent that the lister can cancel the stay, and the user will get a full refund. 
-        There is a button labeled ‘Request to book.’ 
+        There is a button labeled ï¿½Request to book.ï¿½ 
     Lister side:
         Here, the lister can see the requested booking:
             How many days
@@ -84,8 +84,10 @@ namespace FireBnBWeb.Pages.BookingsPages
         }
 
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGet(int id)
         {
+            _user = await _userManager.GetUserAsync(User);
+
             // Fetch the property along with its location and related entities
             Property = _unitOfWork.Property.GetAllWithLocationsCitiesCountiesStates().FirstOrDefault(p => p.Id == id);
             if (Property == null)
@@ -123,6 +125,8 @@ namespace FireBnBWeb.Pages.BookingsPages
             AvailableDates = GetAvailableDates(id);
             DateTime FirstDate = AvailableDates.First();
             DateTime LastDate = AvailableDates.Last();
+            // The whole statement is to craft the specific string for the date picker controls.
+            // The controls need the 0 (i.e. 04, not 4) or it doesn't work
             if(FirstDate.Month < 10 && FirstDate.Day < 10)
             {
                 adf = FirstDate.Year + "-0" + FirstDate.Month + "-0" + FirstDate.Day;
@@ -274,7 +278,7 @@ namespace FireBnBWeb.Pages.BookingsPages
         }
 
         public string UserId => _userManager.GetUserId(User);
-        public IActionResult OnPost()
+        public IActionResult OnPost(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -282,37 +286,61 @@ namespace FireBnBWeb.Pages.BookingsPages
                 return Page();
             }
 
-            //objBooking.PropertyId = Property.Id;
-            //objBooking.GuestId = UserId;
-            //objBooking.NumGuests = guestNum;
-            //objBooking.Checkin = startDate;
-            //objBooking.Checkout = endDate;
 
-            // Fetch location details for the property
-            //var location = _unitOfWork.Property.Get(p => p.Id == id, includes: "City,County,State");
+            objBooking.PropertyId = id;
+            objBooking.NumGuests = guestNum;
+            objBooking.Checkin = startDate;
+            objBooking.Checkout = endDate;
+            objBooking.GuestId = _userManager.GetUserId(User);
+
+            Property = _unitOfWork.Property.Get(p => p.Id == id);
+
             // Fetch nightly prices associated with the property
-            //NightlyPrices = _unitOfWork.PropertyNightlyPrice
-            //    .GetAll(pnp => pnp.PropertyId == id).ToList;
+            NightlyPrices = _unitOfWork.PropertyNightlyPrice
+                .GetAll(pnp => pnp.PropertyId == id)
+                //.GetAll(pnp => pnp.PropertyId == id, includes: "PriceRange")
+                .ToList();
 
-            //CityTax = location.City?.TaxRate ?? 0;
-            //CountyTax = location.County?.TaxRate ?? 0;
-            //StateTax = location.State?.TaxRate ?? 0;
+            List<PropertyNightlyPrice> selectedPrices = new List<PropertyNightlyPrice> ();
+
+            // Gets all the dates from NightlyPrices that are relevant to the request
+            for(DateTime date = startDate; date < endDate; date = date.AddDays(1))
+            {
+                selectedPrices.Add(NightlyPrices.Where(d => d.StartDate < date && d.EndDate >= date).FirstOrDefault());
+            }
+
+            // Calculates the total cost
+            // If price is null, then use the base price.
+            // Else, use whatever the modified price is for selected date range, found in selectedprices (see above)
+            foreach (var price in selectedPrices)
+            {
+                if(price != null)
+                {
+                    objBooking.TotalPrice += price.Rate;
+                }
+                else
+                {
+                    objBooking.TotalPrice += Property.BasePrice;
+                }
+            }
+
+
+
+            // Get the tax rates for each level of government
+            CityTax = (_unitOfWork.City.Get(c => c.Id == Property.CityId)).TaxRate;
+            CountyTax = (_unitOfWork.County.Get(c => c.Id == Property.CountyId)).TaxRate;
+            StateTax = (_unitOfWork.State.Get(s => s.Id == Property.StateId)).TaxRate;
+
             // Calculate total location tax
             TotalLocationTax = CityTax + CountyTax + StateTax;
             objBooking.Tax = TotalLocationTax;
             //objBooking.TotalPrice = obj TotalLocationTax - Discount; 
-            objBooking.TotalPrice = 100 + TotalLocationTax;
+            objBooking.TotalPrice = MathF.Round(objBooking.TotalPrice * (1 + (TotalLocationTax / 100)), 2);
 
-            /*
-             * GuestID
-             * NumGuests
-             * CheckIn
-             * CheckOut
-             * Tax (??)
-             * TotalPrice
-             * */
+            _unitOfWork.Booking.Add(objBooking);
+            _unitOfWork.Commit();
 
-            return Page();
+            return RedirectToPage("../Index");
         }
     }
 }

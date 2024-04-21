@@ -3,16 +3,17 @@
 @{
 }
 
-<form>
+<form method="post">
 	<div class="row m-3">
 		<div class="col-8">
             <h3>@Model.Property.Title</h3>
             <p>How many Guests?</p>
-            <input class="form-control" id="guestNum" asp-for="objBooking.NumGuests"/>
+            <input class="form-control" id="guestNum" asp-for="guestNum" min="1" />
             <p>Select Dates</p>
-            <input class="form-control datePicker" id="startDate" asp-for="objBooking.Checkin" type="date" value="" min="@Model.adf" max="@Model.adl" />
+            <input class="form-control datePicker" id="startDate" asp-for="startDate" type="date" value="" min="@Model.adf" max="@Model.adl" />
             <p>To</p>
-            <input class="form-control datePicker" id="endDate" asp-for="objBooking.Checkout" type="date" value="" min="@Model.adf" max="@Model.adl" />
+            <input class="form-control datePicker" id="endDate" asp-for="endDate" type="date" value="" min="@Model.adf" max="@Model.adl" />
+            <input asp-for="Property" value="@Model.Property" type="hidden"/>
 		</div>
         <div class="col-4">
             <div class="card">
