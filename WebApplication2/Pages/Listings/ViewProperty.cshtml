@@ -271,7 +271,7 @@
                     </div>
                     <div>
                         <h4 class="text-white"> Property's Reviews</h4>
-                        <span>Place reviews of the property here.</span><br>
+                        @* <span>Place reviews of the property here.</span><br> *@
                     </div>
                 </div>
                 <div>
@@ -308,7 +308,7 @@
             <div class="row p-3">
                 <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
                     <div class="card-body">
-                        <h4>Price Break Down For Property</h4>
+                        <h4>Current Pricing for Booking</h4>
                         @foreach (var nightlyPrice in Model.NightlyPrices)
                         {
                             <span class="card-text" style="color: #073642;">Price For 1 Night: $@nightlyPrice.Rate</span> <br>
@@ -354,7 +354,8 @@
                     </div>
                 </div>
             </div>
-            @if (Model.objBooking.Checkout < DateTime.Now && Model.UserId == Model.objBooking.GuestId)
+
+            @if (Model.objBooking.Checkout < DateTime.Now && Model.UserId == Model.objBooking.GuestId && Model.isRenter)
             {
                 <form method="post" class="row">
                     <div id="CreatingReview" class="col-auto">
@@ -378,7 +379,7 @@
                             <span asp-validation-for="userComment" class="text-danger"></span>
                         </div>
                         @* <button type="submit" id="button" class="btn btn-primary form-control">Submit Review</button> *@
-                        <button type="" id="button" class="btn btn-primary form-control">Submit Review/button> @* Future Feature *@
+                        <button type="" id="button" class="btn btn-primary form-control">Submit Review</button> @* Future Feature *@
                     </div>
                 </form>                
             }            
