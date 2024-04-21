@@ -2,3 +2,36 @@
 @model FireBnBWeb.Pages.Dashboard.Properties.DiscountModel
 @{
 }
+<div>
+	@if (Model.objDiscountList != null)
+	{
+		@foreach (var discount in Model.objDiscountList)
+		{
+			<p>Value: @discount.Discount.Value</p>
+			<p>Expiration: @discount.Discount.Expiration</p>
+			<p>Code: @discount.Discount.Code</p>
+		}
+	}
+</div>
+<form method="post">
+	<div class="col-md-3">
+		<label class="form-label">Add New Fee</label>
+		<select class="form-select" id="Discountchoice" name="Discountchoice" required>
+
+			<option selected disabled value="">Choose...</option>
+			@foreach (var discount in Model.discountoption)
+			{
+				<option for="Discountchoice" value="@discount.Value">@discount.Text</option>
+			}
+
+		</select>
+		<div class="invalid-feedback">
+			Please select a valid state.
+		</div>
+		<input asp-for="objDiscount.PropertyId" type="hidden" value="@Model.propertyid" />
+	</div>
+	<button type="submit" class="btn btn-primary form-control">Create</button>
+</form>
+<div>
+	<a asp-page="UserDashboard" class="btn btn-outline-primary border form-control">Back To Dashboard</a>
+</div>

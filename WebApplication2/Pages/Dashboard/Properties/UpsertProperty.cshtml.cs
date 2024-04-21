@@ -155,7 +155,7 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
             _unitofwork.Commit();
             if (newproperty == true)
             {
-                return RedirectToPage("./UserDashboard");
+                return RedirectToPage("./PayPerNight/", new {id = PropOptions.Id});
             }
             else
             {

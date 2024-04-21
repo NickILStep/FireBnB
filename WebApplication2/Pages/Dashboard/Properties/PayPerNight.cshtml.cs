@@ -11,30 +11,33 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
 		[BindProperty]
 		public PropertyNightlyPrice objNightPrice { get; set; }
 		public IEnumerable<PropertyNightlyPrice> objNightlyPriceList { get; set; }
-		public int? propertyid;
+        
+		public int propertyid;
 
         public PayPerNightModel(UnitofWork unitofWork) 
         {
             _unitofWork = unitofWork;
             objNightPrice = new PropertyNightlyPrice();
         }
-        public IActionResult OnGet(int? id)
+        public IActionResult OnGet(int id)
         {
             propertyid = id;
             objNightlyPriceList = _unitofWork.PropertyNightlyPrice.GetAll(p => p.PropertyId == id);
             
             return Page();
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 TempData["error"] = "Data Incomplete";
                 return Page();
             }
+            
+            
             _unitofWork.PropertyNightlyPrice.Add(objNightPrice);
             _unitofWork.Commit();
-            return Page();
-        }
+			return RedirectToPage("./PayPerNight/", new { id = objNightPrice.PropertyId });
+		}
     }
 }
