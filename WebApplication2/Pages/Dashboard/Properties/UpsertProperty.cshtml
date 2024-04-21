@@ -42,13 +42,14 @@
 					<input asp-for="objproperty.CancellationDays" class="form-control border-0 shadow" />
 					<label asp-for="objproperty.CancellationDays" class="ms-2" style="color: #073642;">Cancellation Days</label>
 					<span asp-validation-for="objproperty.CancellationDays" class="text-danger"></span>
+				</div>
+
+				<div class="form-floating py-2 col-12">
+					<input asp-for="objproperty.BasePrice" class="form-control border-0 shadow" />
+					<label asp-for="objproperty.BasePrice" class="ms-2" style="color: #073642;">Base Price</label>
+					<span asp-validation-for="objproperty.BasePrice" class="text-danger"></span>
 
 				</div>
-				<input asp-for="objproperty.BasePrice" class="form-control border-0 shadow" type="hidden" value="25"/>
-					
-					
-
-				
 				<div class="form-floating py-2 col-12">
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" asp-for="objproperty.GuestSharing">
