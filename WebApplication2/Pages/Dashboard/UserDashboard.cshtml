@@ -53,9 +53,10 @@
                                     <p class="card-text mb-1">Your Guest Number: @booking.NumGuests</p>
                                     <p class="card-text mb-1">When: @booking.Checkin.ToShortDateString() to :@booking.Checkout.ToShortDateString()</p>
                                     <!--  Buttons -->
-                                    <button type="submit" class="btn btn-secondary">Detials</button>
-                                    <button type="submit" class="btn btn-secondary">Edit</button>
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
+                                   @*  <a asp-page="/BookingsPage/BookingConfirmation" asp-route-id="@booking.Id" class="btn btn-secondary mb-3">class="card-title">Detials<
+                                    </a> *@
+                                   @*  <button type="submit" class="btn btn-secondary">Edit</button>
+                                    <button type="submit" class="btn btn-danger">Cancel</button> *@
                                 </div>
                             </div>
                         </div>
@@ -96,9 +97,9 @@
                                                     Start Date: @booking.Checkin<br />
                                                     End Date: @booking.Checkout
                                                     <!-- Cancel Button -->
-                                                    <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
+                                                  @*   <form method="post" asp-page-handler="Cancel" asp-route-bookingId="@booking.Id">
                                                         <button type="submit" class="btn btn-danger">Cancel</button>
-                                                    </form>
+                                                    </form> *@
                                                 </li>
                                             }
                                         }
