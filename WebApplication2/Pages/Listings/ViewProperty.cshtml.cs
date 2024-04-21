@@ -272,7 +272,7 @@ namespace FireBnBWeb.Pages.Listings
                 return Page();
             }
 
-            if (!(objBooking.Checkout < DateTime.Now) && !(UserId == objBooking.GuestId)) { 
+            if (!(/*Model.objBooking.Checkout < DateTime.Now && Model.UserId == Model.objBooking.GuestId && Model.isRenter */false)) { 
                 //blank - could put error code here if so desired. Additional check if user stayed at housing
             }
 
