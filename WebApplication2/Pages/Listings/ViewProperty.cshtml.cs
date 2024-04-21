@@ -80,7 +80,6 @@ namespace FireBnBWeb.Pages.Listings
             objUserReview = new Review();
             objBooking = new Booking();
             objProperty = new Property();
-
         }
 
         public IActionResult OnGet(int id)
@@ -263,6 +262,10 @@ namespace FireBnBWeb.Pages.Listings
             {
                 TempData["error"] = "Data Error unable to connect to database";
                 return Page();
+            }
+
+            if (!(objBooking.Checkout < DateTime.Now) && !(UserId == objBooking.GuestId)) { 
+                //blank - could put error code here if so desired. Additional check if user stayed at housing
             }
 
             /* FOR COMMIT */

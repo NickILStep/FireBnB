@@ -1,5 +1,6 @@
 using DataAccess;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
@@ -21,7 +22,7 @@ namespace FireBnBWeb.Pages.BookingsPages
             Cancellation policy we have.
             Being respectful policy. 
         Then, a note will be sent that the lister can cancel the stay, and the user will get a full refund. 
-        There is a button labeled ‘Request to book.’ 
+        There is a button labeled ï¿½Request to book.ï¿½ 
     Lister side:
         Here, the lister can see the requested booking:
             How many days
@@ -40,7 +41,9 @@ namespace FireBnBWeb.Pages.BookingsPages
     public class BookingRequestModel : PageModel
     {
         private readonly UnitofWork _unitOfWork;
-        [BindProperty]
+        private readonly UserManager<ApplicationUser> _userManager;
+        private ApplicationUser _user;
+
         public Property Property { get; private set; }
         public List<Image> Images { get; private set; }
         public int TotalBedCount { get; private set; }
@@ -61,15 +64,23 @@ namespace FireBnBWeb.Pages.BookingsPages
 
         [BindProperty]
         public Booking objBooking { get; private set; }
-        public string adf {  get; private set; }
+        public string adf { get; private set; }
         public string adl { get; private set; }
+        public float currentPrice { get; private set; }
 
-        public BookingRequestModel(UnitofWork unitOfWork)
+        [BindProperty]
+        public int guestNum { get; set; }
+        [BindProperty]
+        public DateTime startDate { get; set; }
+        [BindProperty]
+        public DateTime endDate { get; set; }
+        
 
+        public BookingRequestModel(UnitofWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             objBooking = new Booking();
-            Property = new Property();
+            _userManager = userManager;
         }
 
 
@@ -264,6 +275,7 @@ namespace FireBnBWeb.Pages.BookingsPages
             return dates;
         }
 
+        public string UserId => _userManager.GetUserId(User);
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
@@ -272,7 +284,27 @@ namespace FireBnBWeb.Pages.BookingsPages
                 return Page();
             }
 
-            objBooking.PropertyId = Property.Id;
+            //objBooking.PropertyId = Property.Id;
+            //objBooking.GuestId = UserId;
+            //objBooking.NumGuests = guestNum;
+            //objBooking.Checkin = startDate;
+            //objBooking.Checkout = endDate;
+
+            // Fetch location details for the property
+            //var location = _unitOfWork.Property.Get(p => p.Id == id, includes: "City,County,State");
+            // Fetch nightly prices associated with the property
+            //NightlyPrices = _unitOfWork.PropertyNightlyPrice
+            //    .GetAll(pnp => pnp.PropertyId == id).ToList;
+
+            //CityTax = location.City?.TaxRate ?? 0;
+            //CountyTax = location.County?.TaxRate ?? 0;
+            //StateTax = location.State?.TaxRate ?? 0;
+            // Calculate total location tax
+            TotalLocationTax = CityTax + CountyTax + StateTax;
+            objBooking.Tax = TotalLocationTax;
+            //objBooking.TotalPrice = obj TotalLocationTax - Discount; 
+            objBooking.TotalPrice = 100 + TotalLocationTax;
+
             /*
              * GuestID
              * NumGuests
