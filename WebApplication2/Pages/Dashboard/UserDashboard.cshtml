@@ -49,7 +49,7 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <a asp-page="/Pathways" asp-route-id="@booking.Property.Id"> <h4 class="btn btn-primary">@booking.Property.Title</h4></a>
+                                    <a asp-page="/Listings/ViewProperty" asp-route-id="@booking.Property.Id"> <h4 class="btn btn-primary">@booking.Property.Title</h4></a>
                                     <p class="card-text mb-1">Your Guest Number: @booking.NumGuests</p>
                                     <p class="card-text mb-1">When: @booking.Checkin.ToShortDateString() to :@booking.Checkout.ToShortDateString()</p>
                                     <!--  Buttons -->
