@@ -1,5 +1,6 @@
 using DataAccess;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
@@ -40,6 +41,9 @@ namespace FireBnBWeb.Pages.BookingsPages
     public class BookingRequestModel : PageModel
     {
         private readonly UnitofWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private ApplicationUser _user;
+
         public Property Property { get; private set; }
         public List<Image> Images { get; private set; }
         public int TotalBedCount { get; private set; }
@@ -58,16 +62,25 @@ namespace FireBnBWeb.Pages.BookingsPages
         public List<PropertyDiscount> PropertyDiscounts { get; private set; }
         public float TotalPriceForSevenNights { get; private set; }
 
-        public Booking Booking { get; private set; }
-        public string adf {  get; private set; }
+        [BindProperty]
+        public Booking objBooking { get; private set; }
+        public string adf { get; private set; }
         public string adl { get; private set; }
-        public float currentPrice {  get; private set; }
+        public float currentPrice { get; private set; }
 
-        public BookingRequestModel(UnitofWork unitOfWork)
+        [BindProperty]
+        public int guestNum { get; set; }
+        [BindProperty]
+        public DateTime startDate { get; set; }
+        [BindProperty]
+        public DateTime endDate { get; set; }
+        
 
+        public BookingRequestModel(UnitofWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
-            Booking = new Booking();
+            objBooking = new Booking();
+            _userManager = userManager;
         }
 
 
@@ -260,8 +273,45 @@ namespace FireBnBWeb.Pages.BookingsPages
             return dates;
         }
 
+        public string UserId => _userManager.GetUserId(User);
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Data Incomplete";
+                return Page();
+            }
+
+            //objBooking.PropertyId = Property.Id;
+            //objBooking.GuestId = UserId;
+            //objBooking.NumGuests = guestNum;
+            //objBooking.Checkin = startDate;
+            //objBooking.Checkout = endDate;
+
+            // Fetch location details for the property
+            //var location = _unitOfWork.Property.Get(p => p.Id == id, includes: "City,County,State");
+            // Fetch nightly prices associated with the property
+            //NightlyPrices = _unitOfWork.PropertyNightlyPrice
+            //    .GetAll(pnp => pnp.PropertyId == id).ToList;
+
+            //CityTax = location.City?.TaxRate ?? 0;
+            //CountyTax = location.County?.TaxRate ?? 0;
+            //StateTax = location.State?.TaxRate ?? 0;
+            // Calculate total location tax
+            TotalLocationTax = CityTax + CountyTax + StateTax;
+            objBooking.Tax = TotalLocationTax;
+            //objBooking.TotalPrice = obj TotalLocationTax - Discount; 
+            objBooking.TotalPrice = 100 + TotalLocationTax;
+
+            /*
+             * GuestID
+             * NumGuests
+             * CheckIn
+             * CheckOut
+             * Tax (??)
+             * TotalPrice
+             * */
+
             return Page();
         }
     }
