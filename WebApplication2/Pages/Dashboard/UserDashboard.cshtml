@@ -127,17 +127,13 @@
                         <div class="card text-white bg-secondary mb-2" style="width: 18rem;">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
-                                    <a asp-page="/Dashboard/UpsertProperty" asp-route-id="@property.Id" class="btn btn-primary mb-3">
+                                    <a asp-page="/Dashboard/Properties/UpsertProperty" asp-route-id="@property.Id" class="btn btn-primary mb-3">
                                         <h4 class="card-title">@property.Title</h4>
                                     </a>
-                                    <form method="post" asp-page-handler="Delete" asp-route-id="@property.Id" class="mb-3">
-                                        <button type="submit" class="btn btn-danger">
-                                            <h4 class="card-title">Delete</h4>
-                                        </button>
-                                    </form>
+                                    
                                 </div>
                                 <p class="card-text mb-1" style=" color: #073642;">Description: @property.Description</p>
-                                <p class="card-text mb-1" style=" color: #073642;">Status: @Model.Statuses[property.StatusId]?.StatusName</p>
+                                <p class="card-text mb-1" style=" color: #073642;">Status: @Model.Statuses[property.StatusId-1]?.StatusName</p>
                             </div>
                         </div>
                     }

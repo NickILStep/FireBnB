@@ -159,7 +159,7 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
             }
             else
             {
-                return RedirectToPage("./UserDashboard");
+                return RedirectToPage("/Dashboard/UserDashboard");
             }
             
         }

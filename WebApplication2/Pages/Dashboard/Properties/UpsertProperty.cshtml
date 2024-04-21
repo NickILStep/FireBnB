@@ -44,12 +44,11 @@
 					<span asp-validation-for="objproperty.CancellationDays" class="text-danger"></span>
 
 				</div>
-				<div class="form-floating py-2 col-12">
-					<input asp-for="objproperty.BasePrice" class="form-control border-0 shadow" />
-					<label asp-for="objproperty.BasePrice" class="ms-2" style="color: #073642;">Base per Night</label>
-					<span asp-validation-for="objproperty.BasePrice" class="text-danger"></span>
+				<input asp-for="objproperty.BasePrice" class="form-control border-0 shadow" type="hidden" value="25"/>
+					
+					
 
-				</div>
+				
 				<div class="form-floating py-2 col-12">
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" asp-for="objproperty.GuestSharing">
@@ -70,11 +69,21 @@
 					<input asp-for="objproperty.CityId" type="hidden">
 					<input asp-for="objproperty.CountyId" type="hidden">
 					<input asp-for="objproperty.StateId" type="hidden">
-					<input asp-for="objproperty.StatusId" type="hidden">
+					<div class="form-floating py-2 col-12">
+						<input asp-for="objproperty.StatusId" class="form-control border-0 shadow" />
+						<label asp-for="objproperty.StatusId" class="ms-2" style="color: #073642;">Status</label>
+						<span asp-validation-for="objproperty.StatusId" class="text-danger"></span>
+						<p>1 for to avaible, 2 for hidden, 3 for partially avaiable, 4 is suspended, 5 in Owner use</p>
+					</div>
+					
 					<input asp-for="objproperty.LastUpdated" type="hidden">
 					<input asp-for="objproperty.ListerId" type="hidden">
 					<input asp-for="objproperty.Zipcode" type="hidden">
 					<input asp-for="objproperty.PropertyTypeId" type="hidden">
+					<a asp-page="PropImage" asp-route-id="@Model.objproperty.Id" class="btn btn-outline-primary border form-control">Add Images</a>
+					<a asp-page="Discount" asp-route-id="@Model.objproperty.Id" class="btn btn-outline-primary border form-control">Add Discounts</a>
+					<a asp-page="Fee" asp-route-id="@Model.objproperty.Id" class="btn btn-outline-primary border form-control">Add Fees</a>
+					<a asp-page="PayPerNight" asp-route-id="@Model.objproperty.Id" class="btn btn-outline-primary border form-control">Add Pay Periods</a>
 				}
 				@if (Model.objproperty.Id == 0)
 				{
