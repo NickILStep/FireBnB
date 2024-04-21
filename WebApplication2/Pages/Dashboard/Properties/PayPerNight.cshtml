@@ -34,4 +34,7 @@
 </form>
 <div>
 	<a asp-page="PropImage" asp-route-id="@Model.propertyid" class="btn btn-outline-primary border form-control">Add Images</a>
+	<a asp-page="/Dashboard/Properties/UpsertProperty" asp-route-id="@Model.propertyid" class="btn btn-primary mb-3">
+		<h4 class="card-title">Back to Property</h4>
+	</a>
 </div>

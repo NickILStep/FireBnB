@@ -33,4 +33,7 @@
 </form>
 <div>
 	<a asp-page="Discount" asp-route-id="@Model.propertyid" class="btn btn-outline-primary border form-control">Add Discounts</a>
+	<a asp-page="/Dashboard/Properties/UpsertProperty" asp-route-id="@Model.propertyid" class="btn btn-primary mb-3">
+		<h4 class="card-title">Back to Property</h4>
+	</a>
 </div>

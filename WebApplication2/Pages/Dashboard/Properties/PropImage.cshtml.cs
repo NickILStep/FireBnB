@@ -11,12 +11,16 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
         public IEnumerable<Image> ImagesList { get; set; }
 		[BindProperty]
 		public Image objImage { get; set; }
+        public Property objproperty { get; set; }
         public bool thereprimary { get; set; }
         public int propid { get; set; }
+        public int image {  get; set; }
+        public Image primImage { get; set; }
         public PropImageModel(UnitofWork unitofWork)
         {
             _unitofWork = unitofWork;
             objImage = new Image();
+            objproperty = new Property();
         }
         public IActionResult OnGet(int id)
         {
@@ -32,8 +36,17 @@ namespace FireBnBWeb.Pages.Dashboard.Properties
 				TempData["error"] = "Data Incomplete";
 				return Page();
 			}
+            
             _unitofWork.Image.Add(objImage);
             _unitofWork.Commit();
+			if (objImage.IsPrimary)
+			{
+				objproperty = _unitofWork.Property.GetById(objImage.PropertyId);
+                primImage = _unitofWork.Image.GetAll().LastOrDefault();
+				objproperty.ImageId = primImage.Id;
+                _unitofWork.Property.Update(objproperty);
+                _unitofWork.Commit();
+			}
 			return RedirectToPage("./PropImage", new { id = objImage.PropertyId });
 		}
     }
