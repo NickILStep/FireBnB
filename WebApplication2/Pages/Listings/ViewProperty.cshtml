@@ -354,7 +354,7 @@
                     </div>
                 </div>
             </div>
-            @if (Model.objBooking.Checkout < DateTime.Now)
+            @if (Model.objBooking.Checkout < DateTime.Now && Model.UserId == Model.objBooking.GuestId)
             {
                 <form method="post" class="row">
                     <div id="CreatingReview" class="col-auto">
