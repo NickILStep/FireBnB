@@ -207,15 +207,18 @@ namespace FireBnBWeb.Pages.Listings
 
             foreach (var booking in bookings)
             {
-                if (currentDate < booking.Checkin.Date)
+                if (booking.IsConfirmed)
                 {
-                    // If there's a gap between the current date and the check-in date of the next booking, add the available dates
-                    availableDates.AddRange(GetDatesInRange(currentDate, booking.Checkin.Date.AddDays(-1)));
-                }
+                    if (currentDate < booking.Checkin.Date)
+                    {
+                        // If there's a gap between the current date and the check-in date of the next booking, add the available dates
+                        availableDates.AddRange(GetDatesInRange(currentDate, booking.Checkin.Date.AddDays(-1)));
+                    }
 
-                if (currentDate <= booking.Checkout.Date)
-                {
-                    currentDate = booking.Checkout.Date.AddDays(1);
+                    if (currentDate <= booking.Checkout.Date)
+                    {
+                        currentDate = booking.Checkout.Date.AddDays(1);
+                    }
                 }
             }
 
@@ -238,7 +241,10 @@ namespace FireBnBWeb.Pages.Listings
 
             foreach (var booking in bookings)
             {
-                unavailableDates.AddRange(GetDatesInRange(booking.Checkin.Date, booking.Checkout.Date));
+                if (booking.IsConfirmed)
+                {
+                    unavailableDates.AddRange(GetDatesInRange(booking.Checkin.Date, booking.Checkout.Date));
+                }
             }
 
             return unavailableDates;
